@@ -29,9 +29,6 @@ foreach (var module in modules)
     module.Use(app);
 }
 
-app.MapGet("/", () => "Hello World!");
-
-
 app.MapControllers();
 
 await app.RunAsync();

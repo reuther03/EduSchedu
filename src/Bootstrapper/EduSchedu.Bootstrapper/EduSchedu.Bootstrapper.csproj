@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Modules\Users\EduSchedu.Modules.Users.Api\EduSchedu.Modules.Users.Api.csproj" />
       <ProjectReference Include="..\..\Shared\EduSchedu.Shared.Infrastructure\EduSchedu.Shared.Infrastructure.csproj" />
     </ItemGroup>
 
