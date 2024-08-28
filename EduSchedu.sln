@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduSchedu.Bootstrapper", "src\Bootstrapper\EduSchedu.Bootstrapper\EduSchedu.Bootstrapper.csproj", "{8C7E734E-18A7-43EC-A236-7F6D696A2A22}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{525A8442-CE08-4EFD-8EDA-999A2AB57755}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6C7A7C2B-6D42-4CA2-9C9A-C54BD7E4815A}"
@@ -19,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduSchedu.Shared.Abstractio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduSchedu.Shared.Infrastructure", "src\Shared\EduSchedu.Shared.Infrastructure\EduSchedu.Shared.Infrastructure.csproj", "{83D29CAF-5661-4586-8286-DD78D6005A0F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduSchedu.Bootstrapper", "src\Bootstrapper\EduSchedu.Bootstrapper\EduSchedu.Bootstrapper.csproj", "{A03CE8E6-DD2F-453A-A047-E6082F47FB6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,10 +28,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8C7E734E-18A7-43EC-A236-7F6D696A2A22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8C7E734E-18A7-43EC-A236-7F6D696A2A22}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8C7E734E-18A7-43EC-A236-7F6D696A2A22}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8C7E734E-18A7-43EC-A236-7F6D696A2A22}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ED2D6DF2-10EA-492D-89F1-9673B3C0CCCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ED2D6DF2-10EA-492D-89F1-9673B3C0CCCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED2D6DF2-10EA-492D-89F1-9673B3C0CCCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -40,13 +36,17 @@ Global
 		{83D29CAF-5661-4586-8286-DD78D6005A0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83D29CAF-5661-4586-8286-DD78D6005A0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83D29CAF-5661-4586-8286-DD78D6005A0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A03CE8E6-DD2F-453A-A047-E6082F47FB6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A03CE8E6-DD2F-453A-A047-E6082F47FB6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A03CE8E6-DD2F-453A-A047-E6082F47FB6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A03CE8E6-DD2F-453A-A047-E6082F47FB6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DC51AE1B-BC98-41FE-A4D2-D8BC0CB0A209} = {525A8442-CE08-4EFD-8EDA-999A2AB57755}
 		{8A23895A-4906-4B88-B627-6875875D95A0} = {525A8442-CE08-4EFD-8EDA-999A2AB57755}
 		{181BCC40-47DC-4C04-8487-AA1C5362CE37} = {525A8442-CE08-4EFD-8EDA-999A2AB57755}
-		{8C7E734E-18A7-43EC-A236-7F6D696A2A22} = {DC51AE1B-BC98-41FE-A4D2-D8BC0CB0A209}
 		{ED2D6DF2-10EA-492D-89F1-9673B3C0CCCD} = {181BCC40-47DC-4C04-8487-AA1C5362CE37}
 		{83D29CAF-5661-4586-8286-DD78D6005A0F} = {181BCC40-47DC-4C04-8487-AA1C5362CE37}
+		{A03CE8E6-DD2F-453A-A047-E6082F47FB6F} = {DC51AE1B-BC98-41FE-A4D2-D8BC0CB0A209}
 	EndGlobalSection
 EndGlobal

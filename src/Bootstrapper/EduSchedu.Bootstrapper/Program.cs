@@ -1,17 +1,37 @@
-var builder = WebApplication.CreateBuilder(args);
+using EduSchedu.Bootstrapper;
+using EduSchedu.Shared.Infrastructure;
+using EduSchedu.Shared.Infrastructure.Modules;
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddUserSecrets<Program>();
+var services = builder.Services;
+var configuration = builder.Configuration;
+
+builder.ConfigureModules();
+
+services.AddEndpointsApiExplorer();
+
+var assemblies = ModuleLoader.LoadAssemblies(services, configuration);
+var modules = ModuleLoader.LoadModules(assemblies);
+
+services.AddInfrastructure(assemblies, modules, configuration);
+
+foreach (var module in modules)
+{
+    module.Register(services);
+}
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+app.UseInfrastructure();
+foreach (var module in modules)
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    module.Use(app);
 }
 
-app.MapControllers();
+app.MapGet("/", () => "Hello World!");
 
+
+app.MapControllers();
 
 await app.RunAsync();
