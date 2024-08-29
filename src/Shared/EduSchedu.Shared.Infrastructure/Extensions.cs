@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using EduSchedu.Shared.Abstractions.Modules;
 using EduSchedu.Shared.Infrastructure.Api;
+using EduSchedu.Shared.Infrastructure.Auth;
 using EduSchedu.Shared.Infrastructure.Postgres;
 using EduSchedu.Shared.Infrastructure.Services;
 using EduSchedu.Shared.Infrastructure.Swagger;
@@ -48,6 +49,7 @@ internal static class Extensions
         });
 
         services.AddSwagger();
+        services.AddAuth(configuration);
         services.AddDecorators();
         services.AddHostedService<AppInitializer>();
         services.AddServices();

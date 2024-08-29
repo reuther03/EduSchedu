@@ -1,4 +1,3 @@
-using EduSchedu.Modules.Users.Application;
 using EduSchedu.Modules.Users.Application.Abstractions;
 using EduSchedu.Shared.Infrastructure.Postgres;
 using MediatR;

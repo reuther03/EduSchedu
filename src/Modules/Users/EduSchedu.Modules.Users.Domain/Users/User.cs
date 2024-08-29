@@ -21,8 +21,8 @@ public class User : AggregateRoot<UserId>
         Password = password;
     }
 
-    public static User Create(UserId id, Email email, Name fullName, Password password)
+    public static User Create(Email email, Name fullName, Password password)
     {
-        return new User(id, email, fullName, password);
+        return new User(UserId.New(), email, fullName, password);
     }
 }
