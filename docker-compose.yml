@@ -1,0 +1,26 @@
+﻿version: '3.9'
+
+networks:
+  EduSchedu.Network:
+    name: EduSchedu.Network
+
+services:
+  eduschedu.postgres:
+    image: postgres:latest
+    container_name: EduSchedu.Postgres
+    hostname: EduSchedu.Postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./.container/postgres:/var/lib/postgresql
+      - ./.container/postgres:/var/log/postgresql
+    command: -p 5432
+    networks:
+      - EduSchedu.Network
+
+volumes:
+  postgres:
+    driver: local

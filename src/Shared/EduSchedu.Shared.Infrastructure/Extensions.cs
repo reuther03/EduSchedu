@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using EduSchedu.Shared.Abstractions.Modules;
 using EduSchedu.Shared.Infrastructure.Api;
+using EduSchedu.Shared.Infrastructure.Postgres;
 using EduSchedu.Shared.Infrastructure.Services;
 using EduSchedu.Shared.Infrastructure.Swagger;
 using Microsoft.AspNetCore.Builder;
@@ -47,7 +48,11 @@ internal static class Extensions
         });
 
         services.AddSwagger();
+        services.AddDecorators();
         services.AddHostedService<AppInitializer>();
+        services.AddServices();
+        services.AddPostgres();
+        services.AddMediatrWithFilters(assemblies);
 
         services.AddControllers()
             .ConfigureApplicationPartManager(manager =>
