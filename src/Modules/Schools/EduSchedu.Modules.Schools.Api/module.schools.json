@@ -1,0 +1,8 @@
+{
+  "schools": {
+    "module": {
+      "name": "Schools",
+      "enabled": true
+    }
+  }
+}
