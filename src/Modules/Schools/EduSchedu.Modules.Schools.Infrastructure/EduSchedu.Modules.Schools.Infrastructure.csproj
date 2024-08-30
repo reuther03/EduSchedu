@@ -12,7 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Database\Configurations\" />
       <Folder Include="Database\Repositories\" />
     </ItemGroup>
 
