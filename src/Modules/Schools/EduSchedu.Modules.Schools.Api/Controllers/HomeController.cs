@@ -5,5 +5,5 @@ namespace EduSchedu.Modules.Schools.Api.Controllers;
 internal class HomeController : BaseController
 {
     [HttpGet]
-    public ActionResult<string> Get() => "User API";
+    public ActionResult<string> Get() => "SchoolUser API";
 }

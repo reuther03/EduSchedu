@@ -1,6 +1,6 @@
 using EduSchedu.Shared.Abstractions.Kernel.Primitives;
 
-namespace EduSchedu.Modules.Users.Domain.Users;
+namespace EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 
 public sealed record Name : ValueObject
 {
