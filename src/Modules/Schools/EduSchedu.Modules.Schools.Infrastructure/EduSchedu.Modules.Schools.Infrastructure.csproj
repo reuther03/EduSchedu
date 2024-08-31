@@ -11,8 +11,4 @@
       <ProjectReference Include="..\EduSchedu.Modules.Schools.Application\EduSchedu.Modules.Schools.Application.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Database\Repositories\" />
-    </ItemGroup>
-
 </Project>

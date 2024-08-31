@@ -9,4 +9,6 @@ public interface ISchoolsDbContext
     DbSet<Class> Classes { get; }
     DbSet<School> Schools { get; }
     DbSet<Teacher> Teachers { get; }
+
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

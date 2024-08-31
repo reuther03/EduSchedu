@@ -30,8 +30,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
             .IsRequired();
 
         builder.Property(x => x.SchoolId)
-            .HasConversion(x => x.Value, x => SchoolId.From(x))
-            .IsRequired();
+            .HasConversion(x => x.Value, x => SchoolId.From(x));
 
         builder.Property(x => x.Skills)
             .HasConversion<string>();

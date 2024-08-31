@@ -11,6 +11,11 @@ internal class SchoolsDbContext : DbContext, ISchoolsDbContext
     public DbSet<School> Schools => Set<School>();
     public DbSet<Teacher> Teachers => Set<Teacher>();
 
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        return await base.SaveChangesAsync(cancellationToken);
+    }
+
     public SchoolsDbContext(DbContextOptions<SchoolsDbContext> options) : base(options)
     {
     }

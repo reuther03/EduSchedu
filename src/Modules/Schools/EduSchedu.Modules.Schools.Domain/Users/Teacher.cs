@@ -9,22 +9,24 @@ public class Teacher : Entity<UserId>
     public Email Email { get; private set; }
     public Name FullName { get; private set; }
     public Role Role { get; private set; }
-    public SchoolId SchoolId { get; private set; }
+    public SchoolId? SchoolId { get; private set; }
     public List<Skill> Skills { get; private set; } = [];
 
     private Teacher()
     {
     }
 
-    private Teacher(UserId id, Email email, Name fullName, Role role, SchoolId schoolId)
+    private Teacher(UserId id, Email email, Name fullName, Role role)
         : base(id)
     {
         Email = email;
         FullName = fullName;
         Role = role;
-        SchoolId = schoolId;
     }
 
-    public static Teacher Create(UserId id, Email email, Name fullName, Role role, SchoolId schoolId)
-        => new Teacher(id, email, fullName, role, schoolId);
+    public static Teacher Create(UserId id, Email email, Name fullName, Role role)
+        => new Teacher(id, email, fullName, role);
+
+    public void SetSchool(SchoolId schoolId)
+     => SchoolId = schoolId;
 }
