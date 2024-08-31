@@ -5,6 +5,7 @@ namespace EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositori
 
 public interface ITeacherRepository
 {
+    Task<Teacher?> GetByIdAsync(UserId id, CancellationToken cancellationToken = default);
     Task<bool> ExistsAsync(UserId id, CancellationToken cancellationToken = default);
     Task AddAsync(Teacher teacher, CancellationToken cancellationToken = default);
     Task<bool> SaveChangesAsync(CancellationToken cancellationToken = default);

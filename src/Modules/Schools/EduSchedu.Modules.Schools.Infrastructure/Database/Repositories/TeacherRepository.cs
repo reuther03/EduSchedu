@@ -17,6 +17,9 @@ public class TeacherRepository : ITeacherRepository
         _teachers = dbContext.Teachers;
     }
 
+    public Task<Teacher?> GetByIdAsync(UserId id, CancellationToken cancellationToken = default)
+        => _teachers.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
     public async Task<bool> ExistsAsync(UserId id, CancellationToken cancellationToken = default)
         => await _teachers.AnyAsync(x => x.Id == id, cancellationToken);
 
