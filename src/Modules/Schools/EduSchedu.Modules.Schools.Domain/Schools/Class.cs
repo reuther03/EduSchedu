@@ -7,7 +7,6 @@ namespace EduSchedu.Modules.Schools.Domain.Schools;
 public class Class : Entity<ClassId>
 {
     public Name Name { get; private set; }
-    public List<Skill> Skills { get; private set; } = [];
 
     private Class()
     {

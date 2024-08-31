@@ -6,11 +6,13 @@ namespace EduSchedu.Modules.Schools.Domain.Users;
 
 public class Teacher : Entity<UserId>
 {
+    private readonly List<LanguageProficiencyId> _languageProficiencyIds = [];
+
     public Email Email { get; private set; }
     public Name FullName { get; private set; }
     public Role Role { get; private set; }
     public SchoolId? SchoolId { get; private set; }
-    public List<Skill> Skills { get; private set; } = [];
+    public IReadOnlyList<LanguageProficiencyId> LanguageProficiencyIds => _languageProficiencyIds.AsReadOnly();
 
     private Teacher()
     {
@@ -28,5 +30,13 @@ public class Teacher : Entity<UserId>
         => new Teacher(id, email, fullName, role);
 
     public void SetSchool(SchoolId schoolId)
-     => SchoolId = schoolId;
+        => SchoolId = schoolId;
+
+    public void AddLanguageProficiency(Guid languageProficiencyId)
+    {
+        if (!_languageProficiencyIds.Contains(languageProficiencyId))
+        {
+            _languageProficiencyIds.Add(languageProficiencyId);
+        }
+    }
 }

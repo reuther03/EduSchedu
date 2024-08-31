@@ -1,4 +1,5 @@
-﻿using EduSchedu.Modules.Schools.Domain.Schools;
+﻿using EduSchedu.Modules.Schools.Domain;
+using EduSchedu.Modules.Schools.Domain.Schools;
 using EduSchedu.Modules.Schools.Domain.Users;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,19 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
         builder.Property(x => x.SchoolId)
             .HasConversion(x => x.Value, x => SchoolId.From(x));
 
-        builder.Property(x => x.Skills)
-            .HasConversion<string>();
+        builder.OwnsMany(x => x.LanguageProficiencyIds, ownedBuilder =>
+        {
+            ownedBuilder.WithOwner().HasForeignKey("TeacherId");
+            ownedBuilder.ToTable("TeacherLanguageProficiencyIds");
+            ownedBuilder.HasKey("Id");
+
+            ownedBuilder.Property(x => x.Value)
+                .ValueGeneratedNever()
+                .HasColumnName("LanguageProficiencyId");
+
+            builder.Metadata
+                .FindNavigation(nameof(Teacher.LanguageProficiencyIds))!
+                .SetPropertyAccessMode(PropertyAccessMode.Field);
+        });
     }
 }

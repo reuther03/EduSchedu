@@ -1,4 +1,5 @@
 ﻿using EduSchedu.Modules.Schools.Application.Abstractions.Database;
+using EduSchedu.Modules.Schools.Domain;
 using EduSchedu.Modules.Schools.Domain.Schools;
 using EduSchedu.Modules.Schools.Domain.Users;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ internal class SchoolsDbContext : DbContext, ISchoolsDbContext
     public DbSet<Class> Classes => Set<Class>();
     public DbSet<School> Schools => Set<School>();
     public DbSet<Teacher> Teachers => Set<Teacher>();
+    public DbSet<LanguageProficiency> LanguageProficiencies => Set<LanguageProficiency>();
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

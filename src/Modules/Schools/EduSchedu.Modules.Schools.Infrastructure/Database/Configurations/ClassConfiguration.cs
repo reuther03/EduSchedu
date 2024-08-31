@@ -19,8 +19,5 @@ public class ClassConfiguration : IEntityTypeConfiguration<Class>
         builder.Property(x => x.Name)
             .HasConversion(x => x.Value, x => new Name(x))
             .IsRequired();
-
-        builder.Property(x => x.Skills)
-            .HasConversion<string>();
     }
 }

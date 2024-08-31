@@ -1,4 +1,5 @@
-﻿using EduSchedu.Modules.Schools.Domain.Schools;
+﻿using EduSchedu.Modules.Schools.Domain;
+using EduSchedu.Modules.Schools.Domain.Schools;
 using EduSchedu.Modules.Schools.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +10,7 @@ public interface ISchoolsDbContext
     DbSet<Class> Classes { get; }
     DbSet<School> Schools { get; }
     DbSet<Teacher> Teachers { get; }
+    DbSet<LanguageProficiency> LanguageProficiencies { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
