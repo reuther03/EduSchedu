@@ -1,8 +1,7 @@
 ﻿using EduSchedu.Modules.Schools.Domain.Users;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives;
-using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 
-namespace EduSchedu.Modules.Schools.Domain;
+namespace EduSchedu.Modules.Schools.Domain.Schools;
 
 public class LanguageProficiency : Entity<Guid>
 {
