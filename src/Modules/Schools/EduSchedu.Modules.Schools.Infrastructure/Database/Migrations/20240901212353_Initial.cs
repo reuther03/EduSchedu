@@ -63,6 +63,21 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Teachers",
+                schema: "schools",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    FullName = table.Column<string>(type: "text", nullable: false),
+                    Role = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Teachers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SchoolClassIds",
                 schema: "schools",
                 columns: table => new
@@ -85,21 +100,20 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Teachers",
+                name: "SchoolTeacherIds",
                 schema: "schools",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false),
-                    FullName = table.Column<string>(type: "text", nullable: false),
-                    Role = table.Column<string>(type: "text", nullable: false),
-                    SchoolId = table.Column<Guid>(type: "uuid", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    SchoolId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TeacherId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Teachers", x => x.Id);
+                    table.PrimaryKey("PK_SchoolTeacherIds", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Teachers_Schools_SchoolId",
+                        name: "FK_SchoolTeacherIds_Schools_SchoolId",
                         column: x => x.SchoolId,
                         principalSchema: "schools",
                         principalTable: "Schools",
@@ -136,16 +150,16 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 column: "SchoolId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SchoolTeacherIds_SchoolId",
+                schema: "schools",
+                table: "SchoolTeacherIds",
+                column: "SchoolId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TeacherLanguageProficiencyIds_TeacherId",
                 schema: "schools",
                 table: "TeacherLanguageProficiencyIds",
                 column: "TeacherId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Teachers_SchoolId",
-                schema: "schools",
-                table: "Teachers",
-                column: "SchoolId");
         }
 
         /// <inheritdoc />
@@ -164,15 +178,19 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 schema: "schools");
 
             migrationBuilder.DropTable(
+                name: "SchoolTeacherIds",
+                schema: "schools");
+
+            migrationBuilder.DropTable(
                 name: "TeacherLanguageProficiencyIds",
                 schema: "schools");
 
             migrationBuilder.DropTable(
-                name: "Teachers",
+                name: "Schools",
                 schema: "schools");
 
             migrationBuilder.DropTable(
-                name: "Schools",
+                name: "Teachers",
                 schema: "schools");
         }
     }

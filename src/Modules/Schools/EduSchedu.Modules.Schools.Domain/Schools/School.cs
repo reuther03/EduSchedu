@@ -7,7 +7,7 @@ namespace EduSchedu.Modules.Schools.Domain.Schools;
 
 public class School : AggregateRoot<SchoolId>
 {
-    private readonly List<Teacher> _teachers = [];
+    private readonly List<UserId> _teacherIds = [];
     private readonly List<ClassId> _classIds = [];
     public Name Name { get; private set; }
     public Address Address { get; private set; }
@@ -15,7 +15,7 @@ public class School : AggregateRoot<SchoolId>
     public Email Email { get; private set; }
     public UserId PrincipalId { get; private set; }
 
-    public IReadOnlyList<Teacher> Teachers => _teachers.AsReadOnly();
+    public IReadOnlyList<UserId> TeacherIds => _teacherIds.AsReadOnly();
     public IReadOnlyList<ClassId> ClassIds => _classIds.AsReadOnly();
 
     private School()
@@ -34,12 +34,12 @@ public class School : AggregateRoot<SchoolId>
     public static School Create(Name name, Address address, string phoneNumber, Email email, UserId principalId)
         => new School(SchoolId.New(), name, address, phoneNumber, email, principalId);
 
-    public void AddTeacher(Teacher teacher)
+    public void AddTeacher(UserId teacherId)
     {
-        if (_teachers.Exists(x => x.Id == teacher.Id))
+        if (_teacherIds.Contains(teacherId))
             throw new DomainException("Teacher already exists");
 
-        _teachers.Add(teacher);
+        _teacherIds.Add(teacherId);
     }
 
     public void AddClass(ClassId classId)

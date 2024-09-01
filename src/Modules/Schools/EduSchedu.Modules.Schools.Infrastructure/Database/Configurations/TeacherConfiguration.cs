@@ -30,9 +30,6 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
             .HasConversion<string>()
             .IsRequired();
 
-        builder.Property(x => x.SchoolId)
-            .HasConversion(x => x.Value, x => SchoolId.From(x));
-
         builder.OwnsMany(x => x.LanguageProficiencyIds, ownedBuilder =>
         {
             ownedBuilder.WithOwner().HasForeignKey("TeacherId");

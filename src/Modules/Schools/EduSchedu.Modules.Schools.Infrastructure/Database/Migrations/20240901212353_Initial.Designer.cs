@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(SchoolsDbContext))]
-    [Migration("20240831013321_Initial")]
+    [Migration("20240901212353_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -26,7 +26,21 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.LanguageProficiency", b =>
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Class", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Classes", "schools");
+                });
+
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.LanguageProficiency", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -42,20 +56,6 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LanguageProficiencies", "schools");
-                });
-
-            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Class", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Classes", "schools");
                 });
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
@@ -102,12 +102,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("SchoolId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SchoolId");
 
                     b.ToTable("Teachers", "schools");
                 });
@@ -171,19 +166,41 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                                 .HasForeignKey("SchoolId");
                         });
 
+                    b.OwnsMany("EduSchedu.Shared.Abstractions.Kernel.ValueObjects.UserId", "TeacherIds", b1 =>
+                        {
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer");
+
+                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
+
+                            b1.Property<Guid>("SchoolId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("Value")
+                                .HasColumnType("uuid")
+                                .HasColumnName("TeacherId");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("SchoolId");
+
+                            b1.ToTable("SchoolTeacherIds", "schools");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SchoolId");
+                        });
+
                     b.Navigation("Address")
                         .IsRequired();
 
                     b.Navigation("ClassIds");
+
+                    b.Navigation("TeacherIds");
                 });
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Teacher", b =>
                 {
-                    b.HasOne("EduSchedu.Modules.Schools.Domain.Schools.School", null)
-                        .WithMany("Teachers")
-                        .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.OwnsMany("EduSchedu.Modules.Schools.Domain.Schools.LanguageProficiencyId", "LanguageProficiencyIds", b1 =>
                         {
                             b1.Property<int>("Id")
@@ -210,11 +227,6 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         });
 
                     b.Navigation("LanguageProficiencyIds");
-                });
-
-            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
-                {
-                    b.Navigation("Teachers");
                 });
 #pragma warning restore 612, 618
         }
