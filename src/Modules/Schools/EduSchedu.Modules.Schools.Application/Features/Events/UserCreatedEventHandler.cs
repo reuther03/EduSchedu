@@ -20,7 +20,7 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
         if (await _schoolUserRepository.ExistsAsync(new UserId(notification.UserId), cancellationToken))
             return;
 
-        var user = BackOffice.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
+        var user = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName), Role.Principal);
 
         await _schoolUserRepository.AddAsync(user, cancellationToken);
         await _schoolUserRepository.SaveChangesAsync(cancellationToken);

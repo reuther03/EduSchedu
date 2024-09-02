@@ -13,7 +13,8 @@ public class SchoolUserConfiguration : IEntityTypeConfiguration<SchoolUser>
 
         builder.HasDiscriminator(x => x.Role)
             .HasValue<BackOffice>(Role.BackOffice)
-            .HasValue<Teacher>(Role.Teacher);
+            .HasValue<Teacher>(Role.Teacher)
+            .IsComplete(false);
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
@@ -27,5 +28,8 @@ public class SchoolUserConfiguration : IEntityTypeConfiguration<SchoolUser>
         builder.Property(x => x.Email)
             .HasConversion(x => x.Value, x => new Email(x))
             .IsRequired();
+
+        builder.Property(x => x.Role)
+            .HasConversion<string>();
     }
 }
