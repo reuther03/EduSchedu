@@ -52,21 +52,6 @@ public class SchoolConfiguration : IEntityTypeConfiguration<School>
             .HasConversion(x => x.Value, x => UserId.From(x))
             .IsRequired();
 
-        builder.OwnsMany(x => x.ClassIds, ownedBuilder =>
-        {
-            ownedBuilder.WithOwner().HasForeignKey("SchoolId");
-            ownedBuilder.ToTable("SchoolClassIds");
-            ownedBuilder.HasKey("Id");
-
-            ownedBuilder.Property(x => x.Value)
-                .ValueGeneratedNever()
-                .HasColumnName("ClassId");
-
-            builder.Metadata
-                .FindNavigation(nameof(School.ClassIds))!
-                .SetPropertyAccessMode(PropertyAccessMode.Field);
-        });
-
         builder.OwnsMany(x => x.TeacherIds, ownedBuilder =>
         {
             ownedBuilder.WithOwner().HasForeignKey("SchoolId");
@@ -81,5 +66,10 @@ public class SchoolConfiguration : IEntityTypeConfiguration<School>
                 .FindNavigation(nameof(School.TeacherIds))!
                 .SetPropertyAccessMode(PropertyAccessMode.Field);
         });
+
+        builder.HasMany(x => x.Classes)
+            .WithOne()
+            .HasForeignKey("SchoolId")
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

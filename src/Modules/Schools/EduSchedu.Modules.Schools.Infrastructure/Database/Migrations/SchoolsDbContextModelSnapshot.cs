@@ -32,7 +32,12 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("SchoolId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("SchoolId");
 
                     b.ToTable("Classes", "schools");
                 });
@@ -104,6 +109,41 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.ToTable("Teachers", "schools");
                 });
 
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Class", b =>
+                {
+                    b.HasOne("EduSchedu.Modules.Schools.Domain.Schools.School", null)
+                        .WithMany("Classes")
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.OwnsMany("EduSchedu.Modules.Schools.Domain.Schools.LanguageProficiencyId", "LanguageProficiencyIds", b1 =>
+                        {
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer");
+
+                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
+
+                            b1.Property<Guid>("ClassId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("Value")
+                                .HasColumnType("uuid")
+                                .HasColumnName("LanguageProficiencyId");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("ClassId");
+
+                            b1.ToTable("ClassLanguageProficiencyIds", "schools");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ClassId");
+                        });
+
+                    b.Navigation("LanguageProficiencyIds");
+                });
+
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
                 {
                     b.OwnsOne("EduSchedu.Modules.Schools.Domain.Schools.Address", "Address", b1 =>
@@ -138,31 +178,6 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                                 .HasForeignKey("SchoolId");
                         });
 
-                    b.OwnsMany("EduSchedu.Modules.Schools.Domain.Schools.ClassId", "ClassIds", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
-
-                            b1.Property<Guid>("SchoolId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<Guid>("Value")
-                                .HasColumnType("uuid")
-                                .HasColumnName("ClassId");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("SchoolId");
-
-                            b1.ToTable("SchoolClassIds", "schools");
-
-                            b1.WithOwner()
-                                .HasForeignKey("SchoolId");
-                        });
-
                     b.OwnsMany("EduSchedu.Shared.Abstractions.Kernel.ValueObjects.UserId", "TeacherIds", b1 =>
                         {
                             b1.Property<int>("Id")
@@ -190,8 +205,6 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 
                     b.Navigation("Address")
                         .IsRequired();
-
-                    b.Navigation("ClassIds");
 
                     b.Navigation("TeacherIds");
                 });
@@ -224,6 +237,11 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         });
 
                     b.Navigation("LanguageProficiencyIds");
+                });
+
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
+                {
+                    b.Navigation("Classes");
                 });
 #pragma warning restore 612, 618
         }

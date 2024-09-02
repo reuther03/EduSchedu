@@ -19,5 +19,20 @@ public class ClassConfiguration : IEntityTypeConfiguration<Class>
         builder.Property(x => x.Name)
             .HasConversion(x => x.Value, x => new Name(x))
             .IsRequired();
+
+        builder.OwnsMany(x => x.LanguageProficiencyIds, ownedBuilder =>
+        {
+            ownedBuilder.WithOwner().HasForeignKey("ClassId");
+            ownedBuilder.ToTable("ClassLanguageProficiencyIds");
+            ownedBuilder.HasKey("Id");
+
+            ownedBuilder.Property(x => x.Value)
+                .ValueGeneratedNever()
+                .HasColumnName("LanguageProficiencyId");
+
+            builder.Metadata
+                .FindNavigation(nameof(Class.LanguageProficiencyIds))
+                ?.SetPropertyAccessMode(PropertyAccessMode.Field);
+        });
     }
 }
