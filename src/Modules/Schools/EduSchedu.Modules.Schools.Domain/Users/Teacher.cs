@@ -1,16 +1,15 @@
 ﻿using EduSchedu.Modules.Schools.Domain.Schools;
+using EduSchedu.Shared.Abstractions.Exception;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 
 namespace EduSchedu.Modules.Schools.Domain.Users;
 
-public class Teacher : AggregateRoot<UserId>
+public class Teacher : SchoolUser
 {
     private readonly List<LanguageProficiencyId> _languageProficiencyIds = [];
 
-    public Email Email { get; private set; }
-    public Name FullName { get; private set; }
-    public Role Role { get; private set; }
+
     public IReadOnlyList<LanguageProficiencyId> LanguageProficiencyIds => _languageProficiencyIds.AsReadOnly();
 
     private Teacher()
@@ -18,15 +17,18 @@ public class Teacher : AggregateRoot<UserId>
     }
 
     private Teacher(UserId id, Email email, Name fullName, Role role)
-        : base(id)
+        : base(id, email, fullName, role)
     {
-        Email = email;
-        FullName = fullName;
-        Role = role;
     }
 
     public static Teacher Create(UserId id, Email email, Name fullName, Role role)
-        => new Teacher(id, email, fullName, role);
+    {
+        if (role == Role.BackOffice)
+            throw new DomainException("Role is invalid.");
+
+        var teacher = new Teacher(id, email, fullName, role);
+        return teacher;
+    }
 
 
     public void AddLanguageProficiency(Guid languageProficiencyId)

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(SchoolsDbContext))]
-    [Migration("20240902004130_Initial")]
+    [Migration("20240902012241_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -90,7 +90,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.ToTable("Schools", "schools");
                 });
 
-            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Teacher", b =>
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.SchoolUser", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -103,13 +103,30 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Teachers", "schools");
+                    b.ToTable("SchoolUsers", "schools");
+
+                    b.HasDiscriminator<int>("Role");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.BackOffice", b =>
+                {
+                    b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
+
+                    b.HasDiscriminator().HasValue(1);
+                });
+
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Teacher", b =>
+                {
+                    b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
+
+                    b.HasDiscriminator().HasValue(3);
                 });
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Class", b =>

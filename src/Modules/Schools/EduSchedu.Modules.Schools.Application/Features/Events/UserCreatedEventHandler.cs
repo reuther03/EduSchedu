@@ -1,5 +1,4 @@
-﻿using EduSchedu.Modules.Schools.Application.Abstractions;
-using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
+﻿using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
 using EduSchedu.Modules.Schools.Domain.Users;
 using EduSchedu.Shared.Abstractions.Events;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
@@ -9,23 +8,21 @@ namespace EduSchedu.Modules.Schools.Application.Features.Events;
 
 public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
 {
-    private readonly ITeacherRepository _teacherRepository;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly ISchoolUserRepository _schoolUserRepository;
 
-    public UserCreatedEventHandler(ITeacherRepository teacherRepository, IUnitOfWork unitOfWork)
+    public UserCreatedEventHandler(ISchoolUserRepository schoolUserRepository)
     {
-        _teacherRepository = teacherRepository;
-        _unitOfWork = unitOfWork;
+        _schoolUserRepository = schoolUserRepository;
     }
 
     public async Task Handle(UserCreatedEvent notification, CancellationToken cancellationToken)
     {
-        if (await _teacherRepository.ExistsAsync(new UserId(notification.UserId), cancellationToken))
+        if (await _schoolUserRepository.ExistsAsync(new UserId(notification.UserId), cancellationToken))
             return;
 
-        var user = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName), Role.Teacher);
+        var user = BackOffice.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
 
-        await _teacherRepository.AddAsync(user, cancellationToken);
-        await _teacherRepository.SaveChangesAsync(cancellationToken);
+        await _schoolUserRepository.AddAsync(user, cancellationToken);
+        await _schoolUserRepository.SaveChangesAsync(cancellationToken);
     }
 }

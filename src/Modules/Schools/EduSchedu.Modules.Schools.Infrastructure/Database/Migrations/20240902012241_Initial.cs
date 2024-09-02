@@ -50,18 +50,18 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Teachers",
+                name: "SchoolUsers",
                 schema: "schools",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
                     FullName = table.Column<string>(type: "text", nullable: false),
-                    Role = table.Column<string>(type: "text", nullable: false)
+                    Role = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Teachers", x => x.Id);
+                    table.PrimaryKey("PK_SchoolUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -121,10 +121,10 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 {
                     table.PrimaryKey("PK_TeacherLanguageProficiencyIds", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TeacherLanguageProficiencyIds_Teachers_TeacherId",
+                        name: "FK_TeacherLanguageProficiencyIds_SchoolUsers_TeacherId",
                         column: x => x.TeacherId,
                         principalSchema: "schools",
-                        principalTable: "Teachers",
+                        principalTable: "SchoolUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -200,7 +200,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 schema: "schools");
 
             migrationBuilder.DropTable(
-                name: "Teachers",
+                name: "SchoolUsers",
                 schema: "schools");
 
             migrationBuilder.DropTable(

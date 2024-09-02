@@ -3,11 +3,10 @@ using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 
 namespace EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
 
-public interface ITeacherRepository
+public interface ISchoolUserRepository
 {
-    Task<Teacher?> GetByIdAsync(UserId id, CancellationToken cancellationToken = default);
+    Task<SchoolUser?> GetByIdAsync(UserId id, CancellationToken cancellationToken = default);
     Task<bool> ExistsAsync(UserId id, CancellationToken cancellationToken = default);
-    Task AddAsync(Teacher teacher, CancellationToken cancellationToken = default);
+    Task AddAsync(SchoolUser user, CancellationToken cancellationToken = default);
     Task<bool> SaveChangesAsync(CancellationToken cancellationToken = default);
-
 }

@@ -16,7 +16,7 @@ public static class Extensions
         services
             .AddPostgres<SchoolsDbContext>()
             .AddScoped<ISchoolsDbContext, SchoolsDbContext>()
-            .AddScoped<ITeacherRepository, TeacherRepository>()
+            .AddScoped<ISchoolUserRepository, SchoolUserRepository>()
             .AddTransient<IModuleSeeder, SchoolModuleSeeder>()
             .AddUnitOfWork<IUnitOfWork, UserUnitOfWork>();
 

@@ -6,26 +6,26 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Repositories;
 
-public class TeacherRepository : ITeacherRepository
+public class SchoolUserRepository : ISchoolUserRepository
 {
     private readonly ISchoolsDbContext _dbContext;
-    private readonly DbSet<Teacher> _teachers;
+    private readonly DbSet<SchoolUser> _teachers;
 
-    public TeacherRepository(ISchoolsDbContext dbContext)
+    public SchoolUserRepository(ISchoolsDbContext dbContext)
     {
         _dbContext = dbContext;
         _teachers = dbContext.Teachers;
     }
 
-    public Task<Teacher?> GetByIdAsync(UserId id, CancellationToken cancellationToken = default)
-        => _teachers.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    public Task<SchoolUser?> GetByIdAsync(UserId id, CancellationToken cancellationToken = default)
+        => _teachers.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
 
     public async Task<bool> ExistsAsync(UserId id, CancellationToken cancellationToken = default)
         => await _teachers.AnyAsync(x => x.Id == id, cancellationToken);
 
-    public async Task AddAsync(Teacher teacher, CancellationToken cancellationToken = default)
+    public async Task AddAsync(SchoolUser user, CancellationToken cancellationToken = default)
     {
-        await _teachers.AddAsync(teacher, cancellationToken);
+        await _teachers.AddAsync(user, cancellationToken);
     }
 
     public async Task<bool> SaveChangesAsync(CancellationToken cancellationToken = default)

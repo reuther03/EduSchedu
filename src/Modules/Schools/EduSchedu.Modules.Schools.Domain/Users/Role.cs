@@ -2,6 +2,7 @@
 
 public enum Role
 {
-    Principal = 1,
-    Teacher = 2,
+    BackOffice = 1,
+    Principal = 2,
+    Teacher = 3,
 }
