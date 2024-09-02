@@ -57,7 +57,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
                     FullName = table.Column<string>(type: "text", nullable: false),
-                    Role = table.Column<int>(type: "integer", nullable: false)
+                    Role = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -160,7 +160,8 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     Day = table.Column<string>(type: "text", nullable: false),
                     StartTime = table.Column<TimeSpan>(type: "interval", nullable: false),
                     EndTime = table.Column<TimeSpan>(type: "interval", nullable: false),
-                    ClassId = table.Column<Guid>(type: "uuid", nullable: true)
+                    ClassId = table.Column<Guid>(type: "uuid", nullable: true),
+                    TeacherId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -170,6 +171,13 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         column: x => x.ClassId,
                         principalSchema: "schools",
                         principalTable: "Classes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Lesson_SchoolUsers_TeacherId",
+                        column: x => x.TeacherId,
+                        principalSchema: "schools",
+                        principalTable: "SchoolUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -191,6 +199,12 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 schema: "schools",
                 table: "Lesson",
                 column: "ClassId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Lesson_TeacherId",
+                schema: "schools",
+                table: "Lesson",
+                column: "TeacherId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SchoolTeacherIds_SchoolId",

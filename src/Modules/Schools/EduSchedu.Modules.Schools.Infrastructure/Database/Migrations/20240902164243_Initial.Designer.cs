@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(SchoolsDbContext))]
-    [Migration("20240902163616_RoleConversion")]
-    partial class RoleConversion
+    [Migration("20240902164243_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -82,9 +82,14 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.Property<TimeSpan>("StartTime")
                         .HasColumnType("interval");
 
+                    b.Property<Guid?>("TeacherId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
+
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("Lesson", "schools");
                 });
@@ -197,6 +202,11 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         .WithMany("Lessons")
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("EduSchedu.Modules.Schools.Domain.Users.Teacher", null)
+                        .WithMany("Lessons")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
@@ -302,6 +312,11 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
                 {
                     b.Navigation("Classes");
+                });
+
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Teacher", b =>
+                {
+                    b.Navigation("Lessons");
                 });
 #pragma warning restore 612, 618
         }

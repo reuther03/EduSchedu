@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(SchoolsDbContext))]
-    [Migration("20240902160513_Initial")]
-    partial class Initial
+    [Migration("20240902164532_Initial1")]
+    partial class Initial1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -82,9 +82,14 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.Property<TimeSpan>("StartTime")
                         .HasColumnType("interval");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Lesson", "schools");
                 });
@@ -129,14 +134,15 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("integer");
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.ToTable("SchoolUsers", "schools");
 
-                    b.HasDiscriminator<int>("Role");
+                    b.HasDiscriminator<string>("Role").IsComplete(false);
 
                     b.UseTphMappingStrategy();
                 });
@@ -145,14 +151,14 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 {
                     b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
 
-                    b.HasDiscriminator().HasValue(1);
+                    b.HasDiscriminator().HasValue("BackOffice");
                 });
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Teacher", b =>
                 {
                     b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
 
-                    b.HasDiscriminator().HasValue(3);
+                    b.HasDiscriminator().HasValue("Teacher");
                 });
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Class", b =>
@@ -195,6 +201,11 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.HasOne("EduSchedu.Modules.Schools.Domain.Schools.Class", null)
                         .WithMany("Lessons")
                         .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("EduSchedu.Modules.Schools.Domain.Users.Teacher", null)
+                        .WithMany("Lessons")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -301,6 +312,11 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
                 {
                     b.Navigation("Classes");
+                });
+
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Teacher", b =>
+                {
+                    b.Navigation("Lessons");
                 });
 #pragma warning restore 612, 618
         }

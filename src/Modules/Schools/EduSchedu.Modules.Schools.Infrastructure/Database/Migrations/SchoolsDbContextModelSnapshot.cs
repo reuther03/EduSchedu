@@ -79,9 +79,14 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.Property<TimeSpan>("StartTime")
                         .HasColumnType("interval");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Lesson", "schools");
                 });
@@ -194,6 +199,11 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         .WithMany("Lessons")
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("EduSchedu.Modules.Schools.Domain.Users.Teacher", null)
+                        .WithMany("Lessons")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
@@ -299,6 +309,11 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
                 {
                     b.Navigation("Classes");
+                });
+
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Teacher", b =>
+                {
+                    b.Navigation("Lessons");
                 });
 #pragma warning restore 612, 618
         }

@@ -31,4 +31,5 @@ public class Lesson : Entity<Guid>
         var lesson = new Lesson(Guid.NewGuid(), day, startTime, endTime);
         return lesson;
     }
+
 }

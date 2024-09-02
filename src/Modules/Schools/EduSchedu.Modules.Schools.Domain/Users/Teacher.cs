@@ -8,8 +8,9 @@ namespace EduSchedu.Modules.Schools.Domain.Users;
 public class Teacher : SchoolUser
 {
     private readonly List<LanguageProficiencyId> _languageProficiencyIds = [];
+    private readonly List<Lesson> _lessons = [];
 
-
+    public IReadOnlyList<Lesson> Lessons => _lessons.AsReadOnly();
     public IReadOnlyList<LanguageProficiencyId> LanguageProficiencyIds => _languageProficiencyIds.AsReadOnly();
 
     private Teacher()
@@ -37,5 +38,16 @@ public class Teacher : SchoolUser
         {
             _languageProficiencyIds.Add(languageProficiencyId);
         }
+    }
+
+    public void AddLesson(DayOfWeek day, TimeSpan startTime, TimeSpan endTime)
+    {
+        if (_lessons.Any(x => x.Day == day && x.StartTime == startTime && x.EndTime == endTime))
+        {
+            throw new DomainException("Lesson already exists");
+        }
+
+        var lesson = Lesson.Create(day, startTime, endTime);
+        _lessons.Add(lesson);
     }
 }
