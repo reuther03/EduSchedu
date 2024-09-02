@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(SchoolsDbContext))]
-    [Migration("20240902012241_Initial")]
+    [Migration("20240902160513_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -61,6 +61,32 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LanguageProficiencies", "schools");
+                });
+
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Lesson", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ClassId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Day")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("interval");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("interval");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
+
+                    b.ToTable("Lesson", "schools");
                 });
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
@@ -164,6 +190,14 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.Navigation("LanguageProficiencyIds");
                 });
 
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Lesson", b =>
+                {
+                    b.HasOne("EduSchedu.Modules.Schools.Domain.Schools.Class", null)
+                        .WithMany("Lessons")
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
                 {
                     b.OwnsOne("EduSchedu.Modules.Schools.Domain.Schools.Address", "Address", b1 =>
@@ -257,6 +291,11 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         });
 
                     b.Navigation("LanguageProficiencyIds");
+                });
+
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Class", b =>
+                {
+                    b.Navigation("Lessons");
                 });
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>

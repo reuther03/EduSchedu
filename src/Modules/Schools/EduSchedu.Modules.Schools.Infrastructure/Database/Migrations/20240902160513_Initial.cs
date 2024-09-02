@@ -151,6 +151,29 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Lesson",
+                schema: "schools",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Day = table.Column<string>(type: "text", nullable: false),
+                    StartTime = table.Column<TimeSpan>(type: "interval", nullable: false),
+                    EndTime = table.Column<TimeSpan>(type: "interval", nullable: false),
+                    ClassId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Lesson", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Lesson_Classes_ClassId",
+                        column: x => x.ClassId,
+                        principalSchema: "schools",
+                        principalTable: "Classes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Classes_SchoolId",
                 schema: "schools",
@@ -161,6 +184,12 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 name: "IX_ClassLanguageProficiencyIds_ClassId",
                 schema: "schools",
                 table: "ClassLanguageProficiencyIds",
+                column: "ClassId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Lesson_ClassId",
+                schema: "schools",
+                table: "Lesson",
                 column: "ClassId");
 
             migrationBuilder.CreateIndex(
@@ -185,6 +214,10 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "LanguageProficiencies",
+                schema: "schools");
+
+            migrationBuilder.DropTable(
+                name: "Lesson",
                 schema: "schools");
 
             migrationBuilder.DropTable(
