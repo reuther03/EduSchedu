@@ -17,8 +17,8 @@ public class SchoolUserRepository : ISchoolUserRepository
         _teachers = dbContext.Teachers;
     }
 
-    public async Task<SchoolUser?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        => await _teachers.SingleOrDefaultAsync(x => x.Id.Value == id, cancellationToken);
+    public async Task<SchoolUser?> GetByIdAsync(UserId id, CancellationToken cancellationToken = default)
+        => await _teachers.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
     public async Task<bool> ExistsAsync(UserId id, CancellationToken cancellationToken = default)
         => await _teachers.AnyAsync(x => x.Id == id, cancellationToken);
