@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using EduSchedu.Shared.Abstractions.Auth;
+using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -16,13 +17,14 @@ public class JwtProvider : IJwtProvider
         _jwtOptions = jwtOptions.Value;
     }
 
-    public string GenerateToken(string userId, string email)
+    public string GenerateToken(string userId, string email, Role role)
     {
         var claims = new Claim[]
         {
             new(JwtRegisteredClaimNames.Sub, userId),
             new(JwtRegisteredClaimNames.UniqueName, userId),
-            new(JwtRegisteredClaimNames.Email, email)
+            new(JwtRegisteredClaimNames.Email, email),
+            new(ClaimConsts.Role, role.ToString())
         };
 
         var now = DateTime.UtcNow;
@@ -55,6 +57,6 @@ public class JwtProvider : IJwtProvider
 
 public static class ClaimConsts
 {
-    public const string UserId = "sub";
     public const string Email = "email";
+    public const string Role = "role";
 }
