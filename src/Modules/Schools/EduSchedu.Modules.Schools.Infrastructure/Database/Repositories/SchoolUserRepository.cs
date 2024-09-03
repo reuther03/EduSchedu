@@ -17,16 +17,17 @@ public class SchoolUserRepository : ISchoolUserRepository
         _teachers = dbContext.Teachers;
     }
 
-    public Task<SchoolUser?> GetByIdAsync(UserId id, CancellationToken cancellationToken = default)
-        => _teachers.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+    public async Task<SchoolUser?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        => await _teachers.SingleOrDefaultAsync(x => x.Id.Value == id, cancellationToken);
 
     public async Task<bool> ExistsAsync(UserId id, CancellationToken cancellationToken = default)
         => await _teachers.AnyAsync(x => x.Id == id, cancellationToken);
 
     public async Task AddAsync(SchoolUser user, CancellationToken cancellationToken = default)
-    {
-        await _teachers.AddAsync(user, cancellationToken);
-    }
+        => await _teachers.AddAsync(user, cancellationToken);
+
+    public void Remove(SchoolUser entity)
+        => _teachers.Remove(entity);
 
     public async Task<bool> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

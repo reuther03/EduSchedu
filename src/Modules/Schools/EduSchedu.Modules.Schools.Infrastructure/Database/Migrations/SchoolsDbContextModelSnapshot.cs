@@ -91,7 +91,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.ToTable("Lesson", "schools");
                 });
 
-            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Schools", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -160,7 +160,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Class", b =>
                 {
-                    b.HasOne("EduSchedu.Modules.Schools.Domain.Schools.School", null)
+                    b.HasOne("EduSchedu.Modules.Schools.Domain.Schools.Schools", null)
                         .WithMany("Classes")
                         .HasForeignKey("SchoolId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -206,7 +206,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Schools", b =>
                 {
                     b.OwnsOne("EduSchedu.Modules.Schools.Domain.Schools.Address", "Address", b1 =>
                         {
@@ -306,7 +306,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.Navigation("Lessons");
                 });
 
-            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Schools", b =>
                 {
                     b.Navigation("Classes");
                 });

@@ -3,7 +3,4 @@ using EduSchedu.Shared.Abstractions.Kernel.Database;
 
 namespace EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
 
-public interface ISchoolRepository : IRepository<School>
-{
-
-}
+public interface ISchoolRepository : IRepository<School>;
