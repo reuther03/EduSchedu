@@ -12,11 +12,6 @@ internal class SchoolsDbContext : DbContext, ISchoolsDbContext
     public DbSet<SchoolUser> Teachers => Set<SchoolUser>();
     public DbSet<LanguageProficiency> LanguageProficiencies => Set<LanguageProficiency>();
 
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        return await base.SaveChangesAsync(cancellationToken);
-    }
-
     public SchoolsDbContext(DbContextOptions<SchoolsDbContext> options) : base(options)
     {
     }

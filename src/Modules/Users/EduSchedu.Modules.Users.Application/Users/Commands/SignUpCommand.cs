@@ -16,13 +16,13 @@ public record SignUpCommand(string Email, string FullName, string Password) : IC
     {
         private readonly IUserRepository _userRepository;
         private readonly IPublisher _publisher;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserUnitOfWork _userUnitOfWork;
 
-        public Handler(IUserRepository userRepository, IPublisher publisher, IUnitOfWork unitOfWork)
+        public Handler(IUserRepository userRepository, IPublisher publisher, IUserUnitOfWork userUnitOfWork)
         {
             _userRepository = userRepository;
             _publisher = publisher;
-            _unitOfWork = unitOfWork;
+            _userUnitOfWork = userUnitOfWork;
         }
 
         public async Task<Result<Guid>> Handle(SignUpCommand request, CancellationToken cancellationToken)
@@ -33,7 +33,7 @@ public record SignUpCommand(string Email, string FullName, string Password) : IC
             var user = User.Create(new Email(request.Email), new Name(request.FullName), UserPassword.Create(request.Password));
 
             await _userRepository.AddAsync(user, cancellationToken);
-            await _unitOfWork.CommitAsync(cancellationToken);
+            await _userUnitOfWork.CommitAsync(cancellationToken);
 
             await _publisher.Publish(new UserCreatedEvent(user.Id, user.FullName, user.Email), cancellationToken);
 

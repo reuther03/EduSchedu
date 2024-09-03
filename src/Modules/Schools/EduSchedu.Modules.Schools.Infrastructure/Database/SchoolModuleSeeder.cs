@@ -1,4 +1,5 @@
 ﻿using EduSchedu.Modules.Schools.Application.Abstractions;
+using EduSchedu.Modules.Schools.Application.Abstractions.Database;
 using EduSchedu.Modules.Schools.Domain.Schools;
 using EduSchedu.Modules.Schools.Domain.Schools.Ids;
 using EduSchedu.Modules.Schools.Domain.Users;
@@ -8,13 +9,13 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database;
 
 internal class SchoolModuleSeeder : IModuleSeeder
 {
-    private readonly SchoolsDbContext _dbContext;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly ISchoolsDbContext _dbContext;
+    private readonly ISchoolUnitOfWork _schoolUnitOfWork;
 
-    public SchoolModuleSeeder(SchoolsDbContext dbContext, IUnitOfWork unitOfWork)
+    public SchoolModuleSeeder(ISchoolsDbContext dbContext, ISchoolUnitOfWork schoolUnitOfWork)
     {
         _dbContext = dbContext;
-        _unitOfWork = unitOfWork;
+        _schoolUnitOfWork = schoolUnitOfWork;
     }
 
     public async Task SeedAsync(CancellationToken cancellationToken)
@@ -65,7 +66,7 @@ internal class SchoolModuleSeeder : IModuleSeeder
                 LanguageProficiency.Create(LanguageProficiencyId.New(), Language.Portuguese, Lvl.C1),
                 LanguageProficiency.Create(LanguageProficiencyId.New(), Language.Portuguese, Lvl.C2)
             );
-                await _unitOfWork.CommitAsync(cancellationToken);
+                await _schoolUnitOfWork.CommitAsync(cancellationToken);
         }
     }
 }

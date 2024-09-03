@@ -4,9 +4,9 @@ using MediatR;
 
 namespace EduSchedu.Modules.Schools.Infrastructure.Database;
 
-internal class UserUnitOfWork : BaseUnitOfWork<SchoolsDbContext>, IUnitOfWork
+internal class SchoolUnitOfWork : BaseUnitOfWork<SchoolsDbContext>, ISchoolUnitOfWork
 {
-    public UserUnitOfWork(SchoolsDbContext dbContext, IPublisher publisher) : base(dbContext, publisher)
+    public SchoolUnitOfWork(SchoolsDbContext dbContext, IPublisher publisher) : base(dbContext, publisher)
     {
     }
 }

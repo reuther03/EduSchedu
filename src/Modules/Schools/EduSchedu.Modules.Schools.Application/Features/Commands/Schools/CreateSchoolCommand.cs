@@ -24,14 +24,14 @@ public record CreateSchoolCommand(
         private readonly IUserService _userService;
         private readonly ISchoolUserRepository _schoolUserRepository;
         private readonly ISchoolRepository _schoolRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ISchoolUnitOfWork _schoolUnitOfWork;
 
-        public Handler(IUserService userService, ISchoolUserRepository schoolUserRepository, ISchoolRepository schoolRepository, IUnitOfWork unitOfWork)
+        public Handler(IUserService userService, ISchoolUserRepository schoolUserRepository, ISchoolRepository schoolRepository, ISchoolUnitOfWork schoolUnitOfWork)
         {
             _userService = userService;
             _schoolUserRepository = schoolUserRepository;
             _schoolRepository = schoolRepository;
-            _unitOfWork = unitOfWork;
+            _schoolUnitOfWork = schoolUnitOfWork;
         }
 
         public async Task<Result<Guid>> Handle(CreateSchoolCommand request, CancellationToken cancellationToken)
@@ -52,7 +52,7 @@ public record CreateSchoolCommand(
             );
 
             await _schoolRepository.AddAsync(school, cancellationToken);
-            await _unitOfWork.CommitAsync(cancellationToken);
+            await _schoolUnitOfWork.CommitAsync(cancellationToken);
 
             return Result<Guid>.Ok(school.Id.Value);
         }

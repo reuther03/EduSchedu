@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Repositories;
 
-public class SchoolUserRepository : ISchoolUserRepository
+internal class SchoolUserRepository : ISchoolUserRepository
 {
-    private readonly ISchoolsDbContext _dbContext;
+    private readonly SchoolsDbContext _dbContext;
     private readonly DbSet<SchoolUser> _teachers;
 
-    public SchoolUserRepository(ISchoolsDbContext dbContext)
+    public SchoolUserRepository(SchoolsDbContext dbContext)
     {
         _dbContext = dbContext;
         _teachers = dbContext.Teachers;
@@ -28,9 +28,4 @@ public class SchoolUserRepository : ISchoolUserRepository
 
     public void Remove(SchoolUser entity)
         => _teachers.Remove(entity);
-
-    public async Task<bool> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.SaveChangesAsync(cancellationToken) > 0;
-    }
 }

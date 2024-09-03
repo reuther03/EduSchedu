@@ -2,7 +2,7 @@
 
 namespace EduSchedu.Modules.Users.Application.Abstractions;
 
-public interface IUnitOfWork : IBaseUnitOfWork
+public interface IUserUnitOfWork : IBaseUnitOfWork
 {
 
 }

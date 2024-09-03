@@ -16,7 +16,7 @@ public static class Extensions
             .AddPostgres<UsersDbContext>()
             .AddScoped<IUserDbContext, UsersDbContext>()
             .AddScoped<IUserRepository, UserRepository>()
-            .AddUnitOfWork<IUnitOfWork, UserUnitOfWork>();
+            .AddUnitOfWork<IUserUnitOfWork, UserUnitOfWork>();
 
         return services;
     }

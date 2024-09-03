@@ -18,8 +18,8 @@ public static class Extensions
             .AddScoped<ISchoolsDbContext, SchoolsDbContext>()
             .AddScoped<ISchoolUserRepository, SchoolUserRepository>()
             .AddScoped<ISchoolRepository, SchoolRepository>()
-            .AddTransient<IModuleSeeder, SchoolModuleSeeder>()
-            .AddUnitOfWork<IUnitOfWork, UserUnitOfWork>();
+            .AddUnitOfWork<ISchoolUnitOfWork, SchoolUnitOfWork>()
+            .AddTransient<IModuleSeeder, SchoolModuleSeeder>();
 
         return services;
     }
