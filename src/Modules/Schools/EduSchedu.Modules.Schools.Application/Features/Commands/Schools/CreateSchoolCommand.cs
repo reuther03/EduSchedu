@@ -26,7 +26,8 @@ public record CreateSchoolCommand(
         private readonly ISchoolRepository _schoolRepository;
         private readonly ISchoolUnitOfWork _schoolUnitOfWork;
 
-        public Handler(IUserService userService, ISchoolUserRepository schoolUserRepository, ISchoolRepository schoolRepository, ISchoolUnitOfWork schoolUnitOfWork)
+        public Handler(IUserService userService, ISchoolUserRepository schoolUserRepository, ISchoolRepository schoolRepository,
+            ISchoolUnitOfWork schoolUnitOfWork)
         {
             _userService = userService;
             _schoolUserRepository = schoolUserRepository;
@@ -51,6 +52,7 @@ public record CreateSchoolCommand(
                 principal.Id
             );
 
+            school.AddTeacher(principal.Id);
             await _schoolRepository.AddAsync(school, cancellationToken);
             await _schoolUnitOfWork.CommitAsync(cancellationToken);
 
