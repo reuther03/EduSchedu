@@ -1,6 +1,6 @@
 ﻿namespace EduSchedu.Shared.Abstractions.Kernel.Primitives;
 
-public abstract class Entity<TId> : IEquatable<Entity<TId>>
+public abstract class Entity<TId> : IEquatable<Entity<TId>>, IEntity
 {
     /// <summary>
     /// The entity identifier.
