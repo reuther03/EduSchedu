@@ -6,6 +6,6 @@ namespace EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositori
 
 public interface ISchoolRepository
 {
+    Task<School?> GetByIdAsync(SchoolId id, CancellationToken cancellationToken = default);
     Task AddAsync(School school, CancellationToken cancellationToken = default);
-    Task<School?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 }

@@ -91,7 +91,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.ToTable("Lesson", "schools");
                 });
 
-            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Schools", b =>
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -151,6 +151,13 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.HasDiscriminator().HasValue("BackOffice");
                 });
 
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Principal", b =>
+                {
+                    b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
+
+                    b.HasDiscriminator().HasValue("Principal");
+                });
+
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Teacher", b =>
                 {
                     b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
@@ -160,12 +167,12 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Class", b =>
                 {
-                    b.HasOne("EduSchedu.Modules.Schools.Domain.Schools.Schools", null)
+                    b.HasOne("EduSchedu.Modules.Schools.Domain.Schools.School", null)
                         .WithMany("Classes")
                         .HasForeignKey("SchoolId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.OwnsMany("EduSchedu.Modules.Schools.Domain.Schools.LanguageProficiencyId", "LanguageProficiencyIds", b1 =>
+                    b.OwnsMany("EduSchedu.Modules.Schools.Domain.Schools.Ids.LanguageProficiencyId", "LanguageProficiencyIds", b1 =>
                         {
                             b1.Property<int>("Id")
                                 .ValueGeneratedOnAdd()
@@ -206,9 +213,9 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Schools", b =>
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
                 {
-                    b.OwnsOne("EduSchedu.Modules.Schools.Domain.Schools.Address", "Address", b1 =>
+                    b.OwnsOne("EduSchedu.Shared.Abstractions.Kernel.ValueObjects.Address", "Address", b1 =>
                         {
                             b1.Property<Guid>("SchoolId")
                                 .HasColumnType("uuid");
@@ -273,7 +280,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Teacher", b =>
                 {
-                    b.OwnsMany("EduSchedu.Modules.Schools.Domain.Schools.LanguageProficiencyId", "LanguageProficiencyIds", b1 =>
+                    b.OwnsMany("EduSchedu.Modules.Schools.Domain.Schools.Ids.LanguageProficiencyId", "LanguageProficiencyIds", b1 =>
                         {
                             b1.Property<int>("Id")
                                 .ValueGeneratedOnAdd()
@@ -306,7 +313,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.Navigation("Lessons");
                 });
 
-            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Schools", b =>
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
                 {
                     b.Navigation("Classes");
                 });

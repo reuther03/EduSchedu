@@ -161,7 +161,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     StartTime = table.Column<TimeSpan>(type: "interval", nullable: false),
                     EndTime = table.Column<TimeSpan>(type: "interval", nullable: false),
                     ClassId = table.Column<Guid>(type: "uuid", nullable: true),
-                    TeacherId = table.Column<Guid>(type: "uuid", nullable: true)
+                    UserId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -174,8 +174,8 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Lesson_SchoolUsers_TeacherId",
-                        column: x => x.TeacherId,
+                        name: "FK_Lesson_SchoolUsers_UserId",
+                        column: x => x.UserId,
                         principalSchema: "schools",
                         principalTable: "SchoolUsers",
                         principalColumn: "Id",
@@ -201,10 +201,10 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 column: "ClassId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Lesson_TeacherId",
+                name: "IX_Lesson_UserId",
                 schema: "schools",
                 table: "Lesson",
-                column: "TeacherId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SchoolTeacherIds_SchoolId",

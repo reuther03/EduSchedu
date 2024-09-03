@@ -1,5 +1,4 @@
 ﻿using EduSchedu.Modules.Schools.Domain.Users;
-using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

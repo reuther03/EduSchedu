@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(SchoolsDbContext))]
-    [Migration("20240902164532_Initial1")]
-    partial class Initial1
+    [Migration("20240903021310_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -154,6 +154,13 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.HasDiscriminator().HasValue("BackOffice");
                 });
 
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Principal", b =>
+                {
+                    b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
+
+                    b.HasDiscriminator().HasValue("Principal");
+                });
+
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Teacher", b =>
                 {
                     b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
@@ -168,7 +175,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         .HasForeignKey("SchoolId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.OwnsMany("EduSchedu.Modules.Schools.Domain.Schools.LanguageProficiencyId", "LanguageProficiencyIds", b1 =>
+                    b.OwnsMany("EduSchedu.Modules.Schools.Domain.Schools.Ids.LanguageProficiencyId", "LanguageProficiencyIds", b1 =>
                         {
                             b1.Property<int>("Id")
                                 .ValueGeneratedOnAdd()
@@ -211,7 +218,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
                 {
-                    b.OwnsOne("EduSchedu.Modules.Schools.Domain.Schools.Address", "Address", b1 =>
+                    b.OwnsOne("EduSchedu.Shared.Abstractions.Kernel.ValueObjects.Address", "Address", b1 =>
                         {
                             b1.Property<Guid>("SchoolId")
                                 .HasColumnType("uuid");
@@ -276,7 +283,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Teacher", b =>
                 {
-                    b.OwnsMany("EduSchedu.Modules.Schools.Domain.Schools.LanguageProficiencyId", "LanguageProficiencyIds", b1 =>
+                    b.OwnsMany("EduSchedu.Modules.Schools.Domain.Schools.Ids.LanguageProficiencyId", "LanguageProficiencyIds", b1 =>
                         {
                             b1.Property<int>("Id")
                                 .ValueGeneratedOnAdd()

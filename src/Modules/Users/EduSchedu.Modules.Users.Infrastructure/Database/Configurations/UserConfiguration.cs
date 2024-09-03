@@ -31,6 +31,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasConversion(x => x.Value, x => new Password(x))
             .IsRequired();
 
+        builder.Property(x => x.Role)
+            .HasConversion<string>()
+            .IsRequired();
+
         builder.HasIndex(x => x.Email).IsUnique();
     }
 }

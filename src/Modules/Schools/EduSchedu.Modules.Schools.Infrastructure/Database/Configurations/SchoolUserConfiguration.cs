@@ -14,6 +14,7 @@ public class SchoolUserConfiguration : IEntityTypeConfiguration<SchoolUser>
         builder.HasDiscriminator(x => x.Role)
             .HasValue<BackOffice>(Role.BackOffice)
             .HasValue<Teacher>(Role.Teacher)
+            .HasValue<Principal>(Role.Principal)
             .IsComplete(false);
 
         builder.HasKey(x => x.Id);

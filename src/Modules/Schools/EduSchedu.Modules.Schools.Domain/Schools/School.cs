@@ -1,4 +1,5 @@
-﻿using EduSchedu.Shared.Abstractions.Exception;
+﻿using EduSchedu.Modules.Schools.Domain.Schools.Ids;
+using EduSchedu.Shared.Abstractions.Exception;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 

@@ -46,11 +46,10 @@ public static class Extensions
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
                 };
             });
+        services.AddAuthorization();
 
         services.AddSingleton(jwtOptions);
         services.AddSingleton(tokenValidationParameters);
-
-        services.AddAuthorization();
 
         return services;
     }
