@@ -42,7 +42,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     MapCoordinates = table.Column<string>(type: "text", nullable: true),
                     PhoneNumber = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
-                    PrincipalId = table.Column<Guid>(type: "uuid", nullable: false)
+                    HeadmasterId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {

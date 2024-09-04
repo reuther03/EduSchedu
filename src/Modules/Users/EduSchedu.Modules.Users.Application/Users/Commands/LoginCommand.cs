@@ -1,6 +1,7 @@
 ﻿using EduSchedu.Modules.Users.Application.Abstractions.Database.Repositories;
 using EduSchedu.Shared.Abstractions.Auth;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
+using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Abstractions.QueriesAndCommands.Commands;
 
 namespace EduSchedu.Modules.Users.Application.Users.Commands;
@@ -22,6 +23,9 @@ public record LoginCommand(string Email, string Password) : ICommand<AccessToken
         {
             var user = await _userRepository.GetByEmailAsync(request.Email, cancellationToken);
             if (user is null)
+                return Result.Unauthorized<AccessToken>("Authentication failed");
+
+            if (!user.IsPasswordChanged && user.Role != Role.HeadMaster)
                 return Result.Unauthorized<AccessToken>("Authentication failed");
 
             if (!user.Password.Verify(request.Password))

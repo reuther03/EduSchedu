@@ -16,7 +16,7 @@ internal class UsersController : BaseController
     }
 
     [HttpPost("sign-up/headmaster")]
-    public async Task<IActionResult> SignUp(SignUpHeadmasterCommand request, CancellationToken cancellationToken)
+    public async Task<IActionResult> SignUp([FromBody] SignUpHeadmasterCommand request, CancellationToken cancellationToken)
     {
         var result = await _sender.Send(request, cancellationToken);
         return Ok(result);
@@ -24,14 +24,21 @@ internal class UsersController : BaseController
 
     [HttpPost("create-teacher")]
     [AuthorizeRoles(Role.HeadMaster)]
-    public async Task<IActionResult> CreateTeacher(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateTeacher([FromBody] CreateUserCommand request, CancellationToken cancellationToken)
     {
         var result = await _sender.Send(request, cancellationToken);
         return Ok(result);
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Login([FromBody] LoginCommand request, CancellationToken cancellationToken)
+    {
+        var result = await _sender.Send(request, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpPatch("change-password")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand request, CancellationToken cancellationToken)
     {
         var result = await _sender.Send(request, cancellationToken);
         return Ok(result);

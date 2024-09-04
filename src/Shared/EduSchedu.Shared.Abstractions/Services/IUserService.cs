@@ -8,5 +8,5 @@ public interface IUserService
     [MemberNotNullWhen(true, nameof(UserId),nameof(Email))]
     public bool IsAuthenticated { get; }
     public UserId? UserId { get; }
-    public Email? Email { get; }
+    public Kernel.ValueObjects.Email? Email { get; }
 }

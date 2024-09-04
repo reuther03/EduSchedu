@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(SchoolsDbContext))]
-    [Migration("20240903021310_Initial")]
+    [Migration("20240904175353_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -103,6 +103,9 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("HeadmasterId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(300)
@@ -112,9 +115,6 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
-
-                    b.Property<Guid>("PrincipalId")
-                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -147,18 +147,18 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.BackOffice", b =>
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.BackOfficeUser", b =>
                 {
                     b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
 
                     b.HasDiscriminator().HasValue("BackOffice");
                 });
 
-            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Principal", b =>
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Headmaster", b =>
                 {
                     b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
 
-                    b.HasDiscriminator().HasValue("Principal");
+                    b.HasDiscriminator().HasValue("HeadMaster");
                 });
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Teacher", b =>

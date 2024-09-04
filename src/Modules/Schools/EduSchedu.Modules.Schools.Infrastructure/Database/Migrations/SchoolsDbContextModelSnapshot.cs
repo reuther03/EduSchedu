@@ -100,6 +100,9 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("HeadmasterId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(300)
@@ -109,9 +112,6 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
-
-                    b.Property<Guid>("HeadmasterId")
-                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -148,10 +148,10 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 {
                     b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
 
-                    b.HasDiscriminator().HasValue("BackOfficeUser");
+                    b.HasDiscriminator().HasValue("BackOffice");
                 });
 
-            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.HeadMaster", b =>
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Headmaster", b =>
                 {
                     b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
 

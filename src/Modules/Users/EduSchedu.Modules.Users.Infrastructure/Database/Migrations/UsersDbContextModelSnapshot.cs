@@ -38,6 +38,9 @@ namespace EduSchedu.Modules.Users.Infrastructure.Database.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<bool>("IsPasswordChanged")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(100)
