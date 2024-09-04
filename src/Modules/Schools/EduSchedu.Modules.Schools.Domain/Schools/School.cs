@@ -13,7 +13,7 @@ public class School : AggregateRoot<SchoolId>
     public Address Address { get; private set; }
     public string PhoneNumber { get; private set; }
     public Email Email { get; private set; }
-    public UserId PrincipalId { get; private set; }
+    public UserId HeadmasterId { get; private set; }
 
     public IReadOnlyList<UserId> TeacherIds => _teacherIds.AsReadOnly();
     public IReadOnlyList<Class> Classes => _classes.AsReadOnly();
@@ -22,19 +22,19 @@ public class School : AggregateRoot<SchoolId>
     {
     }
 
-    public School(SchoolId id, Name name, Address address, string phoneNumber, Email email, UserId principalId) : base(id)
+    public School(SchoolId id, Name name, Address address, string phoneNumber, Email email, UserId headmasterId) : base(id)
     {
         Name = name;
         Address = address;
         PhoneNumber = phoneNumber;
         Email = email;
-        PrincipalId = principalId;
+        HeadmasterId = headmasterId;
     }
 
     public static School Create(Name name, Address address, string phoneNumber, Email email, UserId principalId)
         => new School(SchoolId.New(), name, address, phoneNumber, email, principalId);
 
-    public void AddTeacher(UserId teacherId)
+    public void AddUser(UserId teacherId)
     {
         if (_teacherIds.Contains(teacherId))
             throw new DomainException("Teacher already exists");

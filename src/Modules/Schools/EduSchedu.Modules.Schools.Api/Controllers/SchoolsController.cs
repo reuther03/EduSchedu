@@ -17,7 +17,7 @@ internal class SchoolsController : BaseController
     }
 
     [HttpPost]
-    [AuthorizeRoles(Role.Principal)]
+    [AuthorizeRoles(Role.HeadMaster)]
     public async Task<IActionResult> CreateSchool([FromBody] CreateSchoolCommand command)
     {
         var result = await _sender.Send(command);

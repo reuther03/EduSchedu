@@ -3,6 +3,6 @@
 public enum Role
 {
     BackOffice = 1,
-    Principal = 2,
+    HeadMaster = 2,
     Teacher = 3,
 }

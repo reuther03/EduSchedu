@@ -14,16 +14,14 @@ public class User : AggregateRoot<UserId>
     {
     }
 
-    protected User(UserId id, Email email, Name fullName, Password password) : base(id)
+    protected User(UserId id, Email email, Name fullName, Password password, Role role) : base(id)
     {
         Email = email;
         FullName = fullName;
         Password = password;
-        Role = Role.Principal;
+        Role = role;
     }
 
-    public static User Create(Email email, Name fullName, Password password)
-    {
-        return new User(UserId.New(), email, fullName, password);
-    }
+    public static User Create(Email email, Name fullName, Password password, Role role)
+        => new User(UserId.New(), email, fullName, password, role);
 }

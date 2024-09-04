@@ -10,9 +10,9 @@ using UserPassword = EduSchedu.Modules.Users.Domain.Users.Password;
 
 namespace EduSchedu.Modules.Users.Application.Users.Commands;
 
-public record SignUpCommand(string Email, string FullName, string Password) : ICommand<Guid>
+public record SignUpHeadmasterCommand(string Email, string FullName, string Password) : ICommand<Guid>
 {
-    internal sealed class Handler : ICommandHandler<SignUpCommand, Guid>
+    internal sealed class Handler : ICommandHandler<SignUpHeadmasterCommand, Guid>
     {
         private readonly IUserRepository _userRepository;
         private readonly IPublisher _publisher;
@@ -25,17 +25,17 @@ public record SignUpCommand(string Email, string FullName, string Password) : IC
             _userUnitOfWork = userUnitOfWork;
         }
 
-        public async Task<Result<Guid>> Handle(SignUpCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Guid>> Handle(SignUpHeadmasterCommand request, CancellationToken cancellationToken)
         {
             if (_userRepository.ExistsWithEmailAsync(request.Email, cancellationToken).Result)
                 return Result.BadRequest<Guid>("User with this email already exists.");
 
-            var user = User.Create(new Email(request.Email), new Name(request.FullName), UserPassword.Create(request.Password));
+            var user = User.Create(new Email(request.Email), new Name(request.FullName), UserPassword.Create(request.Password), Role.HeadMaster);
 
             await _userRepository.AddAsync(user, cancellationToken);
             await _userUnitOfWork.CommitAsync(cancellationToken);
 
-            await _publisher.Publish(new UserCreatedEvent(user.Id, user.FullName, user.Email), cancellationToken);
+            await _publisher.Publish(new HeadmasterCreatedEvent(user.Id, user.FullName, user.Email), cancellationToken);
 
             return Result.Ok(user.Id.Value);
         }

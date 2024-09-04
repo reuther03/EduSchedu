@@ -3,4 +3,4 @@ using MediatR;
 
 namespace EduSchedu.Shared.Abstractions.Events;
 
-public record UserCreatedEvent(Guid UserId, string FullName, string Email, Role Role, Guid SchoolId) : INotification;
+public record HeadmasterCreatedEvent(Guid UserId, string FullName, string Email) : INotification;

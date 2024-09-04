@@ -110,7 +110,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
-                    b.Property<Guid>("PrincipalId")
+                    b.Property<Guid>("HeadmasterId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -144,18 +144,18 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.BackOffice", b =>
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.BackOfficeUser", b =>
                 {
                     b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
 
-                    b.HasDiscriminator().HasValue("BackOffice");
+                    b.HasDiscriminator().HasValue("BackOfficeUser");
                 });
 
-            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Principal", b =>
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.HeadMaster", b =>
                 {
                     b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
 
-                    b.HasDiscriminator().HasValue("Principal");
+                    b.HasDiscriminator().HasValue("HeadMaster");
                 });
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Teacher", b =>

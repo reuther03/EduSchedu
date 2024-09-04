@@ -49,7 +49,7 @@ public class SchoolConfiguration : IEntityTypeConfiguration<School>
             .HasConversion(x => x.Value, x => new Email(x))
             .IsRequired();
 
-        builder.Property(x => x.PrincipalId)
+        builder.Property(x => x.HeadmasterId)
             .HasConversion(x => x.Value, x => UserId.From(x))
             .IsRequired();
 

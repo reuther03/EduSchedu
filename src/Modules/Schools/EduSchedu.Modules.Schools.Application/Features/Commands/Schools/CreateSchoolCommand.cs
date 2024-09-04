@@ -37,11 +37,11 @@ public record CreateSchoolCommand(
 
         public async Task<Result<Guid>> Handle(CreateSchoolCommand request, CancellationToken cancellationToken)
         {
-            var principal = await _schoolUserRepository.GetByIdAsync(_userService.UserId, cancellationToken);
-            if (principal is null)
-                return Result<Guid>.BadRequest("Principal not found");
+            var headmaster = await _schoolUserRepository.GetByIdAsync(_userService.UserId, cancellationToken);
+            if (headmaster is null)
+                return Result<Guid>.BadRequest("HeadMaster not found");
 
-            if (principal.Role != Role.Principal && principal.Role != Role.BackOffice)
+            if (headmaster.Role != Role.HeadMaster && headmaster.Role != Role.BackOffice)
                 return Result<Guid>.BadRequest("User is not a principal or back office");
 
             var school = School.Create(
@@ -49,10 +49,10 @@ public record CreateSchoolCommand(
                 new Address(request.City, request.Street, request.ZipCode, request.MapCoordinates),
                 request.PhoneNumber,
                 request.Email,
-                principal.Id
+                headmaster.Id
             );
 
-            school.AddTeacher(principal.Id);
+            school.AddUser(headmaster.Id);
             await _schoolRepository.AddAsync(school, cancellationToken);
             await _schoolUnitOfWork.CommitAsync(cancellationToken);
 

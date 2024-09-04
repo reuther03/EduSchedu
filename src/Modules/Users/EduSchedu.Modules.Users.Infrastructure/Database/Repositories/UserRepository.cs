@@ -1,5 +1,6 @@
 using EduSchedu.Modules.Users.Application.Abstractions.Database.Repositories;
 using EduSchedu.Modules.Users.Domain.Users;
+using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace EduSchedu.Modules.Users.Infrastructure.Database.Repositories;
@@ -14,6 +15,9 @@ internal class UserRepository : IUserRepository
         _context = context;
         _users = context.Users;
     }
+
+    public Task<User?> GetByIdAsync(UserId id, CancellationToken cancellationToken = default)
+        => _users.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
     public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
         => await _users.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);

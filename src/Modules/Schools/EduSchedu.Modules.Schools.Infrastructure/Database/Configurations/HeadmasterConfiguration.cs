@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Configurations;
 
-public class PrincipalConfiguration : IEntityTypeConfiguration<Principal>
+public class HeadmasterConfiguration : IEntityTypeConfiguration<Headmaster>
 {
-    public void Configure(EntityTypeBuilder<Principal> builder)
+    public void Configure(EntityTypeBuilder<Headmaster> builder)
     {
     }
 }
