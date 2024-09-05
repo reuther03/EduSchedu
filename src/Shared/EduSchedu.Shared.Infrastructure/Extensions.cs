@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
+using EduSchedu.Shared.Abstractions.Email;
 using EduSchedu.Shared.Abstractions.Modules;
 using EduSchedu.Shared.Infrastructure.Api;
 using EduSchedu.Shared.Infrastructure.Auth;
@@ -52,6 +53,7 @@ internal static class Extensions
         services.AddAuth(configuration);
         services.AddDecorators();
         services.AddHostedService<AppInitializer>();
+        services.Configure<EmailSettings>(configuration.GetRequiredSection(EmailSettings.SectionName));
         services.AddServices();
         services.AddPostgres();
         services.AddMediatrWithFilters(assemblies);
