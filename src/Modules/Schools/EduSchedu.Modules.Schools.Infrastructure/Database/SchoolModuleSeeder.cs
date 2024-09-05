@@ -9,10 +9,10 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database;
 
 internal class SchoolModuleSeeder : IModuleSeeder
 {
-    private readonly ISchoolsDbContext _dbContext;
+    private readonly SchoolsDbContext _dbContext;
     private readonly ISchoolUnitOfWork _schoolUnitOfWork;
 
-    public SchoolModuleSeeder(ISchoolsDbContext dbContext, ISchoolUnitOfWork schoolUnitOfWork)
+    public SchoolModuleSeeder(SchoolsDbContext dbContext, ISchoolUnitOfWork schoolUnitOfWork)
     {
         _dbContext = dbContext;
         _schoolUnitOfWork = schoolUnitOfWork;
@@ -66,7 +66,7 @@ internal class SchoolModuleSeeder : IModuleSeeder
                 LanguageProficiency.Create(LanguageProficiencyId.New(), Language.Portuguese, Lvl.C1),
                 LanguageProficiency.Create(LanguageProficiencyId.New(), Language.Portuguese, Lvl.C2)
             );
-                await _schoolUnitOfWork.CommitAsync(cancellationToken);
+            await _schoolUnitOfWork.CommitAsync(cancellationToken);
         }
     }
 }
