@@ -8,6 +8,11 @@ public record Password : ValueObject
 {
     public string Value { get; }
 
+    private const string UpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private const string LowerCase = "abcdefghijklmnopqrstuvwxyz";
+    private const string Digits = "0123456789";
+    private const string SpecialChars = "!@#$%^&*()_+=[]{}|;:<>?";
+
     public Password(string passwordHash)
     {
         Value = passwordHash;
@@ -25,6 +30,30 @@ public record Password : ValueObject
 
         var passwordHash = PasswordHasher.Hash(rawPassword);
         return new Password(passwordHash);
+    }
+
+    public static string Generate(int length = 12)
+    {
+        if (length < 8)
+        {
+            throw new ArgumentException("Password length must be at least 8 characters.");
+        }
+
+        const string allChars = UpperCase + LowerCase + Digits + SpecialChars;
+        var random = new Random();
+
+        var password = new string(new char[]
+        {
+            UpperCase[random.Next(UpperCase.Length)],
+            LowerCase[random.Next(LowerCase.Length)],
+            Digits[random.Next(Digits.Length)],
+            SpecialChars[random.Next(SpecialChars.Length)]
+        });
+
+        password += new string(Enumerable.Repeat(allChars, length - 4)
+            .Select(s => s[random.Next(s.Length)]).ToArray());
+
+        return new string(password.ToCharArray().OrderBy(s => (random.Next(2) % 2) == 0).ToArray());
     }
 
     public bool Verify(string rawPassword) => PasswordHasher.Verify(rawPassword, Value);
@@ -65,5 +94,7 @@ public record Password : ValueObject
             var inputHash = Rfc2898DeriveBytes.Pbkdf2(rawTextInput, salt, iterations, algorithm, hash.Length);
             return CryptographicOperations.FixedTimeEquals(inputHash, hash);
         }
+
+
     }
 }
