@@ -29,10 +29,10 @@ internal class AppInitializer : IHostedService
                 continue;
             }
 
-            foreach (var seeder in scope.ServiceProvider.GetServices<IModuleSeeder>())
-            {
-                await seeder.SeedAsync(cancellationToken);
-            }
+            // foreach (var seeder in scope.ServiceProvider.GetServices<IModuleSeeder>())
+            // {
+            //     await seeder.SeedAsync(cancellationToken);
+            // }
 
             await dbContext.Database.MigrateAsync(cancellationToken);
         }
