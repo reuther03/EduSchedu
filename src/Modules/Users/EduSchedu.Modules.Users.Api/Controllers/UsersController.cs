@@ -44,11 +44,11 @@ internal class UsersController : BaseController
         return Ok(result);
     }
 
-    [HttpDelete("delete-teacher")]
-    [AuthorizeRoles(Role.HeadMaster)]
-    public async Task<IActionResult> DeleteTeacher([FromBody] DeleteTeacherCommand request, CancellationToken cancellationToken)
-    {
-        var result = await _sender.Send(request, cancellationToken);
-        return Ok(result);
-    }
+    // [HttpDelete("delete-teacher")]
+    // [AuthorizeRoles(Role.HeadMaster)]
+    // public async Task<IActionResult> DeleteTeacher([FromBody] DeleteTeacherCommand request, CancellationToken cancellationToken)
+    // {
+    //     var result = await _sender.Send(request, cancellationToken);
+    //     return Ok(result);
+    // }
 }
