@@ -20,10 +20,11 @@ internal class SchoolRepository : ISchoolRepository
     public async Task<School?> GetByIdAsync(SchoolId id, CancellationToken cancellationToken = default)
         => await _schools.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
+    public Task<bool> IsHeadmasterAsync(SchoolId schoolId, Guid userId, CancellationToken cancellationToken = default)
+        => _schools.AnyAsync(x => x.Id == schoolId && x.HeadmasterId.Value == userId, cancellationToken);
+
     public async Task AddAsync(School school, CancellationToken cancellationToken = default)
-    {
-        _dbContext.Add(school);
-    }
+        => await _dbContext.AddAsync(school, cancellationToken);
 
     public void Remove(School entity)
         => _schools.Remove(entity);
