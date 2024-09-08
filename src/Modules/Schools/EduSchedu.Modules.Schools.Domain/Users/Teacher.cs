@@ -34,10 +34,12 @@ public class Teacher : SchoolUser
 
     public void AddLanguageProficiency(Guid languageProficiencyId)
     {
-        if (!_languageProficiencyIds.Contains(languageProficiencyId))
+        if (_languageProficiencyIds.Contains(languageProficiencyId))
         {
-            _languageProficiencyIds.Add(languageProficiencyId);
+            throw new DomainException("Language proficiency already exists");
         }
+
+        _languageProficiencyIds.Add(languageProficiencyId);
     }
 
     public void AddLesson(DayOfWeek day, TimeSpan startTime, TimeSpan endTime)
