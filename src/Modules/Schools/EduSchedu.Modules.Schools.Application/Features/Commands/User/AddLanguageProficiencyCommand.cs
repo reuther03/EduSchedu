@@ -58,7 +58,7 @@ public record AddLanguageProficiencyCommand(
                 return Result<Guid>.BadRequest("Teacher is not in the school");
 
             var languageProficiency = await _languageProficiencyRepository.GetByIdAsync(request.LanguageProficiencyId, cancellationToken);
-            if (languageProficiency is null || teacher.LanguageProficiencyIds.Contains(languageProficiency.Id))
+            if (languageProficiency is null || teacher.LanguageProficiencyIds.Any(x => x.Value == languageProficiency.Id))
                 return Result<Guid>.BadRequest("Language proficiency not found or already exists");
 
             foreach (var languageProficiencyId in teacher.LanguageProficiencyIds.ToList())
