@@ -19,6 +19,7 @@ public static class Extensions
             .AddScoped<ISchoolUserRepository, SchoolUserRepository>()
             .AddScoped<ISchoolRepository, SchoolRepository>()
             .AddScoped<ILanguageProficiencyRepository, LanguageProficiencyRepository>()
+            .AddScoped<IClassRepository, ClassRepository>()
             .AddUnitOfWork<ISchoolUnitOfWork, SchoolUnitOfWork>()
             .AddTransient<IModuleSeeder, SchoolModuleSeeder>();
 
