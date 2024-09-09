@@ -42,9 +42,19 @@ public class Teacher : SchoolUser
         _languageProficiencyIds.Add(languageProficiencyId);
     }
 
+    public void RemoveLanguageProficiency(Guid languageProficiencyId)
+    {
+        if (!_languageProficiencyIds.Contains(languageProficiencyId))
+        {
+            throw new DomainException("Language proficiency does not exist");
+        }
+
+        _languageProficiencyIds.Remove(languageProficiencyId);
+    }
+
     public void AddLesson(DayOfWeek day, TimeSpan startTime, TimeSpan endTime)
     {
-        if (_lessons.Any(x => x.Day == day && x.StartTime == startTime && x.EndTime == endTime))
+        if (_lessons.Exists(x => x.Day == day && x.StartTime == startTime && x.EndTime == endTime))
         {
             throw new DomainException("Lesson already exists");
         }
