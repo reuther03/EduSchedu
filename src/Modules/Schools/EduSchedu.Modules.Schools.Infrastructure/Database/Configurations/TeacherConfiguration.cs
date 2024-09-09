@@ -22,10 +22,5 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
                 .FindNavigation(nameof(Teacher.LanguageProficiencyIds))!
                 .SetPropertyAccessMode(PropertyAccessMode.Field);
         });
-
-        builder.HasMany(x => x.Lessons)
-            .WithOne()
-            .HasForeignKey("UserId")
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }
