@@ -1,4 +1,5 @@
 ﻿using EduSchedu.Modules.Schools.Domain.Schools;
+using EduSchedu.Modules.Schools.Domain.Schools.Ids;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,6 +10,9 @@ public class LessonConfiguration : IEntityTypeConfiguration<Lesson>
     public void Configure(EntityTypeBuilder<Lesson> builder)
     {
         builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id)
+            .HasConversion(x => x.Value, x => new LessonId(x))
+            .ValueGeneratedNever();
 
         builder.Property(x => x.Day)
             .HasConversion<string>();
@@ -45,8 +49,8 @@ public class LessonConfiguration : IEntityTypeConfiguration<Lesson>
                 .HasColumnName("ClassId");
 
             builder.Metadata
-                .FindNavigation(nameof(Lesson.ClassIds))!
-                .SetPropertyAccessMode(PropertyAccessMode.Field);
+                .FindNavigation(nameof(Lesson.ClassIds))
+                ?.SetPropertyAccessMode(PropertyAccessMode.Field);
         });
     }
 }

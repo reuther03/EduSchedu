@@ -64,8 +64,8 @@ public class SchoolConfiguration : IEntityTypeConfiguration<School>
                 .HasColumnName("TeacherId");
 
             builder.Metadata
-                .FindNavigation(nameof(School.TeacherIds))!
-                .SetPropertyAccessMode(PropertyAccessMode.Field);
+                .FindNavigation(nameof(School.TeacherIds))
+                ?.SetPropertyAccessMode(PropertyAccessMode.Field);
         });
 
         builder.HasMany(x => x.Classes)

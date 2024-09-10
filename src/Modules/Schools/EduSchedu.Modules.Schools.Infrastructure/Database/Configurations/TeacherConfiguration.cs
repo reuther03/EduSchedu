@@ -19,8 +19,8 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
                 .HasColumnName("LanguageProficiencyId");
 
             builder.Metadata
-                .FindNavigation(nameof(Teacher.LanguageProficiencyIds))!
-                .SetPropertyAccessMode(PropertyAccessMode.Field);
+                .FindNavigation(nameof(Teacher.LanguageProficiencyIds))
+                ?.SetPropertyAccessMode(PropertyAccessMode.Field);
         });
     }
 }
