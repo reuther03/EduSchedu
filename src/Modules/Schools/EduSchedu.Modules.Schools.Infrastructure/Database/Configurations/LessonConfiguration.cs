@@ -1,5 +1,6 @@
 ﻿using EduSchedu.Modules.Schools.Domain.Schools;
 using EduSchedu.Modules.Schools.Domain.Schools.Ids;
+using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -23,20 +24,9 @@ public class LessonConfiguration : IEntityTypeConfiguration<Lesson>
         builder.Property(x => x.EndTime)
             .IsRequired();
 
-        builder.OwnsMany(x => x.TeacherIds, ownedBuilder =>
-        {
-            ownedBuilder.WithOwner().HasForeignKey("LessonId");
-            ownedBuilder.ToTable("LessonTeacherIds");
-            ownedBuilder.HasKey("Id");
-
-            ownedBuilder.Property(x => x.Value)
-                .ValueGeneratedNever()
-                .HasColumnName("TeacherId");
-
-            builder.Metadata
-                .FindNavigation(nameof(Lesson.TeacherIds))!
-                .SetPropertyAccessMode(PropertyAccessMode.Field);
-        });
+        builder.Property(x => x.AssignedTeacher)
+            .HasConversion(x => x!.Value, x => new UserId(x))
+            .HasColumnName("AssignedTeacherId");
 
         builder.OwnsMany(x => x.ClassIds, ownedBuilder =>
         {
