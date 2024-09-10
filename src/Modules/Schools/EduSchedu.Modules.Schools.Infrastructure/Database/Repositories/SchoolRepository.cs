@@ -1,9 +1,6 @@
-using EduSchedu.Modules.Schools.Application.Abstractions.Database;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
 using EduSchedu.Modules.Schools.Domain.Schools;
 using EduSchedu.Modules.Schools.Domain.Schools.Ids;
-using EduSchedu.Modules.Schools.Domain.Users;
-using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Infrastructure.Postgres;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,4 +17,14 @@ internal class SchoolRepository : Repository<School, SchoolsDbContext>, ISchoolR
 
     public async Task<School?> GetByIdAsync(SchoolId id, CancellationToken cancellationToken = default)
         => await _dbContext.Schools.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+    #region MyRegion
+
+    public Task<Class?> GetClassByIdAsync(ClassId id, CancellationToken cancellationToken = default)
+        => _dbContext.Classes.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+    public async Task AddClassAsync(Class @class, CancellationToken cancellationToken = default)
+        => await _dbContext.Classes.AddAsync(@class, cancellationToken);
+
+    #endregion
 }

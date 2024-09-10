@@ -1,5 +1,4 @@
-﻿using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
-using MediatR;
+﻿using MediatR;
 
 namespace EduSchedu.Shared.Abstractions.Events;
 

@@ -1,5 +1,4 @@
 ﻿using EduSchedu.Modules.Schools.Application.Abstractions;
-using EduSchedu.Modules.Schools.Application.Abstractions.Database;
 using EduSchedu.Modules.Schools.Domain.Schools;
 using EduSchedu.Modules.Schools.Domain.Schools.Ids;
 using EduSchedu.Modules.Schools.Domain.Users;

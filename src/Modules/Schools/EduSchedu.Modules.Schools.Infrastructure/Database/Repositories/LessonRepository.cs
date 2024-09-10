@@ -4,9 +4,9 @@ using EduSchedu.Shared.Infrastructure.Postgres;
 
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Repositories;
 
-internal class ClassRepository : Repository<Class, SchoolsDbContext>, IClassRepository
+internal class LessonRepository : Repository<Lesson, SchoolsDbContext>, ILessonRepository
 {
-    public ClassRepository(SchoolsDbContext dbContext) : base(dbContext)
+    public LessonRepository(SchoolsDbContext dbContext) : base(dbContext)
     {
     }
 }

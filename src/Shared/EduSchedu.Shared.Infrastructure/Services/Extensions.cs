@@ -1,6 +1,5 @@
 using EduSchedu.Shared.Abstractions.Services;
 using EduSchedu.Shared.Infrastructure.Email;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;

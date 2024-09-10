@@ -1,9 +1,9 @@
-﻿using EduSchedu.Modules.Schools.Application.Features.Commands.Schools;
+﻿using EduSchedu.Modules.Schools.Application.Features.Commands.Class;
+using EduSchedu.Modules.Schools.Application.Features.Commands.Schools;
 using EduSchedu.Modules.Schools.Application.Features.Commands.User;
 using EduSchedu.Shared.Abstractions.Kernel.Attribute;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduSchedu.Modules.Schools.Api.Controllers;

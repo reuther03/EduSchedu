@@ -1,5 +1,4 @@
-﻿using EduSchedu.Shared.Abstractions.Exception;
-using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
+﻿using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 
 namespace EduSchedu.Modules.Schools.Domain.Users;
 

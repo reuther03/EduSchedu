@@ -2,8 +2,6 @@
 using EduSchedu.Modules.Users.Application.Abstractions.Database.Repositories;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
 using EduSchedu.Shared.Abstractions.QueriesAndCommands.Commands;
-using EduSchedu.Shared.Abstractions.Services;
-using Microsoft.AspNetCore.Identity;
 
 namespace EduSchedu.Modules.Users.Application.Users.Commands;
 
