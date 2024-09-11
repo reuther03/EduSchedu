@@ -8,7 +8,10 @@ namespace EduSchedu.Modules.Schools.Domain.Users;
 public class Schedule : AggregateRoot<ScheduleId>
 {
     private readonly List<LessonId> _lessonIds = [];
+    private readonly List<ScheduleItem> _scheduleItems = [];
 
+
+    public IReadOnlyList<ScheduleItem> ScheduleItems => _scheduleItems;
     public UserId TeacherId { get; private set; }
     public Teacher Teacher { get; private set; }
 
@@ -20,6 +23,7 @@ public class Schedule : AggregateRoot<ScheduleId>
 
     private Schedule(ScheduleId id, UserId teacherId) : base(id)
     {
+        TeacherId = teacherId;
     }
 
     public static Schedule Create(ScheduleId id, UserId teacherId)
@@ -34,4 +38,7 @@ public class Schedule : AggregateRoot<ScheduleId>
 
         _lessonIds.Add(lessonId);
     }
+
+    public void AddScheduleItem(ScheduleItem item)
+        => _scheduleItems.Add(item);
 }

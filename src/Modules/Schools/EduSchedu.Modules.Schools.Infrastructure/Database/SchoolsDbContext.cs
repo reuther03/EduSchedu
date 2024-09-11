@@ -8,10 +8,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database;
 internal class SchoolsDbContext : DbContext, ISchoolsDbContext
 {
     public DbSet<Class> Classes => Set<Class>();
-
     public DbSet<School> Schools => Set<School>();
-
-    //todo: zmienic nazwe na SchoolUsers
     public DbSet<SchoolUser> SchoolUsers => Set<SchoolUser>();
     public DbSet<Schedule> Schedules => Set<Schedule>();
     public DbSet<LanguageProficiency> LanguageProficiencies => Set<LanguageProficiency>();

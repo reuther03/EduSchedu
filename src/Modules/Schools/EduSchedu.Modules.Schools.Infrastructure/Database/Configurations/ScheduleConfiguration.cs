@@ -41,5 +41,10 @@ public class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
             .WithOne(x => x.Schedule)
             .HasForeignKey<Schedule>(x => x.TeacherId)
             .IsRequired();
+
+        builder.HasMany(x => x.ScheduleItems)
+            .WithOne()
+            .HasForeignKey("ScheduleId")
+            .IsRequired();
     }
 }
