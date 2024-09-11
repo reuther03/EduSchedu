@@ -8,7 +8,7 @@ public interface ISchoolsDbContext
 {
     DbSet<Class> Classes { get; }
     DbSet<School> Schools { get; }
-    DbSet<SchoolUser> Teachers { get; }
+    DbSet<SchoolUser> SchoolUsers { get; }
     DbSet<Schedule> Schedules { get; }
     DbSet<LanguageProficiency> LanguageProficiencies { get; }
 

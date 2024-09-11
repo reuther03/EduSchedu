@@ -12,7 +12,7 @@ internal class SchoolsDbContext : DbContext, ISchoolsDbContext
     public DbSet<School> Schools => Set<School>();
 
     //todo: zmienic nazwe na SchoolUsers
-    public DbSet<SchoolUser> Teachers => Set<SchoolUser>();
+    public DbSet<SchoolUser> SchoolUsers => Set<SchoolUser>();
     public DbSet<Schedule> Schedules => Set<Schedule>();
     public DbSet<LanguageProficiency> LanguageProficiencies => Set<LanguageProficiency>();
 

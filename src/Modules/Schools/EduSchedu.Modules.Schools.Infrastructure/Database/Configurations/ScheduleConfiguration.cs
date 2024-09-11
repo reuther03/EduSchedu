@@ -21,6 +21,22 @@ public class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
             .HasConversion(x => x.Value, x => UserId.From(x))
             .ValueGeneratedNever();
 
+        builder.OwnsMany(x => x.LessonIds, ownedBuilder =>
+        {
+            ownedBuilder.WithOwner().HasForeignKey("ScheduleId");
+            ownedBuilder.ToTable("ScheduleLessonIds");
+            ownedBuilder.HasKey("Id");
+
+            ownedBuilder.Property(x => x.Value)
+                .ValueGeneratedNever()
+                .HasColumnName("LessonId");
+
+            builder.Metadata
+                .FindNavigation(nameof(Schedule.LessonIds))
+                ?.SetPropertyAccessMode(PropertyAccessMode.Field);
+        });
+
+
         builder.HasOne(x => x.Teacher)
             .WithOne(x => x.Schedule)
             .HasForeignKey<Schedule>(x => x.TeacherId)

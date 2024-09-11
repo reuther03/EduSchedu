@@ -16,11 +16,11 @@ internal class SchoolUserRepository : Repository<SchoolUser, SchoolsDbContext>, 
     }
 
     public Task<SchoolUser?> GetByIdAsync(UserId id, CancellationToken cancellationToken = default)
-        => _dbContext.Teachers.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        => _dbContext.SchoolUsers.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
     public async Task<Teacher?> GetTeacherByIdAsync(UserId id, CancellationToken cancellationToken = default)
-        => await _dbContext.Teachers.OfType<Teacher>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        => await _dbContext.SchoolUsers.OfType<Teacher>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
     public async Task<bool> ExistsAsync(UserId id, CancellationToken cancellationToken = default)
-        => await _dbContext.Teachers.AnyAsync(x => x.Id == id, cancellationToken);
+        => await _dbContext.SchoolUsers.AnyAsync(x => x.Id == id, cancellationToken);
 }
