@@ -13,6 +13,7 @@ internal class SchoolsDbContext : DbContext, ISchoolsDbContext
 
     //todo: zmienic nazwe na SchoolUsers
     public DbSet<SchoolUser> Teachers => Set<SchoolUser>();
+    public DbSet<Schedule> Schedules => Set<Schedule>();
     public DbSet<LanguageProficiency> LanguageProficiencies => Set<LanguageProficiency>();
 
     public SchoolsDbContext(DbContextOptions<SchoolsDbContext> options) : base(options)
