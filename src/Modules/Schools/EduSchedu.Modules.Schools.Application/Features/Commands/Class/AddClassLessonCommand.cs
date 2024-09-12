@@ -24,20 +24,17 @@ public record AddClassLessonCommand(
         private readonly ISchoolUserRepository _schoolUserRepository;
         private readonly IUserService _userService;
         private readonly ISchoolRepository _schoolRepository;
-        private readonly ILessonRepository _lessonRepository;
         private readonly ISchoolUnitOfWork _unitOfWork;
 
         public Handler(
             ISchoolUserRepository schoolUserRepository,
             IUserService userService,
             ISchoolRepository schoolRepository,
-            ILessonRepository lessonRepository,
             ISchoolUnitOfWork unitOfWork)
         {
             _schoolUserRepository = schoolUserRepository;
             _userService = userService;
             _schoolRepository = schoolRepository;
-            _lessonRepository = lessonRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -60,8 +57,12 @@ public record AddClassLessonCommand(
 
             var lesson = Lesson.Create(request.DayOfWeek, request.StartTime, request.EndTime);
 
-            lesson.AddClass(@class.Id);
-            await _lessonRepository.AddAsync(lesson, cancellationToken);
+            var lessons = await _schoolRepository.GetLessonsByClassIdAsync(@class.Id, cancellationToken);
+            if (lessons.Exists(x => x.Day == request.DayOfWeek && x.StartTime <= request.EndTime && x.EndTime >= request.StartTime))
+                return Result<Guid>.BadRequest("Lesson is in class hours");
+
+            @class.AddLesson(lesson);
+            await _schoolRepository.AddLessonAsync(lesson, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
 
             return Result.Ok(lesson.Id.Value);
