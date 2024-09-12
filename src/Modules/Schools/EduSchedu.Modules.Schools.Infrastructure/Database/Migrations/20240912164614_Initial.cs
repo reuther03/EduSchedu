@@ -30,21 +30,6 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Lesson",
-                schema: "schools",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Day = table.Column<string>(type: "text", nullable: false),
-                    StartTime = table.Column<TimeSpan>(type: "interval", nullable: false),
-                    EndTime = table.Column<TimeSpan>(type: "interval", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Lesson", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Schools",
                 schema: "schools",
                 columns: table => new
@@ -77,50 +62,6 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SchoolUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LessonClassIds",
-                schema: "schools",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    LessonId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ClassId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LessonClassIds", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_LessonClassIds_Lesson_LessonId",
-                        column: x => x.LessonId,
-                        principalSchema: "schools",
-                        principalTable: "Lesson",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LessonTeacherIds",
-                schema: "schools",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    LessonId = table.Column<Guid>(type: "uuid", nullable: false),
-                    TeacherId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LessonTeacherIds", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_LessonTeacherIds_Lesson_LessonId",
-                        column: x => x.LessonId,
-                        principalSchema: "schools",
-                        principalTable: "Lesson",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -162,6 +103,26 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         column: x => x.SchoolId,
                         principalSchema: "schools",
                         principalTable: "Schools",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Schedules",
+                schema: "schools",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    TeacherId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Schedules", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Schedules_SchoolUsers_TeacherId",
+                        column: x => x.TeacherId,
+                        principalSchema: "schools",
+                        principalTable: "SchoolUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -210,6 +171,76 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Lessons",
+                schema: "schools",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Day = table.Column<string>(type: "text", nullable: false),
+                    StartTime = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
+                    EndTime = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
+                    AssignedTeacherId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ClassId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Lessons", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Lessons_Classes_ClassId",
+                        column: x => x.ClassId,
+                        principalSchema: "schools",
+                        principalTable: "Classes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ScheduleItems",
+                schema: "schools",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Type = table.Column<string>(type: "text", nullable: false),
+                    Start = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    End = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    ScheduleId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ScheduleItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ScheduleItems_Schedules_ScheduleId",
+                        column: x => x.ScheduleId,
+                        principalSchema: "schools",
+                        principalTable: "Schedules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ScheduleLessonIds",
+                schema: "schools",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ScheduleId = table.Column<Guid>(type: "uuid", nullable: false),
+                    LessonId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ScheduleLessonIds", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ScheduleLessonIds_Schedules_ScheduleId",
+                        column: x => x.ScheduleId,
+                        principalSchema: "schools",
+                        principalTable: "Schedules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Classes_SchoolId",
                 schema: "schools",
@@ -223,16 +254,29 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 column: "ClassId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LessonClassIds_LessonId",
+                name: "IX_Lessons_ClassId",
                 schema: "schools",
-                table: "LessonClassIds",
-                column: "LessonId");
+                table: "Lessons",
+                column: "ClassId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LessonTeacherIds_LessonId",
+                name: "IX_ScheduleItems_ScheduleId",
                 schema: "schools",
-                table: "LessonTeacherIds",
-                column: "LessonId");
+                table: "ScheduleItems",
+                column: "ScheduleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ScheduleLessonIds_ScheduleId",
+                schema: "schools",
+                table: "ScheduleLessonIds",
+                column: "ScheduleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Schedules_TeacherId",
+                schema: "schools",
+                table: "Schedules",
+                column: "TeacherId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_SchoolTeacherIds_SchoolId",
@@ -259,11 +303,15 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 schema: "schools");
 
             migrationBuilder.DropTable(
-                name: "LessonClassIds",
+                name: "Lessons",
                 schema: "schools");
 
             migrationBuilder.DropTable(
-                name: "LessonTeacherIds",
+                name: "ScheduleItems",
+                schema: "schools");
+
+            migrationBuilder.DropTable(
+                name: "ScheduleLessonIds",
                 schema: "schools");
 
             migrationBuilder.DropTable(
@@ -279,15 +327,15 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 schema: "schools");
 
             migrationBuilder.DropTable(
-                name: "Lesson",
-                schema: "schools");
-
-            migrationBuilder.DropTable(
-                name: "SchoolUsers",
+                name: "Schedules",
                 schema: "schools");
 
             migrationBuilder.DropTable(
                 name: "Schools",
+                schema: "schools");
+
+            migrationBuilder.DropTable(
+                name: "SchoolUsers",
                 schema: "schools");
         }
     }

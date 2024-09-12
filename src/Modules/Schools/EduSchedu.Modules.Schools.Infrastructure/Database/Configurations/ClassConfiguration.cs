@@ -35,5 +35,10 @@ public class ClassConfiguration : IEntityTypeConfiguration<Class>
                 .FindNavigation(nameof(Class.LanguageProficiencyIds))
                 ?.SetPropertyAccessMode(PropertyAccessMode.Field);
         });
+
+        builder.HasMany(x => x.Lessons)
+            .WithOne()
+            .HasForeignKey("ClassId")
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

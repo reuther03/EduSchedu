@@ -7,14 +7,10 @@ namespace EduSchedu.Modules.Schools.Domain.Schools;
 
 public class Lesson : AggregateRoot<LessonId>
 {
-    private readonly List<ClassId> _classIds = [];
-
     public DayOfWeek Day { get; private set; }
     public TimeOnly StartTime { get; private set; }
     public TimeOnly EndTime { get; private set; }
     public UserId? AssignedTeacher { get; private set; }
-
-    public IReadOnlyList<ClassId> ClassIds => _classIds.AsReadOnly();
 
     private Lesson()
     {
@@ -36,17 +32,6 @@ public class Lesson : AggregateRoot<LessonId>
 
         var lesson = new Lesson(LessonId.New(), day, startTime, endTime);
         return lesson;
-    }
-
-
-    public void AddClass(ClassId classId)
-    {
-        if (_classIds.Contains(classId))
-        {
-            throw new DomainException("Class already exists");
-        }
-
-        _classIds.Add(classId);
     }
 
     public void AssignTeacher(UserId teacherId)

@@ -27,20 +27,5 @@ public class LessonConfiguration : IEntityTypeConfiguration<Lesson>
         builder.Property(x => x.AssignedTeacher)
             .HasConversion(x => x!.Value, x => new UserId(x))
             .HasColumnName("AssignedTeacherId");
-
-        builder.OwnsMany(x => x.ClassIds, ownedBuilder =>
-        {
-            ownedBuilder.WithOwner().HasForeignKey("LessonId");
-            ownedBuilder.ToTable("LessonClassIds");
-            ownedBuilder.HasKey("Id");
-
-            ownedBuilder.Property(x => x.Value)
-                .ValueGeneratedNever()
-                .HasColumnName("ClassId");
-
-            builder.Metadata
-                .FindNavigation(nameof(Lesson.ClassIds))
-                ?.SetPropertyAccessMode(PropertyAccessMode.Field);
-        });
     }
 }
