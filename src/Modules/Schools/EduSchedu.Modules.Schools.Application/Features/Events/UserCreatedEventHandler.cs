@@ -65,8 +65,6 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
             user = BackOfficeUser.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
         }
 
-
-
         school.AddUser(user.Id);
         await _schoolUserRepository.AddAsync(user, cancellationToken);
         await _schoolUnitOfWork.CommitAsync(cancellationToken);

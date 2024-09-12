@@ -10,8 +10,8 @@ public class Lesson : AggregateRoot<LessonId>
     private readonly List<ClassId> _classIds = [];
 
     public DayOfWeek Day { get; private set; }
-    public TimeSpan StartTime { get; private set; }
-    public TimeSpan EndTime { get; private set; }
+    public TimeOnly StartTime { get; private set; }
+    public TimeOnly EndTime { get; private set; }
     public UserId? AssignedTeacher { get; private set; }
 
     public IReadOnlyList<ClassId> ClassIds => _classIds.AsReadOnly();
@@ -20,15 +20,14 @@ public class Lesson : AggregateRoot<LessonId>
     {
     }
 
-    private Lesson(LessonId id, DayOfWeek day, TimeSpan startTime, TimeSpan endTime)
-        : base(id)
+    private Lesson(LessonId id, DayOfWeek day, TimeOnly startTime, TimeOnly endTime) : base(id)
     {
         Day = day;
         StartTime = startTime;
         EndTime = endTime;
     }
 
-    public static Lesson Create(DayOfWeek day, TimeSpan startTime, TimeSpan endTime)
+    public static Lesson Create(DayOfWeek day, TimeOnly startTime, TimeOnly endTime)
     {
         if (startTime >= endTime)
         {
@@ -51,5 +50,7 @@ public class Lesson : AggregateRoot<LessonId>
     }
 
     public void AssignTeacher(UserId teacherId)
-        => AssignedTeacher = teacherId;
+    {
+        AssignedTeacher = teacherId;
+    }
 }
