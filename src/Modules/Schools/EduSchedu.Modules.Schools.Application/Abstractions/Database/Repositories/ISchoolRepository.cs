@@ -14,4 +14,11 @@ public interface ISchoolRepository : IRepository<School>
     Task AddClassAsync(Class @class, CancellationToken cancellationToken = default);
 
     #endregion
+
+    #region Lesson
+
+    Task<List<Lesson>> GetLessonsByClassIdAsync(ClassId classId, CancellationToken cancellationToken = default);
+    Task AddLessonAsync(Lesson lesson, CancellationToken cancellationToken = default);
+
+    #endregion
 }

@@ -27,4 +27,17 @@ internal class SchoolRepository : Repository<School, SchoolsDbContext>, ISchoolR
         => await _dbContext.Classes.AddAsync(@class, cancellationToken);
 
     #endregion
+
+    #region Lesson
+
+    public Task<List<Lesson>> GetLessonsByClassIdAsync(ClassId classId, CancellationToken cancellationToken = default)
+        => _dbContext.Classes
+            .Where(x => x.Id == classId)
+            .SelectMany(x => x.Lessons)
+            .ToListAsync(cancellationToken);
+
+    public async Task AddLessonAsync(Lesson lesson, CancellationToken cancellationToken = default)
+        => await _dbContext.Lessons.AddAsync(lesson, cancellationToken);
+
+    #endregion
 }

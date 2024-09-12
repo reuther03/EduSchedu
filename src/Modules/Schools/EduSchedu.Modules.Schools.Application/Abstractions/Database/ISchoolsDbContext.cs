@@ -10,6 +10,7 @@ public interface ISchoolsDbContext
     DbSet<School> Schools { get; }
     DbSet<SchoolUser> SchoolUsers { get; }
     DbSet<Schedule> Schedules { get; }
+    DbSet<Lesson> Lessons { get; }
     DbSet<LanguageProficiency> LanguageProficiencies { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

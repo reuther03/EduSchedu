@@ -11,6 +11,7 @@ internal class SchoolsDbContext : DbContext, ISchoolsDbContext
     public DbSet<School> Schools => Set<School>();
     public DbSet<SchoolUser> SchoolUsers => Set<SchoolUser>();
     public DbSet<Schedule> Schedules => Set<Schedule>();
+    public DbSet<Lesson> Lessons => Set<Lesson>();
     public DbSet<LanguageProficiency> LanguageProficiencies => Set<LanguageProficiency>();
 
     public SchoolsDbContext(DbContextOptions<SchoolsDbContext> options) : base(options)
