@@ -50,4 +50,7 @@ public class Teacher : SchoolUser
 
         _languageProficiencyIds.Remove(languageProficiencyId);
     }
+
+    public void SetSchedule(Schedule schedule)
+        => Schedule = schedule;
 }

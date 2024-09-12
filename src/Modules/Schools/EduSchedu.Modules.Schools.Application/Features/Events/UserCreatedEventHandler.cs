@@ -1,5 +1,6 @@
 ﻿using EduSchedu.Modules.Schools.Application.Abstractions;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
+using EduSchedu.Modules.Schools.Domain.Schools.Ids;
 using EduSchedu.Modules.Schools.Domain.Users;
 using EduSchedu.Shared.Abstractions.Events;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives;
@@ -45,10 +46,25 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
         if (await _schoolUserRepository.ExistsAsync(new UserId(notification.UserId), cancellationToken))
             return;
 
-        SchoolUser user = null!;
-        Functional.IfElse(notification.Role is Role.Teacher,
-            () => user = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName), Role.Teacher),
-            () => user = BackOfficeUser.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName)));
+        SchoolUser user;
+        // Functional.IfElse(notification.Role is Role.Teacher,
+        //     () => user = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName), Role.Teacher),
+        //     () => user = BackOfficeUser.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName)));
+        if (notification.Role is Role.Teacher)
+        {
+            user = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName), Role.Teacher);
+            var schedule = Schedule.Create(ScheduleId.New(), user.Id);
+
+            if (user is Teacher teacher)
+            {
+                teacher.SetSchedule(schedule);
+            }
+        }
+        else
+        {
+            user = BackOfficeUser.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
+        }
+
 
 
         school.AddUser(user.Id);
