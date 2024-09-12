@@ -65,7 +65,7 @@ public record AddClassLessonCommand(
             await _schoolRepository.AddLessonAsync(lesson, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
 
-            return Result.Ok(lesson.Id.Value);
+            return Result.Ok(lesson.Id);
         }
     }
 }

@@ -12,7 +12,6 @@ public class LessonConfiguration : IEntityTypeConfiguration<Lesson>
     {
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
-            .HasConversion(x => x.Value, x => new LessonId(x))
             .ValueGeneratedNever();
 
         builder.Property(x => x.Day)

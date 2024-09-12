@@ -5,7 +5,7 @@ using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 
 namespace EduSchedu.Modules.Schools.Domain.Schools;
 
-public class Lesson : AggregateRoot<LessonId>
+public class Lesson : Entity<Guid>
 {
     public DayOfWeek Day { get; private set; }
     public TimeOnly StartTime { get; private set; }
@@ -16,7 +16,7 @@ public class Lesson : AggregateRoot<LessonId>
     {
     }
 
-    private Lesson(LessonId id, DayOfWeek day, TimeOnly startTime, TimeOnly endTime) : base(id)
+    private Lesson(Guid id, DayOfWeek day, TimeOnly startTime, TimeOnly endTime) : base(id)
     {
         Day = day;
         StartTime = startTime;
@@ -30,7 +30,7 @@ public class Lesson : AggregateRoot<LessonId>
             throw new DomainException("Start time must be before end time");
         }
 
-        var lesson = new Lesson(LessonId.New(), day, startTime, endTime);
+        var lesson = new Lesson(Guid.NewGuid(), day, startTime, endTime);
         return lesson;
     }
 

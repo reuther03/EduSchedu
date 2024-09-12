@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(SchoolsDbContext))]
-    [Migration("20240912164614_Initial")]
+    [Migration("20240912170255_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -82,12 +82,17 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.Property<TimeOnly>("EndTime")
                         .HasColumnType("time without time zone");
 
+                    b.Property<Guid>("ScheduleId")
+                        .HasColumnType("uuid");
+
                     b.Property<TimeOnly>("StartTime")
                         .HasColumnType("time without time zone");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
+
+                    b.HasIndex("ScheduleId");
 
                     b.ToTable("Lessons", "schools");
                 });
@@ -252,6 +257,12 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         .WithMany("Lessons")
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("EduSchedu.Modules.Schools.Domain.Users.Schedule", null)
+                        .WithMany("Lessons")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
@@ -327,33 +338,6 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsMany("EduSchedu.Modules.Schools.Domain.Schools.Ids.LessonId", "LessonIds", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
-
-                            b1.Property<Guid>("ScheduleId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<Guid>("Value")
-                                .HasColumnType("uuid")
-                                .HasColumnName("LessonId");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("ScheduleId");
-
-                            b1.ToTable("ScheduleLessonIds", "schools");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ScheduleId");
-                        });
-
-                    b.Navigation("LessonIds");
-
                     b.Navigation("Teacher");
                 });
 
@@ -408,6 +392,8 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Schedule", b =>
                 {
+                    b.Navigation("Lessons");
+
                     b.Navigation("ScheduleItems");
                 });
 
