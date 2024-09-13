@@ -42,7 +42,7 @@ public record CreateClassCommand(
             if (school is null)
                 return Result<Guid>.BadRequest("School not found");
 
-            if (admin.Role == Role.Teacher)
+            if (admin.Role == Role.Teacher && !school.TeacherIds.Contains(admin.Id))
                 return Result<Guid>.BadRequest("You are not allowed to create class");
 
             var @class = Domain.Schools.Class.Create(request.ClassName);

@@ -27,7 +27,7 @@ internal class SchoolsController : BaseController
 
     [HttpPost("{schoolId:guid}/teacher/add-language-proficiency")]
     [AuthorizeRoles(Role.HeadMaster, Role.BackOffice)]
-    public async Task<IActionResult> AddLanguageProficiency([FromBody] AddLanguageProficiencyCommand command, [FromRoute] Guid schoolId)
+    public async Task<IActionResult> AddLanguageProficiency([FromBody] AddTeacherLanguageProficiencyCommand command, [FromRoute] Guid schoolId)
     {
         var result = await _sender.Send(command with { SchoolId = schoolId });
         return Ok(result);

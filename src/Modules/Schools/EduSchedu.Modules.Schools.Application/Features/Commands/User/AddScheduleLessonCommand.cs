@@ -39,12 +39,12 @@ public record AddScheduleLessonCommand(
             if (admin is null)
                 return Result<Guid>.BadRequest("User not found");
 
-            if (admin.Role == Role.Teacher)
-                return Result<Guid>.BadRequest("You are not allowed to create class");
-
             var school = await _schoolRepository.GetByIdAsync(request.SchoolId, cancellationToken);
             if (school is null)
                 return Result<Guid>.BadRequest("School not found");
+
+            if (admin.Role == Role.Teacher && !school.TeacherIds.Contains(admin.Id))
+                return Result<Guid>.BadRequest("You are not allowed to create class");
 
             var @class = await _schoolRepository.GetClassByIdAsync(school.Id, request.ClassId, cancellationToken);
             if (@class is null)
