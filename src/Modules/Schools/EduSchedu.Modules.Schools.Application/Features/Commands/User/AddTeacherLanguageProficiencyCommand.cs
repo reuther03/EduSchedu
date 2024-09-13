@@ -61,20 +61,22 @@ public record AddTeacherLanguageProficiencyCommand(
             if (languageProficiency is null || teacher.LanguageProficiencyIds.Any(x => x.Value == languageProficiency.Id))
                 return Result<Guid>.BadRequest("Language proficiency not found or already exists");
 
+            if (teacher.LanguageProficiencyIds.Count == 0)
+            {
+                teacher.AddLanguageProficiency(languageProficiency.Id);
+                await _unitOfWork.CommitAsync(cancellationToken);
+                return Result<Guid>.Ok(languageProficiency.Id);
+            }
+
             foreach (var languageProficiencyId in teacher.LanguageProficiencyIds.ToList())
             {
                 var existingLanguageProficiency = await _languageProficiencyRepository.GetByIdAsync(languageProficiencyId, cancellationToken);
-                if (existingLanguageProficiency!.Language == languageProficiency.Language && existingLanguageProficiency.Lvl < languageProficiency.Lvl)
-                {
-                    teacher.RemoveLanguageProficiency(existingLanguageProficiency.Id);
-                    teacher.AddLanguageProficiency(languageProficiency.Id);
-                }
-                else if (existingLanguageProficiency.Language != languageProficiency.Language)
-                {
-                    teacher.AddLanguageProficiency(languageProficiency.Id);
-                }
+                if (existingLanguageProficiency!.Language != languageProficiency.Language ||
+                    existingLanguageProficiency.Lvl >= languageProficiency.Lvl)
+                    Result<Guid>.BadRequest("Language proficiency already exists");
 
-                //todo: czy to na pewno ma byc w petli, ale inaczej nie dziala xd
+                teacher.RemoveLanguageProficiency(existingLanguageProficiency.Id);
+                teacher.AddLanguageProficiency(languageProficiency.Id);
                 await _unitOfWork.CommitAsync(cancellationToken);
             }
 

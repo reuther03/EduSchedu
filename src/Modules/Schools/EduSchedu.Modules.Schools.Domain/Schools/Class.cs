@@ -36,6 +36,16 @@ public class Class : Entity<ClassId>
         _languageProficiencyIds.Add(languageProficiencyId);
     }
 
+    public void RemoveLanguageProficiency(LanguageProficiencyId languageProficiencyId)
+    {
+        if (!_languageProficiencyIds.Contains(languageProficiencyId))
+        {
+            throw new DomainException("Language proficiency not found");
+        }
+
+        _languageProficiencyIds.Remove(languageProficiencyId);
+    }
+
     public void AddLesson(Lesson lesson)
     {
         if (_lessons.Exists(x => x.Day == lesson.Day && x.StartTime <= lesson.EndTime && x.EndTime >= lesson.StartTime))
