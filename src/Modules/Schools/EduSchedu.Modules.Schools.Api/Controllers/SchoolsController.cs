@@ -17,7 +17,7 @@ internal class SchoolsController : BaseController
         _sender = sender;
     }
 
-    [HttpPost("create")]
+    [HttpPost]
     [AuthorizeRoles(Role.HeadMaster)]
     public async Task<IActionResult> CreateSchool([FromBody] CreateSchoolCommand command)
     {
@@ -33,7 +33,7 @@ internal class SchoolsController : BaseController
         return Ok(result);
     }
 
-    [HttpPost("{schoolId:guid}/class/create")]
+    [HttpPost("{schoolId:guid}/class")]
     [AuthorizeRoles(Role.HeadMaster, Role.BackOffice)]
     public async Task<IActionResult> CreateClass([FromBody] CreateClassCommand command, [FromRoute] Guid schoolId)
     {
@@ -41,7 +41,7 @@ internal class SchoolsController : BaseController
         return Ok(result);
     }
 
-    [HttpPost("{schoolId:guid}/class/{classId:guid}/lesson/add")]
+    [HttpPost("{schoolId:guid}/class/{classId:guid}/lesson")]
     [AuthorizeRoles(Role.HeadMaster, Role.BackOffice)]
     public async Task<IActionResult> AddClassLesson([FromBody] AddClassLessonCommand command, [FromRoute] Guid schoolId, [FromRoute] Guid classId)
     {
@@ -49,7 +49,16 @@ internal class SchoolsController : BaseController
         return Ok(result);
     }
 
-    [HttpPost("{schoolId:guid}/teacher/{teacherId:guid}/schedule/lesson/add")]
+    [HttpPost("{schoolId:guid}/class/{classId:guid}/language-proficiency")]
+    [AuthorizeRoles(Role.HeadMaster, Role.BackOffice)]
+    public async Task<IActionResult> AddClassLanguageProficiency([FromBody] AddClassLanguageProficiencyCommand command, [FromRoute] Guid schoolId,
+        [FromRoute] Guid classId)
+    {
+        var result = await _sender.Send(command with { SchoolId = schoolId, ClassId = classId });
+        return Ok(result);
+    }
+
+    [HttpPost("{schoolId:guid}/teacher/{teacherId:guid}/schedule/lesson")]
     [AuthorizeRoles(Role.HeadMaster, Role.BackOffice)]
     public async Task<IActionResult> AddScheduleLesson([FromBody] AddScheduleLessonCommand command, [FromRoute] Guid schoolId, [FromRoute] Guid teacherId)
     {
