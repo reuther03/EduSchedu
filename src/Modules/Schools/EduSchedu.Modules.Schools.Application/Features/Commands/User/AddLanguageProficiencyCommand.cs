@@ -74,6 +74,7 @@ public record AddLanguageProficiencyCommand(
                     teacher.AddLanguageProficiency(languageProficiency.Id);
                 }
 
+                //todo: czy to na pewno ma byc w petli, ale inaczej nie dziala xd
                 await _unitOfWork.CommitAsync(cancellationToken);
             }
 

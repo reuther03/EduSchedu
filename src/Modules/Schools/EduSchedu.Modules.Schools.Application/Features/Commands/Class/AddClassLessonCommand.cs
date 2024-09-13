@@ -57,10 +57,6 @@ public record AddClassLessonCommand(
 
             var lesson = Lesson.Create(request.DayOfWeek, request.StartTime, request.EndTime);
 
-            var lessons = await _schoolRepository.GetLessonsByClassIdAsync(@class.Id, cancellationToken);
-            if (lessons.Exists(x => x.Day == request.DayOfWeek && x.StartTime <= request.EndTime && x.EndTime >= request.StartTime))
-                return Result<Guid>.BadRequest("Lesson is in class hours");
-
             @class.AddLesson(lesson);
             await _schoolRepository.AddLessonAsync(lesson, cancellationToken);
             await _unitOfWork.CommitAsync(cancellationToken);
