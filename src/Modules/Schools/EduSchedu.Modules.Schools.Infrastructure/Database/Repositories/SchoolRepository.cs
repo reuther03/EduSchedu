@@ -20,8 +20,13 @@ internal class SchoolRepository : Repository<School, SchoolsDbContext>, ISchoolR
 
     #region MyRegion
 
-    public Task<Class?> GetClassByIdAsync(ClassId id, CancellationToken cancellationToken = default)
-        => _dbContext.Classes.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    public async Task<Class?> GetClassByIdAsync(SchoolId schoolId, ClassId classId, CancellationToken cancellationToken = default)
+        => await _dbContext.Schools
+            .Include(x => x.Classes)
+            .ThenInclude(x => x.Lessons)
+            .Where(x => x.Id == schoolId)
+            .SelectMany(x => x.Classes)
+            .FirstOrDefaultAsync(x => x.Id == classId, cancellationToken);
 
     public async Task AddClassAsync(Class @class, CancellationToken cancellationToken = default)
         => await _dbContext.Classes.AddAsync(@class, cancellationToken);
@@ -35,6 +40,9 @@ internal class SchoolRepository : Repository<School, SchoolsDbContext>, ISchoolR
             .Where(x => x.Id == classId)
             .SelectMany(x => x.Lessons)
             .ToListAsync(cancellationToken);
+
+    public async Task<Lesson?> GetLessonByIdAsync(Guid lessonId, CancellationToken cancellationToken = default)
+        => await _dbContext.Lessons.FirstOrDefaultAsync(x => x.Id == lessonId, cancellationToken);
 
     public async Task AddLessonAsync(Lesson lesson, CancellationToken cancellationToken = default)
         => await _dbContext.Lessons.AddAsync(lesson, cancellationToken);

@@ -9,4 +9,10 @@ public interface ISchoolUserRepository : IRepository<SchoolUser>
     Task<SchoolUser?> GetByIdAsync(UserId id, CancellationToken cancellationToken = default);
     Task<Teacher?> GetTeacherByIdAsync(UserId id, CancellationToken cancellationToken = default);
     Task<bool> ExistsAsync(UserId id, CancellationToken cancellationToken = default);
+
+    #region Teacher
+
+    Task<Schedule?> GetTeacherScheduleAsync(UserId teacherId, CancellationToken cancellationToken = default);
+
+    #endregion
 }

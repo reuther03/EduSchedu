@@ -23,4 +23,7 @@ internal class SchoolUserRepository : Repository<SchoolUser, SchoolsDbContext>, 
 
     public async Task<bool> ExistsAsync(UserId id, CancellationToken cancellationToken = default)
         => await _dbContext.SchoolUsers.AnyAsync(x => x.Id == id, cancellationToken);
+
+    public Task<Schedule?> GetTeacherScheduleAsync(UserId teacherId, CancellationToken cancellationToken = default)
+        => _dbContext.Schedules.FirstOrDefaultAsync(x => x.TeacherId == teacherId, cancellationToken);
 }

@@ -51,8 +51,8 @@ public record AddClassLessonCommand(
             if (school is null)
                 return Result<Guid>.BadRequest("School not found");
 
-            var @class = await _schoolRepository.GetClassByIdAsync(request.ClassId, cancellationToken);
-            if (@class is null || school.Classes.All(x => x.Id.Value != request.ClassId))
+            var @class = await _schoolRepository.GetClassByIdAsync(request.SchoolId, request.ClassId, cancellationToken);
+            if (@class is null)
                 return Result<Guid>.BadRequest("Class not found");
 
             var lesson = Lesson.Create(request.DayOfWeek, request.StartTime, request.EndTime);
