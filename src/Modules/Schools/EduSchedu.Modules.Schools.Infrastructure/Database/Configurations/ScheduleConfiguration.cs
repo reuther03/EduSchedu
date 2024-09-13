@@ -28,8 +28,7 @@ public class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
 
         builder.HasMany(x => x.Lessons)
             .WithOne()
-            .HasForeignKey("ScheduleId")
-            .IsRequired();
+            .HasForeignKey(x => x.ScheduleId);
 
         builder.HasMany(x => x.ScheduleItems)
             .WithOne()

@@ -11,6 +11,7 @@ public class Lesson : Entity<Guid>
     public TimeOnly StartTime { get; private set; }
     public TimeOnly EndTime { get; private set; }
     public UserId? AssignedTeacher { get; private set; }
+    public ScheduleId? ScheduleId { get; private set; }
 
     private Lesson()
     {
