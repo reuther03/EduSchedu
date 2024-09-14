@@ -28,6 +28,9 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("LanguageProficiencyId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -36,6 +39,8 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LanguageProficiencyId");
 
                     b.HasIndex("SchoolId");
 
@@ -215,37 +220,18 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Class", b =>
                 {
+                    b.HasOne("EduSchedu.Modules.Schools.Domain.Schools.LanguageProficiency", "LanguageProficiency")
+                        .WithMany()
+                        .HasForeignKey("LanguageProficiencyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("EduSchedu.Modules.Schools.Domain.Schools.School", null)
                         .WithMany("Classes")
                         .HasForeignKey("SchoolId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.OwnsMany("EduSchedu.Modules.Schools.Domain.Schools.Ids.LanguageProficiencyId", "LanguageProficiencyIds", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
-
-                            b1.Property<Guid>("ClassId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<Guid>("Value")
-                                .HasColumnType("uuid")
-                                .HasColumnName("LanguageProficiencyId");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("ClassId");
-
-                            b1.ToTable("ClassLanguageProficiencyIds", "schools");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ClassId");
-                        });
-
-                    b.Navigation("LanguageProficiencyIds");
+                    b.Navigation("LanguageProficiency");
                 });
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Lesson", b =>
