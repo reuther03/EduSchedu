@@ -71,16 +71,25 @@ public record AddTeacherLanguageProficiencyCommand(
             foreach (var languageProficiencyId in teacher.LanguageProficiencyIds.ToList())
             {
                 var existingLanguageProficiency = await _languageProficiencyRepository.GetByIdAsync(languageProficiencyId, cancellationToken);
-                if (existingLanguageProficiency!.Language != languageProficiency.Language ||
-                    existingLanguageProficiency.Lvl >= languageProficiency.Lvl)
-                    Result<Guid>.BadRequest("Language proficiency already exists");
+                if (existingLanguageProficiency is null)
+                    return Result<Guid>.BadRequest("Language proficiency not found");
 
-                teacher.RemoveLanguageProficiency(existingLanguageProficiency.Id);
-                teacher.AddLanguageProficiency(languageProficiency.Id);
-                await _unitOfWork.CommitAsync(cancellationToken);
+                if (existingLanguageProficiency.Language != languageProficiency.Language
+                    && teacher.LanguageProficiencyIds.All(x => x.Value != languageProficiency.Id))
+                {
+                    teacher.AddLanguageProficiency(languageProficiency.Id);
+                }
+
+                else if (existingLanguageProficiency.Language == languageProficiency.Language && existingLanguageProficiency.Lvl != languageProficiency.Lvl)
+                {
+                    teacher.RemoveLanguageProficiency(existingLanguageProficiency.Id);
+                    teacher.AddLanguageProficiency(languageProficiency.Id);
+                }
             }
 
-            return Result<Guid>.Ok(teacher.Id.Value);
+            await _unitOfWork.CommitAsync(cancellationToken);
+
+            return Result.Ok(languageProficiency.Id);
         }
     }
 }
