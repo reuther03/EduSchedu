@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using EduSchedu.Modules.Schools.Application.Abstractions;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
-using EduSchedu.Modules.Schools.Application.Features.Commands.User;
+using EduSchedu.Shared.Abstractions.Kernel.CommandValidators;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Abstractions.QueriesAndCommands.Commands;
@@ -43,45 +43,25 @@ public record AddClassLanguageProficiencyCommand(
         public async Task<Result<Guid>> Handle(AddClassLanguageProficiencyCommand request, CancellationToken cancellationToken)
         {
             var user = await _schoolUserRepository.GetByIdAsync(_userService.UserId, cancellationToken);
-            if (user is null)
-                return Result<Guid>.BadRequest("User not found");
+            NullValidator.ValidateNotNull(user);
 
             if (user.Role == Role.Teacher)
                 return Result<Guid>.BadRequest("You are not allowed to add language proficiency");
 
             var school = await _schoolRepository.GetByIdAsync(request.SchoolId, cancellationToken);
-            if (school is null)
-                return Result<Guid>.BadRequest("School not found");
+            NullValidator.ValidateNotNull(school);
 
             var @class = await _schoolRepository.GetClassByIdAsync(request.SchoolId, request.ClassId, cancellationToken);
-            if (@class is null)
-                return Result<Guid>.BadRequest("Class not found");
+            NullValidator.ValidateNotNull(@class);
 
             var languageProficiency = await _languageProficiencyRepository.GetByIdAsync(request.LanguageProficiencyId, cancellationToken);
-            if (languageProficiency is null || @class.LanguageProficiencyIds.Any(x => x.Value == languageProficiency.Id))
-                return Result<Guid>.BadRequest("Language proficiency not found or already exists");
+            NullValidator.ValidateNotNull(languageProficiency);
 
-            if (@class.LanguageProficiencyIds.Count == 0)
-            {
-                @class.AddLanguageProficiency(languageProficiency.Id);
-                await _unitOfWork.CommitAsync(cancellationToken);
-                return Result<Guid>.Ok(languageProficiency.Id);
-            }
+            @class.SetLanguageProficiency(languageProficiency);
 
-            foreach (var languageProficiencyId in @class.LanguageProficiencyIds.ToList())
-            {
-                var existingLanguageProficiency = await _languageProficiencyRepository.GetByIdAsync(languageProficiencyId, cancellationToken);
-                if (existingLanguageProficiency!.Language != languageProficiency.Language ||
-                    existingLanguageProficiency.Lvl >= languageProficiency.Lvl)
-                    Result<Guid>.BadRequest("Language proficiency already exists");
+            await _unitOfWork.CommitAsync(cancellationToken);
 
-
-                @class.RemoveLanguageProficiency(existingLanguageProficiency.Id);
-                @class.AddLanguageProficiency(languageProficiency.Id);
-                await _unitOfWork.CommitAsync(cancellationToken);
-            }
-
-            return Result.Ok(languageProficiency.Id);
+            return Result.Ok(@class.Id.Value);
         }
     }
 }

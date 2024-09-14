@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using EduSchedu.Modules.Schools.Application.Abstractions;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
+using EduSchedu.Shared.Abstractions.Kernel.CommandValidators;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Abstractions.QueriesAndCommands.Commands;
@@ -40,19 +41,16 @@ public record AddTeacherLanguageProficiencyCommand(
         public async Task<Result<Guid>> Handle(AddTeacherLanguageProficiencyCommand request, CancellationToken cancellationToken)
         {
             var user = await _schoolUserRepository.GetByIdAsync(_userService.UserId, cancellationToken);
-            if (user is null)
-                return Result<Guid>.BadRequest("User not found");
+            NullValidator.ValidateNotNull(user);
 
             var school = await _schoolRepository.GetByIdAsync(request.SchoolId, cancellationToken);
-            if (school is null)
-                return Result<Guid>.BadRequest("School not found");
+            NullValidator.ValidateNotNull(school);
 
             if (user.Role == Role.Teacher && !school.TeacherIds.Contains(user.Id))
                 return Result<Guid>.BadRequest("You are not allowed to add language proficiency");
 
             var teacher = await _schoolUserRepository.GetTeacherByIdAsync(request.TeacherId, cancellationToken);
-            if (teacher is null)
-                return Result<Guid>.BadRequest("Teacher not found");
+            NullValidator.ValidateNotNull(teacher);
 
             if (!school.TeacherIds.Contains(teacher.Id))
                 return Result<Guid>.BadRequest("Teacher is not in the school");
@@ -71,10 +69,10 @@ public record AddTeacherLanguageProficiencyCommand(
             foreach (var languageProficiencyId in teacher.LanguageProficiencyIds.ToList())
             {
                 var existingLanguageProficiency = await _languageProficiencyRepository.GetByIdAsync(languageProficiencyId, cancellationToken);
-                if (existingLanguageProficiency is null)
-                    return Result<Guid>.BadRequest("Language proficiency not found");
+                //todo: check if this is correct
+                NullValidator.ValidateNotNull(existingLanguageProficiency);
 
-                if (existingLanguageProficiency.Language != languageProficiency.Language
+                if (existingLanguageProficiency!.Language != languageProficiency.Language
                     && teacher.LanguageProficiencyIds.All(x => x.Value != languageProficiency.Id))
                 {
                     teacher.AddLanguageProficiency(languageProficiency.Id);

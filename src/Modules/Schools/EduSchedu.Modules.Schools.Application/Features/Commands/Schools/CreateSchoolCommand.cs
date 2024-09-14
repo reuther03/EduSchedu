@@ -1,6 +1,7 @@
 ﻿using EduSchedu.Modules.Schools.Application.Abstractions;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
 using EduSchedu.Modules.Schools.Domain.Schools;
+using EduSchedu.Shared.Abstractions.Kernel.CommandValidators;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Abstractions.QueriesAndCommands.Commands;
@@ -37,8 +38,7 @@ public record CreateSchoolCommand(
         public async Task<Result<Guid>> Handle(CreateSchoolCommand request, CancellationToken cancellationToken)
         {
             var admin = await _schoolUserRepository.GetByIdAsync(_userService.UserId, cancellationToken);
-            if (admin is null)
-                return Result<Guid>.BadRequest("HeadMaster not found");
+            NullValidator.ValidateNotNull(admin);
 
             if (admin.Role == Role.Teacher)
                 return Result<Guid>.BadRequest("You are not allowed to create school");

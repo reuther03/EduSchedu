@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using EduSchedu.Modules.Schools.Application.Abstractions;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
+using EduSchedu.Shared.Abstractions.Kernel.CommandValidators;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Abstractions.QueriesAndCommands.Commands;
@@ -36,32 +37,27 @@ public record AddScheduleLessonCommand(
         public async Task<Result<Guid>> Handle(AddScheduleLessonCommand request, CancellationToken cancellationToken)
         {
             var admin = await _schoolUserRepository.GetByIdAsync(_userService.UserId, cancellationToken);
-            if (admin is null)
-                return Result<Guid>.BadRequest("User not found");
+            NullValidator.ValidateNotNull(admin);
 
             var school = await _schoolRepository.GetByIdAsync(request.SchoolId, cancellationToken);
-            if (school is null)
-                return Result<Guid>.BadRequest("School not found");
+            NullValidator.ValidateNotNull(school);
 
             if (admin.Role == Role.Teacher && !school.TeacherIds.Contains(admin.Id))
                 return Result<Guid>.BadRequest("You are not allowed to create class");
 
             var @class = await _schoolRepository.GetClassByIdAsync(school.Id, request.ClassId, cancellationToken);
-            if (@class is null)
-                return Result<Guid>.BadRequest("Class not found");
+            NullValidator.ValidateNotNull(@class);
 
             var teacher = await _schoolUserRepository.GetTeacherByIdAsync(request.UserId, cancellationToken);
-            if (teacher is null)
-                return Result<Guid>.BadRequest("User not found");
+            NullValidator.ValidateNotNull(teacher);
 
             if (!school.TeacherIds.Contains(teacher.Id))
                 return Result<Guid>.BadRequest("Teacher not found in school");
 
             var lesson = @class.Lessons.FirstOrDefault(x => x.Id == request.LessonId);
-            if (lesson is null)
-                return Result<Guid>.BadRequest("Lesson not found");
+            NullValidator.ValidateNotNull(lesson);
 
-            if (lesson.ScheduleId is not null)
+            if (lesson.ScheduleId is null)
                 return Result<Guid>.BadRequest("Lesson already added to schedule");
 
             //todo: naprawic zebym mogl dodac lekcje do planu nauczyciela bezposrednio przez propke a nie przez repo
