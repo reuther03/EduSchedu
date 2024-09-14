@@ -1,5 +1,4 @@
-﻿using EduSchedu.Modules.Schools.Domain.Schools.Ids;
-using EduSchedu.Modules.Schools.Domain.Users;
+﻿using EduSchedu.Modules.Schools.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

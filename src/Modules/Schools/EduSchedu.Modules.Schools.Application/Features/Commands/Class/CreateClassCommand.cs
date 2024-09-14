@@ -11,23 +11,27 @@ namespace EduSchedu.Modules.Schools.Application.Features.Commands.Class;
 public record CreateClassCommand(
     [property: JsonIgnore]
     Guid SchoolId,
+    Guid LanguageProficiencyId,
     string ClassName) : ICommand<Guid>
 {
     internal sealed class Handler : ICommandHandler<CreateClassCommand, Guid>
     {
         private readonly ISchoolRepository _schoolRepository;
         private readonly ISchoolUserRepository _schoolUserRepository;
+        private readonly ILanguageProficiencyRepository _languageProficiencyRepository;
         private readonly IUserService _userService;
         private readonly ISchoolUnitOfWork _unitOfWork;
 
         public Handler(
             ISchoolRepository schoolRepository,
             ISchoolUserRepository schoolUserRepository,
+            ILanguageProficiencyRepository languageProficiencyRepository,
             IUserService userService,
             ISchoolUnitOfWork unitOfWork)
         {
             _schoolRepository = schoolRepository;
             _schoolUserRepository = schoolUserRepository;
+            _languageProficiencyRepository = languageProficiencyRepository;
             _userService = userService;
             _unitOfWork = unitOfWork;
         }
@@ -47,8 +51,14 @@ public record CreateClassCommand(
 
             var @class = Domain.Schools.Class.Create(request.ClassName);
 
+            var languageProficiency = await _languageProficiencyRepository.GetByIdAsync(request.LanguageProficiencyId, cancellationToken);
+            if (languageProficiency is null)
+                return Result<Guid>.BadRequest("Language proficiency not found");
+
+            @class.SetLanguageProficiency(languageProficiency);
             school.AddClass(@class);
             await _schoolRepository.AddClassAsync(@class, cancellationToken);
+
             await _unitOfWork.CommitAsync(cancellationToken);
 
             return Result<Guid>.Ok(@class.Id.Value);

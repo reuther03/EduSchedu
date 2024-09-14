@@ -1,5 +1,4 @@
-﻿using EduSchedu.Modules.Schools.Domain.Users;
-using EduSchedu.Shared.Abstractions.Kernel.Primitives;
+﻿using EduSchedu.Shared.Abstractions.Kernel.Primitives;
 
 namespace EduSchedu.Modules.Schools.Domain.Schools;
 

@@ -7,10 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\EduSchedu.Shared.Abstractions\EduSchedu.Shared.Abstractions.csproj" />
+        <ProjectReference Include="..\EduSchedu.Shared.Abstractions\EduSchedu.Shared.Abstractions.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="oqo0.SwaggerThemes" Version="1.3.3"/>
         <PackageReference Include="Scrutor" Version="4.2.2"/>
         <PackageReference Include="MailKit" Version="4.7.1.1"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
