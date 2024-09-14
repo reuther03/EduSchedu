@@ -10,7 +10,7 @@ public class Class : Entity<ClassId>
     private readonly List<Lesson> _lessons = [];
 
     public Name Name { get; private set; }
-    public LanguageProficiency LanguageProficiency { get; private set; }
+    public LanguageProficiency? LanguageProficiency { get; private set; }
     public IReadOnlyList<Lesson> Lessons => _lessons.AsReadOnly();
 
     private Class()
@@ -25,6 +25,13 @@ public class Class : Entity<ClassId>
     public static Class Create(Name name)
         => new Class(ClassId.New(), name);
 
+    public void SetLanguageProficiency(LanguageProficiency languageProficiency)
+    {
+        if (LanguageProficiency == languageProficiency)
+            throw new DomainException("Language proficiency is already set");
+
+        LanguageProficiency = languageProficiency;
+    }
 
     public void AddLesson(Lesson lesson)
     {
