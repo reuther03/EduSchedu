@@ -72,7 +72,7 @@ public record AddTeacherLanguageProficiencyCommand(
                 //todo: check if this is correct
                 NullValidator.ValidateNotNull(existingLanguageProficiency);
 
-                if (existingLanguageProficiency!.Language != languageProficiency.Language
+                if (existingLanguageProficiency.Language != languageProficiency.Language
                     && teacher.LanguageProficiencyIds.All(x => x.Value != languageProficiency.Id))
                 {
                     teacher.AddLanguageProficiency(languageProficiency.Id);
