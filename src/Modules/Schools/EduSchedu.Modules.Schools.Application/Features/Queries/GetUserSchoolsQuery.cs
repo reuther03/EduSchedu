@@ -29,6 +29,7 @@ public record GetUserSchoolsQuery(int Page = 1, int PageSize = 10) : IQuery<Pagi
             NullValidator.ValidateNotNull(user);
 
             var schools = await _context.Schools
+                .Include(x => x.Classes)
                 .Include(x => x.TeacherIds)
                 .Where(x => x.TeacherIds.Any(y => y.Value == user.Id.Value))
                 .ToListAsync(cancellationToken);

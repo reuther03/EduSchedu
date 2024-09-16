@@ -4,11 +4,11 @@ namespace EduSchedu.Modules.Schools.Application.Features.Dtos;
 
 public class LessonDto
 {
-    public DayOfWeek Day { get; set; }
-    public TimeOnly StartTime { get; set; }
-    public TimeOnly EndTime { get; set; }
-    public Guid? AssignedTeacher { get; set; }
-    public Guid? ScheduleId { get; set; }
+    public DayOfWeek Day { get; init; }
+    public TimeOnly StartTime { get; init; }
+    public TimeOnly EndTime { get; init; }
+    public Guid? AssignedTeacher { get; init; }
+    public Guid? ScheduleId { get; init; }
 
     public static LessonDto AsDto(Lesson lesson)
     {

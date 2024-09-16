@@ -4,7 +4,7 @@ namespace EduSchedu.Modules.Schools.Application.Features.Dtos;
 
 public class ClassDto
 {
-    public string Name { get; set; }
+    public string Name { get; init; } = null!;
     public LanguageProficiency? LanguageProficiency { get; set; }
     public List<LessonDto> Lessons { get; set; } = [];
 

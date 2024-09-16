@@ -4,31 +4,19 @@ namespace EduSchedu.Modules.Schools.Application.Features.Dtos;
 
 public class SchoolDto
 {
-    public string Name { get; set; }
-    public string City { get; set; }
-    public string Street { get; set; }
-    public string ZipCode { get; set; }
-    public string? MapCoordinates { get; set; }
-    public string PhoneNumber { get; set; }
-    public string Email { get; set; }
-    public Guid HeadmasterId { get; set; }
-    public List<Guid> TeacherIds { get; set; }
-    public List<ClassDto> Classes { get; set; }
+    public Guid SchoolId { get; init; }
+    public string City { get; init; } = null!;
+    public string PhoneNumber { get; init; } = null!;
+    public string Email { get; init; } = null!;
 
     public static SchoolDto AsDto(School school)
     {
         return new SchoolDto
         {
-            Name = school.Name.Value,
+            SchoolId = school.Id,
             City = school.Address.City,
-            Street = school.Address.Street,
-            ZipCode = school.Address.ZipCode,
-            MapCoordinates = school.Address.MapCoordinates,
             PhoneNumber = school.PhoneNumber,
-            Email = school.Email.Value,
-            HeadmasterId = school.HeadmasterId,
-            TeacherIds = school.TeacherIds.Select(x => x.Value).ToList(),
-            Classes = school.Classes.Select(ClassDto.AsDto).ToList()
+            Email = school.Email.Value
         };
     }
 }
