@@ -1,6 +1,7 @@
 ﻿using EduSchedu.Modules.Schools.Application.Features.Commands.Class;
 using EduSchedu.Modules.Schools.Application.Features.Commands.Schools;
 using EduSchedu.Modules.Schools.Application.Features.Commands.User;
+using EduSchedu.Modules.Schools.Application.Features.Queries;
 using EduSchedu.Shared.Abstractions.Kernel.Attribute;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using MediatR;
@@ -16,6 +17,15 @@ internal class SchoolsController : BaseController
     {
         _sender = sender;
     }
+
+    [HttpGet]
+    [AuthorizeRoles(Role.HeadMaster, Role.BackOffice, Role.Teacher)]
+    public async Task<IActionResult> GetUserSchools([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+    {
+        var result = await _sender.Send(new GetUserSchoolsQuery(page, pageSize));
+        return Ok(result);
+    }
+
 
     [HttpPost]
     [AuthorizeRoles(Role.HeadMaster)]
