@@ -18,6 +18,9 @@ internal class SchoolUserRepository : Repository<SchoolUser, SchoolsDbContext>, 
     public Task<SchoolUser?> GetByIdAsync(UserId id, CancellationToken cancellationToken = default)
         => _dbContext.SchoolUsers.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
+    public Task<SchoolUser?> GetByEmailAsync(Email email, CancellationToken cancellationToken = default)
+        => _dbContext.SchoolUsers.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
+
     public async Task<Teacher?> GetTeacherByIdAsync(UserId id, CancellationToken cancellationToken = default)
         => await _dbContext.SchoolUsers.OfType<Teacher>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 

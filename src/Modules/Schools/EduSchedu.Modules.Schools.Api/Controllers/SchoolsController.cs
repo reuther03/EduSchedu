@@ -43,6 +43,14 @@ internal class SchoolsController : BaseController
         return Ok(result);
     }
 
+    [HttpPost("{schoolId:guid}/teacher")]
+    [AuthorizeRoles(Role.HeadMaster)]
+    public async Task<IActionResult> CreateTeacher([FromBody] AddExistingUserCommand command, [FromRoute] Guid schoolId)
+    {
+        var result = await _sender.Send(command with { SchoolId = schoolId });
+        return Ok(result);
+    }
+
     [HttpPost("{schoolId:guid}/teacher/add-language-proficiency")]
     [AuthorizeRoles(Role.HeadMaster, Role.BackOffice)]
     public async Task<IActionResult> AddLanguageProficiency([FromBody] AddTeacherLanguageProficiencyCommand command, [FromRoute] Guid schoolId)

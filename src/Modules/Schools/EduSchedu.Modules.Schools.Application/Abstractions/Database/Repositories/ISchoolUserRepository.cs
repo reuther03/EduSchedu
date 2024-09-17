@@ -7,6 +7,7 @@ namespace EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositori
 public interface ISchoolUserRepository : IRepository<SchoolUser>
 {
     Task<SchoolUser?> GetByIdAsync(UserId id, CancellationToken cancellationToken = default);
+    Task<SchoolUser?> GetByEmailAsync(Email email, CancellationToken cancellationToken = default);
     Task<Teacher?> GetTeacherByIdAsync(UserId id, CancellationToken cancellationToken = default);
     Task<bool> ExistsAsync(UserId id, CancellationToken cancellationToken = default);
 
