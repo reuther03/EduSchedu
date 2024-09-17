@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(SchoolsDbContext))]
-    [Migration("20240914003456_OneToOneRelationForClass")]
-    partial class OneToOneRelationForClass
+    [Migration("20240916173214_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("LanguageProficiencyId")
+                    b.Property<Guid?>("LanguageProficiencyId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
@@ -226,8 +226,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.HasOne("EduSchedu.Modules.Schools.Domain.Schools.LanguageProficiency", "LanguageProficiency")
                         .WithMany()
                         .HasForeignKey("LanguageProficiencyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("EduSchedu.Modules.Schools.Domain.Schools.School", null)
                         .WithMany("Classes")

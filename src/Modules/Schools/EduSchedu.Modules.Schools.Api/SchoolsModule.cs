@@ -11,7 +11,7 @@ public class SchoolsModule : IModule
 {
     public const string BasePath = "schools-module";
 
-    public string Name { get; } = "Schools";
+    public string Name { get; } = "School";
     public string Path => BasePath;
 
     public void Register(IServiceCollection services)

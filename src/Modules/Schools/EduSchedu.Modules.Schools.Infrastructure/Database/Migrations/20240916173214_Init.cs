@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class OneToOneRelationForClass : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -71,7 +71,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    LanguageProficiencyId = table.Column<Guid>(type: "uuid", nullable: false),
+                    LanguageProficiencyId = table.Column<Guid>(type: "uuid", nullable: true),
                     SchoolId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
