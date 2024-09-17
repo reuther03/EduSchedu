@@ -1,11 +1,11 @@
-﻿// using EduSchedu.Modules.Schools.Application.Abstractions;
-// using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
-// using EduSchedu.Modules.Schools.Domain.Users;
+﻿// using EduSchedu.Modules.School.Application.Abstractions;
+// using EduSchedu.Modules.School.Application.Abstractions.Database.Repositories;
+// using EduSchedu.Modules.School.Domain.Users;
 // using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
 // using EduSchedu.Shared.Abstractions.QueriesAndCommands.Commands;
 // using EduSchedu.Shared.Abstractions.Services;
 //
-// namespace EduSchedu.Modules.Schools.Application.Features.Commands.User;
+// namespace EduSchedu.Modules.School.Application.Features.Commands.User;
 //
 // public record CreateBackofficeUserCommand(Guid SchoolId) : ICommand<Guid>
 // {
