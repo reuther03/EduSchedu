@@ -20,7 +20,11 @@ internal class SchoolUserRepository : Repository<SchoolUser, SchoolsDbContext>, 
         => _dbContext.SchoolUsers.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
     public Task<List<Teacher>> GetTeachersByIdsAsync(IEnumerable<UserId> ids, CancellationToken cancellationToken = default)
-        => _dbContext.SchoolUsers.OfType<Teacher>().Where(x => ids.Contains(x.Id)).ToListAsync(cancellationToken);
+        => _dbContext.SchoolUsers.OfType<Teacher>()
+            .Include(x => x.Schedule)
+            .ThenInclude(x => x.ScheduleItems)
+            .Where(x => ids.Contains(x.Id))
+            .ToListAsync(cancellationToken);
 
     public Task<SchoolUser?> GetByEmailAsync(Email email, CancellationToken cancellationToken = default)
         => _dbContext.SchoolUsers.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
