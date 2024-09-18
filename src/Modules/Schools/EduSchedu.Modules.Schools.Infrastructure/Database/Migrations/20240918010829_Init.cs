@@ -195,6 +195,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false),
+                    Day = table.Column<string>(type: "text", nullable: false),
                     Start = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     End = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),

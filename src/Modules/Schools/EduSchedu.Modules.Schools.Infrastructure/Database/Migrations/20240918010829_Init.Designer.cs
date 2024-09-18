@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(SchoolsDbContext))]
-    [Migration("20240916173214_Init")]
+    [Migration("20240918010829_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -149,6 +149,10 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Day")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .IsRequired()

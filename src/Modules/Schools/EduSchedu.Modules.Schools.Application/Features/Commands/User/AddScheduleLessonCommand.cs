@@ -62,8 +62,7 @@ public record AddScheduleLessonCommand(
 
             //todo: naprawic zebym mogl dodac lekcje do planu nauczyciela bezposrednio przez propke a nie przez repo
             var schedule = await _schoolUserRepository.GetTeacherScheduleAsync(teacher.Id, cancellationToken);
-            if (schedule is null)
-                return Result<Guid>.BadRequest("Teacher schedule not found");
+            NullValidator.ValidateNotNull(schedule);
 
             schedule.AddLesson(lesson);
             await _unitOfWork.CommitAsync(cancellationToken);

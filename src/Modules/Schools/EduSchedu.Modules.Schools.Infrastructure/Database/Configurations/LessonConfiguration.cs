@@ -14,7 +14,8 @@ public class LessonConfiguration : IEntityTypeConfiguration<Lesson>
             .ValueGeneratedNever();
 
         builder.Property(x => x.Day)
-            .HasConversion<string>();
+            .HasConversion<string>()
+            .IsRequired();
 
         builder.Property(x => x.StartTime)
             .IsRequired();

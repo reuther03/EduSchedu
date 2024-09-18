@@ -23,7 +23,7 @@ public class Class : Entity<ClassId>
     }
 
     public static Class Create(Name name)
-        => new Class(ClassId.New(), name);
+        => new(ClassId.New(), name);
 
     public void SetLanguageProficiency(LanguageProficiency languageProficiency)
     {
