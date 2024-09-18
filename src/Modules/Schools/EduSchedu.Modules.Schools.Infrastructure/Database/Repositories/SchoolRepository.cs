@@ -1,6 +1,7 @@
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
 using EduSchedu.Modules.Schools.Domain.Schools;
 using EduSchedu.Modules.Schools.Domain.Schools.Ids;
+using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Infrastructure.Postgres;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,12 @@ internal class SchoolRepository : Repository<School, SchoolsDbContext>, ISchoolR
     }
 
     public async Task<School?> GetByIdAsync(SchoolId id, CancellationToken cancellationToken = default)
-        => await _dbContext.Schools.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        => await _dbContext.Schools
+            .Include(x => x.Classes)
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+    // public Task<School?> GetByHeadmasterIdAsync(UserId headmasterId, CancellationToken cancellationToken = default)
+    //     => _dbContext.Schools.FirstOrDefaultAsync(x => x.HeadmasterId == headmasterId, cancellationToken);
 
     #region MyRegion
 

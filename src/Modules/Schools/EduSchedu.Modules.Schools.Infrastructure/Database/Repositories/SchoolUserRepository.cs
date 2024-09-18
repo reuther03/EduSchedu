@@ -1,4 +1,5 @@
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
+using EduSchedu.Modules.Schools.Domain.Schools.Ids;
 using EduSchedu.Modules.Schools.Domain.Users;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Infrastructure.Postgres;
@@ -17,6 +18,9 @@ internal class SchoolUserRepository : Repository<SchoolUser, SchoolsDbContext>, 
 
     public Task<SchoolUser?> GetByIdAsync(UserId id, CancellationToken cancellationToken = default)
         => _dbContext.SchoolUsers.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+    public Task<List<Teacher>> GetTeachersByIdsAsync(IEnumerable<UserId> ids, CancellationToken cancellationToken = default)
+        => _dbContext.SchoolUsers.OfType<Teacher>().Where(x => ids.Contains(x.Id)).ToListAsync(cancellationToken);
 
     public Task<SchoolUser?> GetByEmailAsync(Email email, CancellationToken cancellationToken = default)
         => _dbContext.SchoolUsers.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
