@@ -36,7 +36,5 @@ public class Lesson : Entity<Guid>
     }
 
     public void AssignTeacher(UserId teacherId)
-    {
-        AssignedTeacher = teacherId;
-    }
+        => AssignedTeacher = teacherId;
 }
