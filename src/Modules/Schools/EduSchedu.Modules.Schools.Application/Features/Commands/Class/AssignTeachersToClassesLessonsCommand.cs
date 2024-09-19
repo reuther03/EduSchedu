@@ -57,14 +57,38 @@ public record AssignTeacherToLessonCommand(
                             .All(y => y.Start.DayOfWeek == lesson.Day && y.Start.TimeOfDay <= lesson.EndTime.ToTimeSpan() &&
                                 y.End.TimeOfDay >= lesson.StartTime.ToTimeSpan())).ToList();
 
-                    if (availableTeachersByScheduleItems.Count == 0)
-                        continue;
+                    //powinno byc tak zeby nauczyciel byl przypisany do wszystkich lekcji jesli to mozliwe a jak nie to else uzupelni brakujacego nauczyciela
+                    if (availableTeachersByScheduleItems.Count != 0)
+                    {
+                        var assignedTeacher = availableTeachersByScheduleItems.First();
+                        // Assign the teacher to all lessons
+                        foreach (var lessonToAssign in @class.Lessons)
+                        {
+                            lessonToAssign.AssignTeacher(assignedTeacher.Id);
+                            assignedTeacher.Schedule.AddLesson(lessonToAssign);
+                        }
+                    }
+                    else
+                    {
+                        var notAssignedTeacher = availableTeachersByLessons.FirstOrDefault();
+                        if (notAssignedTeacher == null)
+                            continue;
+                        // Assign the teacher to all lessons
+                        foreach (var lessonToAssign in @class.Lessons.Where(x => x.AssignedTeacher == null))
+                        {
+                            lessonToAssign.AssignTeacher(notAssignedTeacher.Id);
+                            notAssignedTeacher.Schedule.AddLesson(lessonToAssign);
+                        }
+                    }
 
-                    var assignedTeacher = availableTeachersByScheduleItems.FirstOrDefault();
-                    NullValidator.ValidateNotNull(assignedTeacher);
+                    // if (availableTeachersByScheduleItems.Count == 0)
+                    //     continue;
 
-                    lesson.AssignTeacher(assignedTeacher.Id);
-                    assignedTeacher.Schedule.AddLesson(lesson);
+                    // var assignedTeacher = availableTeachersByScheduleItems.FirstOrDefault();
+                    // NullValidator.ValidateNotNull(assignedTeacher);
+                    //
+                    // lesson.AssignTeacher(assignedTeacher.Id);
+                    // assignedTeacher.Schedule.AddLesson(lesson);
                 }
             }
 
