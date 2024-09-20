@@ -26,10 +26,12 @@ public class ScheduleItem : Entity<Guid>
 
     public static ScheduleItem Create(ScheduleItemType type, DateTime start, DateTime end, string description)
     {
-        //todo: validacja aktualnego czasu
+        if (DateTime.UtcNow > start)
+            throw new DomainException("Start date must be greater than current date");
+
         if (start >= end)
             throw new DomainException("Start date must be less than end date");
-
+        
         return new ScheduleItem(Guid.NewGuid(), type, start, end, description);
     }
 }
