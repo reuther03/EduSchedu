@@ -8,6 +8,7 @@ namespace EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositori
 public interface ISchoolRepository : IRepository<School>
 {
     Task<School?> GetByIdAsync(SchoolId id, CancellationToken cancellationToken = default);
+    Task<List<School>> GetAllAsync(CancellationToken cancellationToken = default);
     // Task<School?> GetByHeadmasterIdAsync(UserId headmasterId, CancellationToken cancellationToken = default);
 
     #region @Class

@@ -24,6 +24,10 @@ internal class SchoolRepository : Repository<School, SchoolsDbContext>, ISchoolR
             .ThenInclude(x => x.LanguageProficiency)
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
+    public async Task<List<School>> GetAllAsync(CancellationToken cancellationToken = default)
+        => await _dbContext.Schools.ToListAsync(cancellationToken);
+
+
     // public Task<School?> GetByHeadmasterIdAsync(UserId headmasterId, CancellationToken cancellationToken = default)
     //     => _dbContext.Schools.FirstOrDefaultAsync(x => x.HeadmasterId == headmasterId, cancellationToken);
 

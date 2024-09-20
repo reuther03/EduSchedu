@@ -35,7 +35,7 @@ public class ScheduleItemJob : BackgroundService
             }
 
             await context.SaveChangesAsync(stoppingToken);
-            await Task.Delay(TimeSpan.FromSeconds(15), stoppingToken);
+            await Task.Delay(TimeSpan.FromHours(12), stoppingToken);
         }
     }
 }

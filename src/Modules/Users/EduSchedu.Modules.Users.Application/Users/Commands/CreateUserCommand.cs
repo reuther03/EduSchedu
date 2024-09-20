@@ -71,7 +71,6 @@ public record CreateUserCommand(string Email, string FullName, Role Role, Guid S
                  </div>
                  """);
 
-
             await _emailSender.Send(email);
             await _userRepository.AddAsync(user, cancellationToken);
             await _userUnitOfWork.CommitAsync(cancellationToken);
