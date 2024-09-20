@@ -31,7 +31,7 @@ public class ScheduleItem : Entity<Guid>
 
         if (start >= end)
             throw new DomainException("Start date must be less than end date");
-        
+
         return new ScheduleItem(Guid.NewGuid(), type, start, end, description);
     }
 }

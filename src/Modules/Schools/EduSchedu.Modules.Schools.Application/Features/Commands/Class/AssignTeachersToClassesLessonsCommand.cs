@@ -73,7 +73,7 @@ public record AssignTeacherToLessonCommand(
                         var notAssignedTeacher = availableTeachersByLessons.FirstOrDefault();
                         if (notAssignedTeacher == null)
                             continue;
-                        // Assign the teacher to all lessons
+
                         foreach (var lessonToAssign in @class.Lessons.Where(x => x.AssignedTeacher == null))
                         {
                             lessonToAssign.AssignTeacher(notAssignedTeacher.Id);

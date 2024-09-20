@@ -12,11 +12,11 @@ public class Schedule : AggregateRoot<ScheduleId>
     private readonly List<ScheduleItem> _scheduleItems = [];
 
 
-    public IReadOnlyList<ScheduleItem> ScheduleItems => _scheduleItems;
     public UserId TeacherId { get; private set; }
     public Teacher Teacher { get; private set; }
 
     public IReadOnlyList<Lesson> Lessons => _lessons;
+    public IReadOnlyList<ScheduleItem> ScheduleItems => _scheduleItems;
 
     private Schedule()
     {
@@ -40,4 +40,12 @@ public class Schedule : AggregateRoot<ScheduleId>
 
     public void AddScheduleItem(ScheduleItem item)
         => _scheduleItems.Add(item);
+
+    public void RemoveScheduleItem(ScheduleItem item)
+    {
+        if (!_scheduleItems.Contains(item))
+            throw new DomainException("Schedule item does not exist");
+
+        _scheduleItems.Remove(item);
+    }
 }
