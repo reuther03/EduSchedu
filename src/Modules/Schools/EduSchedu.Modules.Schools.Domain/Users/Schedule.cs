@@ -8,14 +8,14 @@ namespace EduSchedu.Modules.Schools.Domain.Users;
 
 public class Schedule : AggregateRoot<ScheduleId>
 {
-    private readonly List<Lesson> _lessons = [];
+    // private readonly List<Lesson> _lessons = [];
     private readonly List<ScheduleItem> _scheduleItems = [];
 
 
     public UserId TeacherId { get; private set; }
     public Teacher Teacher { get; private set; }
 
-    public IReadOnlyList<Lesson> Lessons => _lessons;
+    // public IReadOnlyList<Lesson> Lessons => _lessons;
     public IReadOnlyList<ScheduleItem> ScheduleItems => _scheduleItems;
 
     private Schedule()
@@ -29,14 +29,6 @@ public class Schedule : AggregateRoot<ScheduleId>
 
     public static Schedule Create(ScheduleId id, UserId teacherId)
         => new Schedule(id, teacherId);
-
-    public void AddLesson(Lesson lesson)
-    {
-        if (_lessons.Exists(x => x.Day == lesson.Day && x.StartTime <= lesson.EndTime && x.EndTime >= lesson.StartTime))
-            throw new DomainException("Lesson is in class hours");
-
-        _lessons.Add(lesson);
-    }
 
     public void AddScheduleItem(ScheduleItem item)
         => _scheduleItems.Add(item);

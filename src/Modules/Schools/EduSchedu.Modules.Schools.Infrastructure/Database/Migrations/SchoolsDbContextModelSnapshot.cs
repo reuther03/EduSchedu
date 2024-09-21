@@ -84,17 +84,12 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.Property<TimeOnly>("EndTime")
                         .HasColumnType("time without time zone");
 
-                    b.Property<Guid?>("ScheduleId")
-                        .HasColumnType("uuid");
-
                     b.Property<TimeOnly>("StartTime")
                         .HasColumnType("time without time zone");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
-
-                    b.HasIndex("ScheduleId");
 
                     b.ToTable("Lessons", "schools");
                 });
@@ -239,10 +234,6 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         .WithMany("Lessons")
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("EduSchedu.Modules.Schools.Domain.Users.Schedule", null)
-                        .WithMany("Lessons")
-                        .HasForeignKey("ScheduleId");
                 });
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.School", b =>
@@ -372,8 +363,6 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Schedule", b =>
                 {
-                    b.Navigation("Lessons");
-
                     b.Navigation("ScheduleItems");
                 });
 

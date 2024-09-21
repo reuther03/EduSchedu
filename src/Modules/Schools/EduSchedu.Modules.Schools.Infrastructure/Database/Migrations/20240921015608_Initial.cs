@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -167,7 +167,6 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     StartTime = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
                     EndTime = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
                     AssignedTeacherId = table.Column<Guid>(type: "uuid", nullable: true),
-                    ScheduleId = table.Column<Guid>(type: "uuid", nullable: true),
                     ClassId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
@@ -180,12 +179,6 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         principalTable: "Classes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Lessons_Schedules_ScheduleId",
-                        column: x => x.ScheduleId,
-                        principalSchema: "schools",
-                        principalTable: "Schedules",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -195,7 +188,6 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false),
-                    Day = table.Column<string>(type: "text", nullable: false),
                     Start = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     End = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
@@ -230,12 +222,6 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 schema: "schools",
                 table: "Lessons",
                 column: "ClassId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Lessons_ScheduleId",
-                schema: "schools",
-                table: "Lessons",
-                column: "ScheduleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ScheduleItems_ScheduleId",

@@ -8,7 +8,6 @@ public class LessonDto
     public TimeOnly StartTime { get; init; }
     public TimeOnly EndTime { get; init; }
     public Guid? AssignedTeacher { get; init; }
-    public Guid? ScheduleId { get; init; }
 
     public static LessonDto AsDto(Lesson lesson)
     {
@@ -18,7 +17,6 @@ public class LessonDto
             StartTime = lesson.StartTime,
             EndTime = lesson.EndTime,
             AssignedTeacher = lesson.AssignedTeacher?.Value,
-            ScheduleId = lesson.ScheduleId?.Value
         };
     }
 }
