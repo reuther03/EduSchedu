@@ -3,6 +3,7 @@ using EduSchedu.Modules.Users.Application.Abstractions.Database;
 using EduSchedu.Modules.Users.Application.Abstractions.Database.Repositories;
 using EduSchedu.Modules.Users.Infrastructure.Database;
 using EduSchedu.Modules.Users.Infrastructure.Database.Repositories;
+using EduSchedu.Shared.Abstractions.Services;
 using EduSchedu.Shared.Infrastructure.Postgres;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,7 +17,8 @@ public static class Extensions
             .AddPostgres<UsersDbContext>()
             .AddScoped<IUserDbContext, UsersDbContext>()
             .AddScoped<IUserRepository, UserRepository>()
-            .AddUnitOfWork<IUserUnitOfWork, UserUnitOfWork>();
+            .AddUnitOfWork<IUserUnitOfWork, UserUnitOfWork>()
+            .AddTransient<IModuleSeeder, UsersModuleSeeder>();
 
         return services;
     }

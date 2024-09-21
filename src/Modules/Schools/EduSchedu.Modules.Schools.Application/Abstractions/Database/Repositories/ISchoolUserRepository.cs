@@ -1,5 +1,4 @@
-﻿using EduSchedu.Modules.Schools.Domain.Schools.Ids;
-using EduSchedu.Modules.Schools.Domain.Users;
+﻿using EduSchedu.Modules.Schools.Domain.Users;
 using EduSchedu.Shared.Abstractions.Kernel.Database;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 

@@ -1,7 +1,6 @@
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
 using EduSchedu.Modules.Schools.Domain.Schools;
 using EduSchedu.Modules.Schools.Domain.Schools.Ids;
-using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Infrastructure.Postgres;
 using Microsoft.EntityFrameworkCore;
 

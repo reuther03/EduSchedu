@@ -1,5 +1,6 @@
 ﻿using EduSchedu.Shared.Abstractions.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -16,6 +17,7 @@ internal class AppInitializer : IHostedService
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
+        var configuration = _serviceProvider.GetRequiredService<IConfiguration>();
         var dbContextTypes = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(x => x.GetTypes())
             .Where(x => typeof(DbContext).IsAssignableFrom(x) && !x.IsInterface && x != typeof(DbContext));
@@ -31,7 +33,7 @@ internal class AppInitializer : IHostedService
 
             foreach (var seeder in scope.ServiceProvider.GetServices<IModuleSeeder>())
             {
-                await seeder.SeedAsync(cancellationToken);
+                await seeder.SeedAsync(configuration, cancellationToken);
             }
 
 

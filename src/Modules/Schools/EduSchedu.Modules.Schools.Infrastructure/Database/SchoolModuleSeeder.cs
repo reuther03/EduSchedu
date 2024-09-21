@@ -2,6 +2,8 @@
 using EduSchedu.Modules.Schools.Domain.Schools;
 using EduSchedu.Modules.Schools.Domain.Schools.Ids;
 using EduSchedu.Shared.Abstractions.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace EduSchedu.Modules.Schools.Infrastructure.Database;
 
@@ -16,9 +18,9 @@ internal class SchoolModuleSeeder : IModuleSeeder
         _schoolUnitOfWork = schoolUnitOfWork;
     }
 
-    public async Task SeedAsync(CancellationToken cancellationToken)
+    public async Task SeedAsync(IConfiguration configuration, CancellationToken cancellationToken)
     {
-        if (!_dbContext.LanguageProficiencies.Any())
+        if (!await _dbContext.LanguageProficiencies.AnyAsync(cancellationToken))
         {
             await _dbContext.LanguageProficiencies.AddRangeAsync(
                 LanguageProficiency.Create(LanguageProficiencyId.New(), Language.English, Lvl.A1),
@@ -64,7 +66,8 @@ internal class SchoolModuleSeeder : IModuleSeeder
                 LanguageProficiency.Create(LanguageProficiencyId.New(), Language.Portuguese, Lvl.C1),
                 LanguageProficiency.Create(LanguageProficiencyId.New(), Language.Portuguese, Lvl.C2)
             );
-            await _schoolUnitOfWork.CommitAsync(cancellationToken);
         }
+
+        await _schoolUnitOfWork.CommitAsync(cancellationToken);
     }
 }

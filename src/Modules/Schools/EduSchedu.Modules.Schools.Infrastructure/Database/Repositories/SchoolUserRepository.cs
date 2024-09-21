@@ -1,5 +1,4 @@
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
-using EduSchedu.Modules.Schools.Domain.Schools.Ids;
 using EduSchedu.Modules.Schools.Domain.Users;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Infrastructure.Postgres;

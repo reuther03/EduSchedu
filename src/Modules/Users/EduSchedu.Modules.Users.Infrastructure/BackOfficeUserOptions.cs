@@ -1,6 +1,4 @@
-﻿using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
-
-namespace EduSchedu.Modules.Users.Infrastructure;
+﻿namespace EduSchedu.Modules.Users.Infrastructure;
 
 public class BackOfficeUserOptions
 {

@@ -1,6 +1,8 @@
-﻿namespace EduSchedu.Shared.Abstractions.Services;
+﻿using Microsoft.Extensions.Configuration;
+
+namespace EduSchedu.Shared.Abstractions.Services;
 
 public interface IModuleSeeder
 {
-    Task SeedAsync(CancellationToken cancellationToken);
+    Task SeedAsync(IConfiguration configuration, CancellationToken cancellationToken);
 }
