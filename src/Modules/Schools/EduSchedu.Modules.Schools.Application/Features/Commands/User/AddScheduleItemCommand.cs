@@ -15,8 +15,9 @@ public record AddScheduleItemCommand(
     [property: JsonIgnore]
     Guid UserId,
     ScheduleItemType Type,
-    DateTime Start,
-    DateTime End,
+    DayOfWeek Day,
+    TimeOnly Start,
+    TimeOnly End,
     string Description
 ) : ICommand<Guid>
 {
@@ -53,7 +54,7 @@ public record AddScheduleItemCommand(
             if (!school.TeacherIds.Contains(teacher.Id))
                 Result.BadRequest<Guid>("This teacher is not in this school");
 
-            var scheduleItem = ScheduleItem.Create(request.Type, request.Start, request.End, request.Description);
+            var scheduleItem = ScheduleItem.Create(request.Type, request.Day, request.Start, request.End, request.Description);
             teacher.Schedule.AddScheduleItem(scheduleItem);
 
             await _schoolUnitOfWork.CommitAsync(cancellationToken);

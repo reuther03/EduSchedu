@@ -7,31 +7,32 @@ namespace EduSchedu.Modules.Schools.Domain.Users;
 public class ScheduleItem : Entity<Guid>
 {
     public ScheduleItemType Type { get; private set; }
-    public DateTime Start { get; private set; }
-    public DateTime End { get; private set; }
+    public DayOfWeek Day { get; private set; }
+    public TimeOnly Start { get; private set; }
+    public TimeOnly End { get; private set; }
     public Description Description { get; private set; }
 
     private ScheduleItem()
     {
     }
 
-    private ScheduleItem(Guid id, ScheduleItemType type, DateTime start, DateTime end, string description)
-        : base(id)
+    private ScheduleItem(Guid id, ScheduleItemType type, DayOfWeek day, TimeOnly start, TimeOnly end, Description description) : base(id)
     {
         Type = type;
+        Day = day;
         Start = start;
         End = end;
         Description = description;
     }
 
-    public static ScheduleItem Create(ScheduleItemType type, DateTime start, DateTime end, string description)
+    public static ScheduleItem Create(ScheduleItemType type, DayOfWeek day, TimeOnly start, TimeOnly end, string description)
     {
-        if (DateTime.UtcNow > start)
-            throw new DomainException("Start date must be greater than current date");
-
         if (start >= end)
-            throw new DomainException("Start date must be less than end date");
+        {
+            throw new DomainException("Start time must be before end time");
+        }
 
-        return new ScheduleItem(Guid.NewGuid(), type, start, end, description);
+        var scheduleItem = new ScheduleItem(Guid.NewGuid(), type, day, start, end, description);
+        return scheduleItem;
     }
 }

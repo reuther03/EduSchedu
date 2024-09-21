@@ -19,6 +19,10 @@ public class ScheduleItemConfiguration : IEntityTypeConfiguration<ScheduleItem>
             .HasConversion<string>()
             .IsRequired();
 
+        builder.Property(x => x.Day)
+            .HasConversion<string>()
+            .IsRequired();
+
         builder.Property(x => x.Start)
             .IsRequired();
 
@@ -26,7 +30,6 @@ public class ScheduleItemConfiguration : IEntityTypeConfiguration<ScheduleItem>
             .IsRequired();
 
         builder.Property(x => x.Description)
-            .HasConversion(x => x.Value, x => new Description(x))
-            .IsRequired();
+            .HasConversion(x => x.Value, x => new Description(x));
     }
 }
