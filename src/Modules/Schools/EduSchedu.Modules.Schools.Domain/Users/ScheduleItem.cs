@@ -35,4 +35,15 @@ public class ScheduleItem : Entity<Guid>
         var scheduleItem = new ScheduleItem(Guid.NewGuid(), type, day, start, end, description);
         return scheduleItem;
     }
+
+    public static ScheduleItem Create(ScheduleItemType type, DayOfWeek day, TimeOnly start, TimeOnly end)
+    {
+        if (start >= end)
+        {
+            throw new DomainException("Start time must be before end time");
+        }
+
+        var scheduleItem = new ScheduleItem(Guid.NewGuid(), type, day, start, end, "Lesson");
+        return scheduleItem;
+    }
 }

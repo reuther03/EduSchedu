@@ -92,13 +92,13 @@ internal class SchoolsController : BaseController
         return Ok(result);
     }
 
-    [HttpPost("{schoolId:guid}/assign-teachers")]
-    [AuthorizeRoles(Role.HeadMaster)]
-    public async Task<IActionResult> AssignTeachersToLessons([FromRoute] Guid schoolId)
-    {
-        var result = await _sender.Send(new AssignTeacherToLessonCommand(SchoolId: schoolId));
-        return Ok(result);
-    }
+    // [HttpPost("{schoolId:guid}/assign-teachers")]
+    // [AuthorizeRoles(Role.HeadMaster)]
+    // public async Task<IActionResult> AssignTeachersToLessons([FromRoute] Guid schoolId)
+    // {
+    //     var result = await _sender.Send(new AssignTeacherToLessonCommand(SchoolId: schoolId));
+    //     return Ok(result);
+    // }
 
     [HttpPost("{schoolId:guid}/teacher/{teacherId:guid}/schedule")]
     [AuthorizeRoles(Role.HeadMaster, Role.BackOffice)]

@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using EduSchedu.Modules.Schools.Application.Abstractions;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
+using EduSchedu.Modules.Schools.Domain.Users;
 using EduSchedu.Shared.Abstractions.Kernel.CommandValidators;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
@@ -57,14 +58,13 @@ public record AddScheduleLessonCommand(
             var lesson = @class.Lessons.FirstOrDefault(x => x.Id == request.LessonId);
             NullValidator.ValidateNotNull(lesson);
 
-            if (lesson.ScheduleId is null)
-                return Result<Guid>.BadRequest("Lesson already added to schedule");
+            var scheduleItem = ScheduleItem.Create(ScheduleItemType.Lesson, lesson.Day, lesson.StartTime, lesson.EndTime);
 
             //todo: naprawic zebym mogl dodac lekcje do planu nauczyciela bezposrednio przez propke a nie przez repo
             var schedule = await _schoolUserRepository.GetTeacherScheduleAsync(teacher.Id, cancellationToken);
             NullValidator.ValidateNotNull(schedule);
 
-            schedule.AddLesson(lesson);
+            schedule.AddScheduleItem(scheduleItem);
             await _unitOfWork.CommitAsync(cancellationToken);
 
             return Result.Ok(lesson.Id);
