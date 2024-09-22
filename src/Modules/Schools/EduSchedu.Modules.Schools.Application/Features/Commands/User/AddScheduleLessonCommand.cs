@@ -58,7 +58,7 @@ public record AddScheduleLessonCommand(
             var lesson = @class.Lessons.FirstOrDefault(x => x.Id == request.LessonId);
             NullValidator.ValidateNotNull(lesson);
 
-            var scheduleItem = ScheduleItem.Create(ScheduleItemType.Lesson, lesson.Day, lesson.StartTime, lesson.EndTime);
+            var scheduleItem = ScheduleItem.CreateLessonItem(lesson.Day, lesson.StartTime, lesson.EndTime);
 
             //todo: naprawic zebym mogl dodac lekcje do planu nauczyciela bezposrednio przez propke a nie przez repo
             var schedule = await _schoolUserRepository.GetTeacherScheduleAsync(teacher.Id, cancellationToken);
