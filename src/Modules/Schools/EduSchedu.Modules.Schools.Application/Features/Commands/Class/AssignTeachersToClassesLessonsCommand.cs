@@ -45,10 +45,12 @@ public record AssignTeacherToLessonCommand(
             foreach (var @class in school.Classes)
             {
                 var teachersByLanguage = teachers.Where(x => x.LanguageProficiencyIds.All(y => y.Value == @class.LanguageProficiency!.Id)).ToList();
+                if (@class.Lessons.All(x => x.AssignedTeacher != null))
+                    break;
 
                 foreach (var lesson in @class.Lessons)
                 {
-                    var lessonTimes = @class.Lessons.Select(x => new
+                    var lessonTimes = @class.Lessons.Where(x => x.AssignedTeacher != null).Select(x => new
                     {
                         x.Day,
                         x.StartTime,
@@ -82,18 +84,7 @@ public record AssignTeacherToLessonCommand(
                     {
                         if (lesson.AssignedTeacher != null)
                             continue;
-                        // second approach
-                        // var availableTeachersByScheduleItems = teachersByLanguage.Where(teacher =>
-                        //     !teacher.Schedule.ScheduleItems.Any(scheduleItem =>
-                        //         scheduleItem.Day == lesson.Day &&
-                        //         (
-                        //             (lesson.StartTime >= scheduleItem.Start && lesson.StartTime < scheduleItem.End) ||
-                        //             (lesson.EndTime > scheduleItem.Start && lesson.EndTime <= scheduleItem.End) ||
-                        //             (scheduleItem.Start >= lesson.StartTime && scheduleItem.Start < lesson.EndTime) ||
-                        //             (scheduleItem.End > lesson.StartTime && scheduleItem.End <= lesson.EndTime)
-                        //         )
-                        //     )
-                        // ).ToList();
+
                         var availableTeachersByScheduleItems = teachersByLanguage
                             .Where(teacher => !teacher.Schedule.ScheduleItems
                                 .Any(scheduleItem =>
