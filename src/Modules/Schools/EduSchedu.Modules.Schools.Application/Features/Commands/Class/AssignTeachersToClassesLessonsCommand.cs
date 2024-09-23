@@ -1,6 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 using EduSchedu.Modules.Schools.Application.Abstractions;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
+using EduSchedu.Modules.Schools.Domain.Schools;
+using EduSchedu.Modules.Schools.Domain.Users;
 using EduSchedu.Shared.Abstractions.Kernel.CommandValidators;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
 using EduSchedu.Shared.Abstractions.QueriesAndCommands.Commands;
@@ -43,50 +45,72 @@ public record AssignTeacherToLessonCommand(
             foreach (var @class in school.Classes)
             {
                 var teachersByLanguage = teachers.Where(x => x.LanguageProficiencyIds.All(y => y.Value == @class.LanguageProficiency!.Id)).ToList();
+
                 foreach (var lesson in @class.Lessons)
                 {
-                    var availableTeachersByLessons = teachersByLanguage
-                        .Where(x => x.Schedule.Lessons
-                            .All(y => y.Day == lesson.Day && y.StartTime <= lesson.EndTime && y.EndTime >= lesson.StartTime))
-                        .ToList();
-
-                    var availableTeachersByScheduleItems = availableTeachersByLessons
-                        .Where(x => x.Schedule.ScheduleItems
-                            .All(y => y.Start.DayOfWeek == lesson.Day && y.Start.TimeOfDay <= lesson.EndTime.ToTimeSpan() &&
-                                y.End.TimeOfDay >= lesson.StartTime.ToTimeSpan())).ToList();
-
-                    //powinno byc tak zeby nauczyciel byl przypisany do wszystkich lekcji jesli to mozliwe a jak nie to else uzupelni brakujacego nauczyciela
-                    if (availableTeachersByScheduleItems.Count != 0)
+                    var lessonTimes = @class.Lessons.Select(x => new
                     {
-                        var assignedTeacher = availableTeachersByScheduleItems.First();
-                        // Assign the teacher to all lessons
+                        x.Day,
+                        x.StartTime,
+                        x.EndTime
+                    }).ToList();
+
+                    var availableTeachersByScheduleItemsForAll = teachersByLanguage
+                        .Where(teacher => lessonTimes
+                            .TrueForAll(lessonTime => !teacher.Schedule.ScheduleItems
+                                .Any(scheduleItem =>
+                                    scheduleItem.Day == lessonTime.Day &&
+                                    scheduleItem.Start <= lessonTime.EndTime &&
+                                    scheduleItem.End >= lessonTime.StartTime))
+                        ).ToList();
+
+                    if (availableTeachersByScheduleItemsForAll.Count != 0 && lesson.AssignedTeacher == null)
+                    {
+                        var assignedTeacher = availableTeachersByScheduleItemsForAll.FirstOrDefault();
+                        if (assignedTeacher == null)
+                            return Result.BadRequest<Guid>("There is no teacher for all lessons");
+
                         foreach (var lessonToAssign in @class.Lessons)
                         {
                             lessonToAssign.AssignTeacher(assignedTeacher.Id);
-                            assignedTeacher.Schedule.AddLesson(lessonToAssign);
+                            assignedTeacher.Schedule.AddScheduleItem(
+                                ScheduleItem.CreateLessonItem(lessonToAssign.Day, lessonToAssign.StartTime, lessonToAssign.EndTime)
+                            );
                         }
                     }
                     else
                     {
-                        var notAssignedTeacher = availableTeachersByLessons.FirstOrDefault();
-                        if (notAssignedTeacher == null)
+                        if (lesson.AssignedTeacher != null)
                             continue;
+                        // second approach
+                        // var availableTeachersByScheduleItems = teachersByLanguage.Where(teacher =>
+                        //     !teacher.Schedule.ScheduleItems.Any(scheduleItem =>
+                        //         scheduleItem.Day == lesson.Day &&
+                        //         (
+                        //             (lesson.StartTime >= scheduleItem.Start && lesson.StartTime < scheduleItem.End) ||
+                        //             (lesson.EndTime > scheduleItem.Start && lesson.EndTime <= scheduleItem.End) ||
+                        //             (scheduleItem.Start >= lesson.StartTime && scheduleItem.Start < lesson.EndTime) ||
+                        //             (scheduleItem.End > lesson.StartTime && scheduleItem.End <= lesson.EndTime)
+                        //         )
+                        //     )
+                        // ).ToList();
+                        var availableTeachersByScheduleItems = teachersByLanguage
+                            .Where(teacher => !teacher.Schedule.ScheduleItems
+                                .Any(scheduleItem =>
+                                    scheduleItem.Day == lesson.Day &&
+                                    scheduleItem.Start <= lesson.EndTime &&
+                                    scheduleItem.End >= lesson.StartTime)
+                            ).ToList();
+                        NullValidator.ValidateNotNull(availableTeachersByScheduleItems);
 
-                        foreach (var lessonToAssign in @class.Lessons.Where(x => x.AssignedTeacher == null))
-                        {
-                            lessonToAssign.AssignTeacher(notAssignedTeacher.Id);
-                            notAssignedTeacher.Schedule.AddLesson(lessonToAssign);
-                        }
+                        var notAssignedTeacher = availableTeachersByScheduleItems.FirstOrDefault();
+                        NullValidator.ValidateNotNull(notAssignedTeacher);
+
+                        lesson.AssignTeacher(notAssignedTeacher.Id);
+                        notAssignedTeacher.Schedule.AddScheduleItem(
+                            ScheduleItem.CreateLessonItem(lesson.Day, lesson.StartTime, lesson.EndTime)
+                        );
                     }
-
-                    // if (availableTeachersByScheduleItems.Count == 0)
-                    //     continue;
-
-                    // var assignedTeacher = availableTeachersByScheduleItems.FirstOrDefault();
-                    // NullValidator.ValidateNotNull(assignedTeacher);
-                    //
-                    // lesson.AssignTeacher(assignedTeacher.Id);
-                    // assignedTeacher.Schedule.AddLesson(lesson);
                 }
             }
 
