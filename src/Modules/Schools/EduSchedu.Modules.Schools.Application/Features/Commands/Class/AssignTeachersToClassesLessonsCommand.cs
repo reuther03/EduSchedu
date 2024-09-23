@@ -45,12 +45,10 @@ public record AssignTeacherToLessonCommand(
             foreach (var @class in school.Classes)
             {
                 var teachersByLanguage = teachers.Where(x => x.LanguageProficiencyIds.All(y => y.Value == @class.LanguageProficiency!.Id)).ToList();
-                if (@class.Lessons.All(x => x.AssignedTeacher != null))
-                    break;
 
                 foreach (var lesson in @class.Lessons)
                 {
-                    var lessonTimes = @class.Lessons.Where(x => x.AssignedTeacher != null).Select(x => new
+                    var lessonTimes = @class.Lessons.Select(x => new
                     {
                         x.Day,
                         x.StartTime,
