@@ -2,6 +2,7 @@
 using EduSchedu.Modules.Schools.Application.Features.Commands.Schools;
 using EduSchedu.Modules.Schools.Application.Features.Commands.User;
 using EduSchedu.Modules.Schools.Application.Features.Queries.School;
+using EduSchedu.Modules.Schools.Application.Features.Queries.Users;
 using EduSchedu.Shared.Abstractions.Kernel.Attribute;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using MediatR;
@@ -34,14 +35,15 @@ internal class SchoolsController : BaseController
         return Ok(result);
     }
 
-
-    [HttpPost]
-    [AuthorizeRoles(Role.HeadMaster)]
-    public async Task<IActionResult> CreateSchool([FromBody] CreateSchoolCommand command)
+    [HttpGet("{schoolId:guid}/teacher/lessons")]
+    [AuthorizeRoles(Role.Teacher)]
+    public async Task<IActionResult> GetTeacherLessons([FromRoute] Guid schoolId, [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 10)
     {
-        var result = await _sender.Send(command);
+        var result = await _sender.Send(new GetTeacherLessonsQuery(schoolId, page, pageSize));
         return Ok(result);
     }
+
 
     [HttpPost("{schoolId:guid}/teacher")]
     [AuthorizeRoles(Role.HeadMaster)]
