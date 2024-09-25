@@ -10,4 +10,8 @@
       <ProjectReference Include="..\EduSchedu.Modules.Users.Domain\EduSchedu.Modules.Users.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Users\Queries\" />
+    </ItemGroup>
+
 </Project>
