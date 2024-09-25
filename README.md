@@ -1,1 +1,1 @@
-# EduSched
+# EduSchedu
