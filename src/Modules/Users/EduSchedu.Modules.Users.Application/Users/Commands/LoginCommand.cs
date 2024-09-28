@@ -1,4 +1,5 @@
-﻿using EduSchedu.Modules.Users.Application.Abstractions.Database.Repositories;
+﻿using System.Runtime.CompilerServices;
+using EduSchedu.Modules.Users.Application.Abstractions.Database.Repositories;
 using EduSchedu.Shared.Abstractions.Auth;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
@@ -26,7 +27,7 @@ public record LoginCommand(string Email, string Password) : ICommand<AccessToken
                 return Result.Unauthorized<AccessToken>("Authentication failed");
 
             if (!user.IsPasswordChanged && user.Role != Role.HeadMaster)
-                return Result.Unauthorized<AccessToken>("Authentication failed");
+                return Result.Unauthorized<AccessToken>("You must change your password");
 
             if (!user.Password.Verify(request.Password))
                 return Result.Unauthorized<AccessToken>("Authentication failed");

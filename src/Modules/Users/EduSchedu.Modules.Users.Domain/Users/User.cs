@@ -1,4 +1,5 @@
-﻿using EduSchedu.Shared.Abstractions.Kernel.Primitives;
+﻿using EduSchedu.Shared.Abstractions.Exception;
+using EduSchedu.Shared.Abstractions.Kernel.Primitives;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 
 namespace EduSchedu.Modules.Users.Domain.Users;
@@ -27,8 +28,11 @@ public class User : AggregateRoot<UserId>
     public static User Create(Email email, Name fullName, Password password, Role role)
         => new User(UserId.New(), email, fullName, password, role, false);
 
-    public void ChangePassword(Password newPassword)
+    public void ChangePassword(string newPassword)
     {
+        if(Password == newPassword)
+            throw new DomainException("New password cannot be the same as the old one");
+
         Password = Password.Create(newPassword);
         IsPasswordChanged = true;
     }
