@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduSchedu.Modules.Schools.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduSchedu.Modules.Schools.Infrastructure", "src\Modules\Schools\EduSchedu.Modules.Schools.Infrastructure\EduSchedu.Modules.Schools.Infrastructure.csproj", "{B6758E80-7569-4824-A1BF-8B143F161F5E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduSchedu.Tests.Unit", "tests\EduSchedu.Tests.Unit\EduSchedu.Tests.Unit.csproj", "{06400BE8-1D20-46AB-895C-9E8B893CDAA8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +94,10 @@ Global
 		{B6758E80-7569-4824-A1BF-8B143F161F5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6758E80-7569-4824-A1BF-8B143F161F5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6758E80-7569-4824-A1BF-8B143F161F5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06400BE8-1D20-46AB-895C-9E8B893CDAA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06400BE8-1D20-46AB-895C-9E8B893CDAA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06400BE8-1D20-46AB-895C-9E8B893CDAA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06400BE8-1D20-46AB-895C-9E8B893CDAA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DC51AE1B-BC98-41FE-A4D2-D8BC0CB0A209} = {525A8442-CE08-4EFD-8EDA-999A2AB57755}
@@ -110,5 +116,6 @@ Global
 		{6534B648-2E51-447D-AD1E-5E5CF3B37EC2} = {4C95FCBF-E9EF-4D75-A3E7-84B89FBAC506}
 		{76795CAD-EB6D-4C99-9E86-87D5CF871D94} = {4C95FCBF-E9EF-4D75-A3E7-84B89FBAC506}
 		{B6758E80-7569-4824-A1BF-8B143F161F5E} = {4C95FCBF-E9EF-4D75-A3E7-84B89FBAC506}
+		{06400BE8-1D20-46AB-895C-9E8B893CDAA8} = {6C7A7C2B-6D42-4CA2-9C9A-C54BD7E4815A}
 	EndGlobalSection
 EndGlobal
