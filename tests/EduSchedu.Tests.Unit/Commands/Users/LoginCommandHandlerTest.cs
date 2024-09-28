@@ -23,6 +23,24 @@ public class LoginCommandHandlerTest
     }
 
     [Fact]
+    public async Task Give_User_With_Invalid_Email_Should_Return_Unauthorized()
+    {
+        // Arrange
+        _userRepositoryMock.Setup(x => x.GetByEmailAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((User?)null);
+
+        var handler = new LoginCommand.Handler(_userRepositoryMock.Object, _jwtProviderMock.Object);
+        var command = new LoginCommand("test@testemail.com", "testpassword");
+
+        var result = await handler.Handle(command, CancellationToken.None);
+
+        result.Should().NotBeNull();
+        result.IsSuccess.Should().BeFalse();
+        result.StatusCode.Should().Be(401);
+    }
+
+
+    [Fact]
     public async Task Give_UserWithoutChangedPassword_Should_Return_Unauthorized()
     {
         // Arrange
