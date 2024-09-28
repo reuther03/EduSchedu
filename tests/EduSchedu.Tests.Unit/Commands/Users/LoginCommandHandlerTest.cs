@@ -38,13 +38,13 @@ public class LoginCommandHandlerTest
         var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        Assert.NotNull(result);
-        Assert.False(result.IsSuccess);
-        Assert.Equal(401, result.StatusCode);
+        result.Should().NotBeNull();
+        result.IsSuccess.Should().BeFalse();
+        result.StatusCode.Should().Be(401);
     }
 
     [Fact]
-    public async Task Give_UserWithChangedPassword_Should_Return_Ok()
+    public async Task Give_User_With_Changed_Password_Should_Return_Ok()
     {
         // Arrange
         var user = User.Create("testemail@test.com", "Test User", Password.Create("testpassword"), Role.Teacher);
@@ -60,8 +60,8 @@ public class LoginCommandHandlerTest
         var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        Assert.NotNull(result);
-        Assert.True(result.IsSuccess);
-        Assert.Equal(200, result.StatusCode);
+        result.Should().NotBeNull();
+        result.IsSuccess.Should().BeTrue();
+        result.StatusCode.Should().Be(200);
     }
 }
