@@ -27,7 +27,7 @@ public record SignUpHeadmasterCommand(string Email, string FullName, string Pass
 
         public async Task<Result<Guid>> Handle(SignUpHeadmasterCommand request, CancellationToken cancellationToken)
         {
-            if (_userRepository.ExistsWithEmailAsync(request.Email, cancellationToken).Result)
+            if (await _userRepository.ExistsWithEmailAsync(request.Email, cancellationToken))
                 return Result.BadRequest<Guid>("User with this email already exists.");
 
             var user = User.Create(new Email(request.Email), new Name(request.FullName), UserPassword.Create(request.Password), Role.HeadMaster);

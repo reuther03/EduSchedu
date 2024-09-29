@@ -11,16 +11,8 @@ namespace EduSchedu.Tests.Unit.Commands.Users;
 
 public class LoginCommandHandlerTest
 {
-    private readonly Mock<IUserRepository> _userRepositoryMock;
-    private readonly Mock<IJwtProvider> _jwtProviderMock;
-    private readonly LoginCommand.Handler _handler;
-
-    public LoginCommandHandlerTest()
-    {
-        _userRepositoryMock = new Mock<IUserRepository>();
-        _jwtProviderMock = new Mock<IJwtProvider>();
-        _handler = new LoginCommand.Handler(_userRepositoryMock.Object, _jwtProviderMock.Object);
-    }
+    private readonly Mock<IUserRepository> _userRepositoryMock = new();
+    private readonly Mock<IJwtProvider> _jwtProviderMock = new();
 
     [Fact]
     public async Task Give_User_With_Invalid_Email_Should_Return_Unauthorized()
