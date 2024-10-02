@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(SchoolsDbContext))]
-    [Migration("20240921021039_AddedDayOfWeekToScheduleItem")]
-    partial class AddedDayOfWeekToScheduleItem
+    [Migration("20241002164927_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -204,13 +204,6 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
 
                     b.HasDiscriminator().HasValue("BackOffice");
-                });
-
-            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Headmaster", b =>
-                {
-                    b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
-
-                    b.HasDiscriminator().HasValue("HeadMaster");
                 });
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Teacher", b =>

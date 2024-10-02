@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -188,8 +188,9 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false),
-                    Start = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    End = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Day = table.Column<string>(type: "text", nullable: false),
+                    Start = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
+                    End = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     ScheduleId = table.Column<Guid>(type: "uuid", nullable: false)
                 },

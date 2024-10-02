@@ -203,13 +203,6 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     b.HasDiscriminator().HasValue("BackOffice");
                 });
 
-            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Headmaster", b =>
-                {
-                    b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
-
-                    b.HasDiscriminator().HasValue("HeadMaster");
-                });
-
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Teacher", b =>
                 {
                     b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
