@@ -68,6 +68,21 @@ public class SchoolConfiguration : IEntityTypeConfiguration<School>
                 ?.SetPropertyAccessMode(PropertyAccessMode.Field);
         });
 
+        builder.OwnsMany(x => x.StudentIds, ownedBuilder =>
+        {
+            ownedBuilder.WithOwner().HasForeignKey("SchoolId");
+            ownedBuilder.ToTable("SchoolStudentIds");
+            ownedBuilder.HasKey("Id");
+
+            ownedBuilder.Property(x => x.Value)
+                .ValueGeneratedNever()
+                .HasColumnName("StudentId");
+
+            builder.Metadata
+                .FindNavigation(nameof(School.StudentIds))
+                ?.SetPropertyAccessMode(PropertyAccessMode.Field);
+        });
+
         builder.HasMany(x => x.Classes)
             .WithOne()
             .HasForeignKey("SchoolId")

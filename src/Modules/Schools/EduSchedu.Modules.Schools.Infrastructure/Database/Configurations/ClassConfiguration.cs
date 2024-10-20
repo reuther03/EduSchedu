@@ -30,5 +30,20 @@ public class ClassConfiguration : IEntityTypeConfiguration<Class>
             .WithOne()
             .HasForeignKey("ClassId")
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.OwnsMany(x => x.StudentIds, ownedBuilder =>
+        {
+            ownedBuilder.WithOwner().HasForeignKey("ClassId");
+            ownedBuilder.ToTable("ClassStudentIds");
+            ownedBuilder.HasKey("Id");
+
+            ownedBuilder.Property(x => x.Value)
+                .ValueGeneratedNever()
+                .HasColumnName("StudentId");
+
+            builder.Metadata
+                .FindNavigation(nameof(Class.StudentIds))
+                ?.SetPropertyAccessMode(PropertyAccessMode.Field);
+        });
     }
 }

@@ -8,7 +8,6 @@ public class Teacher : SchoolUser
 {
     private readonly List<LanguageProficiencyId> _languageProficiencyIds = [];
 
-
     public Schedule Schedule { get; private set; }
     public IReadOnlyList<LanguageProficiencyId> LanguageProficiencyIds => _languageProficiencyIds.AsReadOnly();
 

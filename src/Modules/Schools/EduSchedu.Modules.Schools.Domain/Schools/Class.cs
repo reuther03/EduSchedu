@@ -8,10 +8,12 @@ namespace EduSchedu.Modules.Schools.Domain.Schools;
 public class Class : Entity<ClassId>
 {
     private readonly List<Lesson> _lessons = [];
+    private readonly List<UserId> _studentIds = [];
 
     public Name Name { get; private set; }
     public LanguageProficiency? LanguageProficiency { get; private set; }
     public IReadOnlyList<Lesson> Lessons => _lessons.AsReadOnly();
+    public IReadOnlyList<UserId> StudentIds => _studentIds.AsReadOnly();
 
     private Class()
     {
@@ -39,5 +41,13 @@ public class Class : Entity<ClassId>
             throw new DomainException("Lesson is in class hours");
 
         _lessons.Add(lesson);
+    }
+
+    public void AddStudent(UserId studentId)
+    {
+        if (_studentIds.Contains(studentId))
+            throw new DomainException("Student already exists");
+
+        _studentIds.Add(studentId);
     }
 }
