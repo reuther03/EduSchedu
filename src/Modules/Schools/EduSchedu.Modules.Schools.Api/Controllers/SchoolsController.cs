@@ -35,6 +35,7 @@ internal class SchoolsController : BaseController
         return Ok(result);
     }
 
+
     [HttpGet("{schoolId:guid}/teacher/lessons")]
     [AuthorizeRoles(Role.Teacher)]
     public async Task<IActionResult> GetTeacherLessons([FromRoute] Guid schoolId, [FromQuery] int page = 1,
@@ -44,6 +45,13 @@ internal class SchoolsController : BaseController
         return Ok(result);
     }
 
+    [HttpPost]
+    [AuthorizeRoles(Role.HeadMaster)]
+    public async Task<IActionResult> CreateSchool([FromBody] CreateSchoolCommand command)
+    {
+        var result = await _sender.Send(command);
+        return Ok(result);
+    }
 
     [HttpPost("{schoolId:guid}/teacher")]
     [AuthorizeRoles(Role.HeadMaster)]
