@@ -5,14 +5,17 @@ namespace EduSchedu.Modules.Schools.Domain.Users;
 
 public class Student : SchoolUser
 {
-    public int Grade { get; private set; }
 
     private Student()
     {
     }
 
-    public Student(UserId id, Email email, Name fullName, Role role, int grade) : base(id, email, fullName, role)
+    public Student(UserId id, Email email, Name fullName, Role role) : base(id, email, fullName, role)
     {
-        Grade = grade;
+    }
+
+    public static Student Create(UserId id, Email email, Name fullName)
+    {
+        return new Student(id, email, fullName, Role.Student);
     }
 }

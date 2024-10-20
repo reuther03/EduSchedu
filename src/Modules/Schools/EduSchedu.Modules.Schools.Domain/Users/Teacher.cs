@@ -22,7 +22,7 @@ public class Teacher : SchoolUser
 
     public static Teacher Create(UserId id, Email email, Name fullName, Role role)
     {
-        if (role == Role.BackOffice)
+        if (role is Role.BackOffice or Role.Student)
             throw new DomainException("Role is invalid.");
 
         var teacher = new Teacher(id, email, fullName, role);

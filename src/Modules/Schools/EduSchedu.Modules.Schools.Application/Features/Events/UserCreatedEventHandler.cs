@@ -46,22 +46,37 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
             return;
 
         SchoolUser user;
-        // Functional.IfElse(notification.Role is Role.Teacher,
-        //     () => user = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName), Role.Teacher),
-        //     () => user = BackOfficeUser.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName)));
-        if (notification.Role is Role.Teacher)
+        switch (notification.Role)
         {
-            user = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName), Role.Teacher);
-            var schedule = Schedule.Create(ScheduleId.New(), user.Id);
-
-            if (user is Teacher teacher)
+            // Functional.IfElse(notification.Role is Role.Teacher,
+            //     () => user = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName), Role.Teacher),
+            //     () => user = BackOfficeUser.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName)));
+            case Role.Teacher:
             {
-                teacher.SetSchedule(schedule);
+                user = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName), Role.Teacher);
+                var schedule = Schedule.Create(ScheduleId.New(), user.Id);
+
+                if (user is Teacher teacher)
+                {
+                    teacher.SetSchedule(schedule);
+                }
+
+                break;
             }
-        }
-        else
-        {
-            user = BackOfficeUser.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
+
+            case Role.HeadMaster:
+                user = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName), Role.HeadMaster);
+                break;
+
+            case Role.Student:
+                user = Student.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
+                break;
+
+            case Role.BackOffice:
+                user = BackOfficeUser.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
+                break;
+            default:
+                throw new ArgumentException("Invalid role.");
         }
 
         school.AddUser(user.Id);
