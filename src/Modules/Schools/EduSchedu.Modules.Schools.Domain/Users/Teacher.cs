@@ -9,6 +9,7 @@ public class Teacher : SchoolUser
     private readonly List<LanguageProficiencyId> _languageProficiencyIds = [];
 
     public Schedule Schedule { get; private set; }
+    public bool IsHeadmaster => Role == Role.HeadMaster;
     public IReadOnlyList<LanguageProficiencyId> LanguageProficiencyIds => _languageProficiencyIds.AsReadOnly();
 
     private Teacher()
