@@ -26,8 +26,8 @@ public class Schedule : AggregateRoot<ScheduleId>
         TeacherId = teacherId;
     }
 
-    public static Schedule Create(ScheduleId id, UserId teacherId)
-        => new Schedule(id, teacherId);
+    public static Schedule Create(UserId teacherId)
+        => new (ScheduleId.New(), teacherId);
 
     public void AddScheduleItem(ScheduleItem item)
         => _scheduleItems.Add(item);

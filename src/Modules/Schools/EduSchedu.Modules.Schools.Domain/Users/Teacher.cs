@@ -30,7 +30,6 @@ public class Teacher : SchoolUser
         return teacher;
     }
 
-
     public void AddLanguageProficiency(Guid languageProficiencyId)
     {
         if (_languageProficiencyIds.Contains(languageProficiencyId))
