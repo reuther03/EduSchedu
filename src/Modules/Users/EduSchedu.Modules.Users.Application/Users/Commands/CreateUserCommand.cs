@@ -41,7 +41,7 @@ public record CreateUserCommand(string Email, string FullName, Role Role, Guid S
             if (_userRepository.ExistsWithEmailAsync(request.Email, cancellationToken).Result)
                 return Result.BadRequest<Guid>("User with this email already exists.");
 
-            if (request.Role == Role.HeadMaster)
+            if (request.Role is Role.HeadMaster or Role.BackOffice)
                 return Result.BadRequest<Guid>("Headmaster can't be created here.");
 
             var password = UserPassword.Generate();

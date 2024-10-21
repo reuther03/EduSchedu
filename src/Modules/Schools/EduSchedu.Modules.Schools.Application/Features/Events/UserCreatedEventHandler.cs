@@ -45,7 +45,7 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
         if (await _schoolUserRepository.ExistsAsync(new UserId(notification.UserId), cancellationToken))
             return;
 
-        SchoolUser user;
+        SchoolUser user = null!;
         switch (notification.Role)
         {
             // Functional.IfElse(notification.Role is Role.Teacher,
@@ -54,7 +54,7 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
             case Role.Teacher:
             {
                 user = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName), Role.Teacher);
-                var schedule = Schedule.Create(ScheduleId.New(), user.Id);
+                var schedule = Schedule.Create(user.Id);
 
                 if (user is Teacher teacher)
                 {
@@ -65,7 +65,6 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
             }
 
             case Role.HeadMaster:
-                user = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName), Role.HeadMaster);
                 break;
 
             case Role.Student:
@@ -75,6 +74,7 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
             case Role.BackOffice:
                 user = BackOfficeUser.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
                 break;
+
             default:
                 throw new ArgumentException("Invalid role.");
         }
