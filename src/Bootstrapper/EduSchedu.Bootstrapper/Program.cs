@@ -1,6 +1,7 @@
 using EduSchedu.Bootstrapper;
 using EduSchedu.Shared.Infrastructure;
 using EduSchedu.Shared.Infrastructure.Modules;
+using EduSchedu.Shared.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddUserSecrets<Program>();

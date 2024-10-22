@@ -43,9 +43,10 @@ internal static class Extensions
         {
             cors.AddPolicy(CorsPolicy, x =>
             {
-                x.WithOrigins("*")
+                x.WithOrigins("http://localhost:5000", "https://localhost:5000","ws://localhost:5000", "wss://localhost:5000")
                     .WithMethods("POST", "PUT", "DELETE")
-                    .WithHeaders("Content-Type", "Authorization");
+                    .WithHeaders("Content-Type", "Authorization")
+                    .AllowCredentials();
             });
         });
 
@@ -76,6 +77,7 @@ internal static class Extensions
                 manager.FeatureProviders.Add(new InternalControllerFeatureProvider());
             });
 
+        services.AddSignalR();
         return services;
     }
 
@@ -87,6 +89,10 @@ internal static class Extensions
         app.UseAuthentication();
         app.UseRouting();
         app.UseAuthorization();
+        app.UseEndpoints(e =>
+        {
+            e.MapHub<ClassChatHub>("/chat");
+        });
         return app;
     }
 
