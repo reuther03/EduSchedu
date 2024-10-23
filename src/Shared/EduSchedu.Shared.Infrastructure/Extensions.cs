@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using EduSchedu.Shared.Abstractions.Email;
 using EduSchedu.Shared.Abstractions.Modules;
+using EduSchedu.Shared.Abstractions.Services;
 using EduSchedu.Shared.Infrastructure.Api;
 using EduSchedu.Shared.Infrastructure.Auth;
 using EduSchedu.Shared.Infrastructure.Postgres;
@@ -86,11 +87,11 @@ internal static class Extensions
         app.UseCors(CorsPolicy);
         app.UseAuthentication();
         app.UseAuthorization();
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllers();
-            endpoints.MapHub<ClassChatHub>("/chat");
-        });
+        // app.UseEndpoints(endpoints =>
+        // {
+        //     endpoints.MapControllers();
+        //     endpoints.MapHub<ClassChatHub>("/chat");
+        // });
         app.UseSwagger();
         app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "EduSchedu API"); });
         return app;
