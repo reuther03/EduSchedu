@@ -1,7 +1,6 @@
 using EduSchedu.Bootstrapper;
 using EduSchedu.Shared.Infrastructure;
 using EduSchedu.Shared.Infrastructure.Modules;
-using EduSchedu.Shared.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddUserSecrets<Program>();
@@ -29,7 +28,5 @@ foreach (var module in modules)
 {
     module.Use(app);
 }
-
-app.MapControllers();
 
 await app.RunAsync();

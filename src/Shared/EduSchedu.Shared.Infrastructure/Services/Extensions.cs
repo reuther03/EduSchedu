@@ -15,6 +15,8 @@ internal static class Extensions
         services.AddSingleton<IUserService, UserService>();
         services.AddSingleton<IEmailSender, EmailSender>();
         services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
+        services.AddSignalR();
+
         return services;
     }
 }

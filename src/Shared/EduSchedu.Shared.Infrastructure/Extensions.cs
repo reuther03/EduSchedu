@@ -43,9 +43,9 @@ internal static class Extensions
         {
             cors.AddPolicy(CorsPolicy, x =>
             {
-                x.WithOrigins("http://localhost:5000", "https://localhost:5000","ws://localhost:5000", "wss://localhost:5000")
-                    .WithMethods("POST", "PUT", "DELETE")
-                    .WithHeaders("Content-Type", "Authorization")
+                x.WithOrigins("http://localhost:5000", "https://localhost:5000")
+                    .WithMethods("GET", "POST", "PUT", "DELETE")
+                    .AllowAnyHeader()
                     .AllowCredentials();
             });
         });
@@ -77,22 +77,22 @@ internal static class Extensions
                 manager.FeatureProviders.Add(new InternalControllerFeatureProvider());
             });
 
-        services.AddSignalR();
         return services;
     }
 
     public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
     {
+        app.UseRouting();
         app.UseCors(CorsPolicy);
+        app.UseAuthentication();
+        app.UseAuthorization();
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+            endpoints.MapHub<ClassChatHub>("/chat");
+        });
         app.UseSwagger();
         app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "EduSchedu API"); });
-        app.UseAuthentication();
-        app.UseRouting();
-        app.UseAuthorization();
-        app.UseEndpoints(e =>
-        {
-            e.MapHub<ClassChatHub>("/chat");
-        });
         return app;
     }
 
