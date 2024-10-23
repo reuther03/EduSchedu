@@ -14,4 +14,10 @@ public class ClassChatHub : Hub
     {
         await Clients.All.SendAsync("ReceiveMessage", user, message);
     }
+
+    public async Task JoinClass(string user, string classId)
+    {
+        await Groups.AddToGroupAsync(Context.ConnectionId, classId);
+        await Clients.Group(classId).SendAsync("ReceiveMessage", "System", $"{user} joined the class {classId}");
+    }
 }
