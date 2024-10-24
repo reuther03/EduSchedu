@@ -51,11 +51,26 @@ public class ClassChatHub : Hub
         if (@class.Lessons.Any(x => x.AssignedTeacher == user.Id))
             throw new InvalidOperationException("User is not a teacher in this class.");
 
-        // t
+        // todo: sprawdzic ten context.connectionId
         await Groups.AddToGroupAsync(Context.ConnectionId, @class.Id);
         await Clients.Group(classId).SendAsync(ReceiveMessage, "System", $"joined the class {classId}.");
     }
 
+    public async Task SendMessageToClass(string classId, string message)
+    {
+        var user = await _context.SchoolUsers.FindAsync(_userService.UserId);
+        if (user == null)
+            throw new InvalidOperationException("User not found.");
+
+        var @class = await _context.Classes.FindAsync(ClassId.From(classId));
+        if (@class == null)
+            throw new InvalidOperationException("Class not found.");
+
+        if (@class.Lessons.Any(x => x.AssignedTeacher == user.Id) || @class.StudentIds.Contains(user.Id))
+            throw new InvalidOperationException("User is not a teacher in this class.");
+
+        await Clients.Group(@class.Id).SendAsync(ReceiveMessage, user.FullName, message);
+    }
     // public async Task JoinClass(string user, string classId)
     // {
     //     await Groups.AddToGroupAsync(Context.ConnectionId, classId);
