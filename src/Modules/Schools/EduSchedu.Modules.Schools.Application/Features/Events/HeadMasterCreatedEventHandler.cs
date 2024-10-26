@@ -23,7 +23,7 @@ public class HeadMasterCreatedEventHandler : INotificationHandler<HeadmasterCrea
         if (await _schoolUserRepository.ExistsAsync(new UserId(notification.UserId), cancellationToken))
             return;
 
-        var user = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName), Role.HeadMaster);
+        var user = Headmaster.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
         var schedule = Schedule.Create(user.Id);
         user.SetSchedule(schedule);
 

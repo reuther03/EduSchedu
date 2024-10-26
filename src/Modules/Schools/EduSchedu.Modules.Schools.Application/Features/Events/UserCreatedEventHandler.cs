@@ -53,7 +53,7 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
             //     () => user = BackOfficeUser.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName)));
             case Role.Teacher:
             {
-                user = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName), Role.Teacher);
+                user = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
                 var schedule = Schedule.Create(user.Id);
 
                 if (user is Teacher teacher)

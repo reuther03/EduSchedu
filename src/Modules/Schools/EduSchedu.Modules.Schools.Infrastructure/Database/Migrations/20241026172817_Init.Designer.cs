@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(SchoolsDbContext))]
-    [Migration("20241024234416_Init")]
+    [Migration("20241026172817_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -216,6 +216,13 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Teacher", b =>
                 {
                     b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
+
+                    b.HasDiscriminator().HasValue("Teacher");
+                });
+
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Headmaster", b =>
+                {
+                    b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.Teacher");
 
                     b.HasDiscriminator().HasValue("HeadMaster");
                 });

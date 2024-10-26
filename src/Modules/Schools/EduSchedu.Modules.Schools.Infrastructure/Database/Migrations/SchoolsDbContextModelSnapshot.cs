@@ -214,6 +214,13 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 {
                     b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
 
+                    b.HasDiscriminator().HasValue("Teacher");
+                });
+
+            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Headmaster", b =>
+                {
+                    b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.Teacher");
+
                     b.HasDiscriminator().HasValue("HeadMaster");
                 });
 
