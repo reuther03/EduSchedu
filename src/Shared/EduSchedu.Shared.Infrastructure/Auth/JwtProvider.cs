@@ -17,18 +17,20 @@ public class JwtProvider : IJwtProvider
         _jwtOptions = jwtOptions.Value;
     }
 
-    public string GenerateToken(string userId, string email, Role role)
+    public string GenerateToken(string userId, string fullName ,string email, Role role)
     {
         var claims = new Claim[]
         {
             new(JwtRegisteredClaimNames.Sub, userId),
             new(JwtRegisteredClaimNames.UniqueName, userId),
+            new(JwtRegisteredClaimNames.GivenName, fullName),
             new(JwtRegisteredClaimNames.Email, email),
             new(ClaimConsts.Role, role.ToString())
         };
 
         var now = DateTime.UtcNow;
 
+        // todo: pewnie trzeba to zmienic i jakos to obejsc
         var polandTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
 
         var localNow = TimeZoneInfo.ConvertTimeFromUtc(now, polandTimeZone);

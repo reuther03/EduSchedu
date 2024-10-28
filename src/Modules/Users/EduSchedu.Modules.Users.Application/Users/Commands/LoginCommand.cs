@@ -32,7 +32,12 @@ public record LoginCommand(string Email, string Password) : ICommand<AccessToken
             if (!user.Password.Verify(request.Password))
                 return Result.Unauthorized<AccessToken>("Authentication failed");
 
-            var token = AccessToken.Create(_jwtProvider.GenerateToken(user.Id.ToString(), user.Email, user.Role), user.Id, user.Email);
+            var token = AccessToken.Create(
+                _jwtProvider.GenerateToken(user.Id.ToString(), user.FullName, user.Email, user.Role),
+                user.Id,
+                user.FullName,
+                user.Email
+            );
 
             return Result.Ok(token);
         }
