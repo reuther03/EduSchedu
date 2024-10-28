@@ -1,8 +1,10 @@
-﻿using EduSchedu.Modules.Schools.Application.Abstractions.Database;
+﻿using System.Security.Claims;
+using EduSchedu.Modules.Schools.Application.Abstractions.Database;
 using EduSchedu.Modules.Schools.Domain.Schools.Ids;
 using EduSchedu.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+
 
 namespace EduSchedu.Modules.Schools.Application;
 
@@ -18,12 +20,6 @@ public class ClassChatHub : Hub
     {
         _userService = userService;
         _context = context;
-    }
-
-    public override async Task OnConnectedAsync()
-    {
-        var user = await _context.SchoolUsers.FindAsync(_userService.UserId);
-        await Clients.All.SendAsync(ReceiveMessage, "System", $"{user.FullName} connected.");
     }
 
     public async Task SendMessage(string user, string message)
@@ -52,8 +48,8 @@ public class ClassChatHub : Hub
             throw new InvalidOperationException("User is not a teacher in this class.");
 
         // todo: sprawdzic ten context.connectionId
-        await Groups.AddToGroupAsync(Context.ConnectionId, @class.Id);
-        await Clients.Group(classId).SendAsync(ReceiveMessage, "System", $"joined the class {classId}.");
+        await Groups.AddToGroupAsync(Context.ConnectionId, @class.Id.ToString());
+        await Clients.Group(classId).SendAsync(ReceiveMessage, "System", $"joined the class {@class.Name}.");
     }
 
     public async Task SendMessageToClass(string classId, string message)
@@ -62,6 +58,8 @@ public class ClassChatHub : Hub
         if (user == null)
             throw new InvalidOperationException("User not found.");
 
+        var fullName = Context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName)?.Value;
+
         var @class = await _context.Classes.FindAsync(ClassId.From(classId));
         if (@class == null)
             throw new InvalidOperationException("Class not found.");
@@ -69,7 +67,8 @@ public class ClassChatHub : Hub
         if (@class.Lessons.Any(x => x.AssignedTeacher == user.Id) || @class.StudentIds.Contains(user.Id))
             throw new InvalidOperationException("User is not a teacher in this class.");
 
-        await Clients.Group(@class.Id).SendAsync(ReceiveMessage, user.FullName, message);
+
+        await Clients.Group(classId).SendAsync(ReceiveMessage, fullName, message);
     }
     // public async Task JoinClass(string user, string classId)
     // {
