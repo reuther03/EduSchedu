@@ -4,6 +4,7 @@ using EduSchedu.Modules.Schools.Domain.Schools.Ids;
 using EduSchedu.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace EduSchedu.Modules.Schools.Application;
@@ -40,12 +41,12 @@ public class ClassChatHub : Hub
         if (!school.TeacherIds.Contains(user.Id))
             throw new InvalidOperationException("User is not a teacher in this school.");
 
-        var @class = await _context.Classes.FindAsync(ClassId.From(classId));
+        var @class = await _context.Classes.Include(x => x.Lessons).FirstOrDefaultAsync(x => x.Id == ClassId.From(classId));
         if (@class == null)
             throw new InvalidOperationException("Class not found.");
 
-        if (@class.Lessons.Any(x => x.AssignedTeacher == user.Id))
-            throw new InvalidOperationException("User is not a teacher in this class.");
+        if (@class.Lessons.Any(x => x.AssignedTeacher != user.Id))
+            throw new HubException("User is not a teacher in this class.");
 
         // todo: sprawdzic ten context.connectionId
         await Groups.AddToGroupAsync(Context.ConnectionId, @class.Id.ToString());
