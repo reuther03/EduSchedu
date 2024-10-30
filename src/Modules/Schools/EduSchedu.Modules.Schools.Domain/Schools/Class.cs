@@ -11,6 +11,8 @@ public class Class : Entity<ClassId>
     private readonly List<UserId> _studentIds = [];
 
     public Name Name { get; private set; }
+
+    // todo: nie wiem po co jest to nullable i pasuje to zmienić
     public LanguageProficiency? LanguageProficiency { get; private set; }
     public IReadOnlyList<Lesson> Lessons => _lessons.AsReadOnly();
     public IReadOnlyList<UserId> StudentIds => _studentIds.AsReadOnly();

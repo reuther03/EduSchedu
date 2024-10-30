@@ -1,9 +1,12 @@
-﻿using EduSchedu.Modules.Schools.Application.Abstractions.Database;
+﻿using System.Runtime.CompilerServices;
+using EduSchedu.Modules.Schools.Application.Abstractions.Database;
 using EduSchedu.Modules.Schools.Domain.Schools;
 using EduSchedu.Modules.Schools.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
+[assembly: InternalsVisibleTo("EduSchedu.Tests.Unit")]
 namespace EduSchedu.Modules.Schools.Infrastructure.Database;
+
 
 internal class SchoolsDbContext : DbContext, ISchoolsDbContext
 {
