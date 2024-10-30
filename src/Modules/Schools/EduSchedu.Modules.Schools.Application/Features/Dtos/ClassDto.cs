@@ -5,15 +5,15 @@ namespace EduSchedu.Modules.Schools.Application.Features.Dtos;
 public class ClassDto
 {
     public string Name { get; init; } = null!;
-    public LanguageProficiency? LanguageProficiency { get; set; }
-    public List<LessonDto> Lessons { get; set; } = [];
+    public LanguageProficiencyDto? LanguageProficiency { get; init; }
+    public List<LessonDto> Lessons { get; init; } = [];
 
     public static ClassDto AsDto(Class @class)
     {
         return new ClassDto
         {
             Name = @class.Name.Value,
-            LanguageProficiency = @class.LanguageProficiency,
+            LanguageProficiency = LanguageProficiencyDto.AsDto(@class.LanguageProficiency!),
             Lessons = @class.Lessons.Select(LessonDto.AsDto).ToList()
         };
     }
