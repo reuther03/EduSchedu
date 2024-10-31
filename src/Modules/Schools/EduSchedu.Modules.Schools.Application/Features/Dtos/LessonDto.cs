@@ -18,7 +18,7 @@ public class LessonDto
             Day = lesson.Day,
             StartTime = lesson.StartTime,
             EndTime = lesson.EndTime,
-            AssignedTeacher = lesson.AssignedTeacher?.Value,
+            AssignedTeacher = lesson.AssignedTeacher?.Value
         };
     }
 }

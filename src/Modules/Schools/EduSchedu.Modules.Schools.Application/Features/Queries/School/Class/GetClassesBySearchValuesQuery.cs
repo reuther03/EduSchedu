@@ -39,7 +39,8 @@ public record GetClassesBySearchValuesQuery : IQuery<PaginatedList<ClassDto>>
 
         public async Task<Result<PaginatedList<ClassDto>>> Handle(GetClassesBySearchValuesQuery request, CancellationToken cancellationToken)
         {
-            //todo: pomyslec nad lekcjami w jakis lepszy sposob, usunac assignedTeacher z dto, sprobowac naprawic test, dodac brakujaca walidacje
+            //todo: pomyslec nad lekcjami w jakis lepszy sposob, sprobowac naprawic test, dodac brakujaca walidacje
+            //todo: pomyslec nad przeniesieniem lekcji do osobnego query lub cos z getem na cala klase z detalami
 
             var user = await _context.SchoolUsers.FirstOrDefaultAsync(x => x.Id == _userService.UserId, cancellationToken);
             NullValidator.ValidateNotNull(user);
@@ -48,11 +49,11 @@ public record GetClassesBySearchValuesQuery : IQuery<PaginatedList<ClassDto>>
                 .Where(x => x.Id == Domain.Schools.Ids.SchoolId.From(request.SchoolId))
                 .SelectMany(x => x.Classes)
                 .Include(x => x.LanguageProficiency)
+                .AsSplitQuery()
                 .WhereIf(
                     !string.IsNullOrWhiteSpace(request.Name), x => EF.Functions.Like(x.Name, $"%{request.Name}%"))
                 .WhereIf(request.Language.HasValue, x => x.LanguageProficiency!.Language == request.Language)
                 .WhereIf(request.Lvl.HasValue, x => x.LanguageProficiency!.Lvl == request.Lvl)
-                .AsSplitQuery()
                 .Include(x => x.Lessons)
                 .WhereIf(request.Day.HasValue, x => x.Lessons.Any(y => y.Day == request.Day))
                 .WhereIf(request.StartTime.HasValue, x => x.Lessons.Any(y => y.StartTime == request.StartTime))

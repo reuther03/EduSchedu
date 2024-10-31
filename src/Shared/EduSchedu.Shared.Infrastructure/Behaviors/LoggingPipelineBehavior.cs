@@ -22,7 +22,7 @@ public class LoggingPipelineBehavior<TRequest, TResponse>
     {
         var baseTypeName = GetBaseTypeName(request);
         var startTime = Stopwatch.GetTimestamp();
-        // var delta = Stopwatch.GetElapsedTime(startTime, Stopwatch.GetTimestamp());
+
         try
         {
             var response = await next();
