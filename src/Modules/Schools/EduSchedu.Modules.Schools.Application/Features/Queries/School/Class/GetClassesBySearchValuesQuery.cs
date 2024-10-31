@@ -58,12 +58,10 @@ public record GetClassesBySearchValuesQuery : IQuery<PaginatedList<ClassDto>>
                 .WhereIf(request.Day.HasValue, x => x.Lessons.Any(y => y.Day == request.Day))
                 .WhereIf(request.StartTime.HasValue, x => x.Lessons.Any(y => y.StartTime == request.StartTime))
                 .WhereIf(request.EndTime.HasValue, x => x.Lessons.Any(y => y.EndTime == request.EndTime))
+                .Select(x => ClassDto.AsDto(x))
                 .ToListAsync(cancellationToken);
 
-            var classesDto = classes.Select(ClassDto.AsDto)
-                .ToList();
-
-            return Result.Ok(new PaginatedList<ClassDto>(request.Page, request.PageSize, classesDto.Count, classesDto));
+            return Result.Ok(new PaginatedList<ClassDto>(request.Page, request.PageSize, classes.Count, classes));
         }
     }
 }
