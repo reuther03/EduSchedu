@@ -48,12 +48,11 @@ public record CreateClassCommand(
             if (admin.Role == Role.Teacher && !school.TeacherIds.Contains(admin.Id))
                 return Result<Guid>.BadRequest("You are not allowed to create class");
 
-            var @class = Domain.Schools.Class.Create(request.ClassName);
-
             var languageProficiency = await _languageProficiencyRepository.GetByIdAsync(request.LanguageProficiencyId, cancellationToken);
             NullValidator.ValidateNotNull(languageProficiency);
 
-            @class.SetLanguageProficiency(languageProficiency);
+            var @class = Domain.Schools.Class.Create(request.ClassName, languageProficiency);
+
             school.AddClass(@class);
             await _schoolRepository.AddClassAsync(@class, cancellationToken);
 

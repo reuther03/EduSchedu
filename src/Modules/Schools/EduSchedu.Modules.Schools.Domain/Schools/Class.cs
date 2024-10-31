@@ -11,9 +11,7 @@ public class Class : Entity<ClassId>
     private readonly List<UserId> _studentIds = [];
 
     public Name Name { get; private set; }
-
-    // todo: nie wiem po co jest to nullable i pasuje to zmienić
-    public LanguageProficiency? LanguageProficiency { get; private set; }
+    public LanguageProficiency LanguageProficiency { get; private set; }
     public IReadOnlyList<Lesson> Lessons => _lessons.AsReadOnly();
     public IReadOnlyList<UserId> StudentIds => _studentIds.AsReadOnly();
 
@@ -21,13 +19,14 @@ public class Class : Entity<ClassId>
     {
     }
 
-    private Class(ClassId id, Name name) : base(id)
+    private Class(ClassId id, Name name, LanguageProficiency languageProficiency) : base(id)
     {
         Name = name;
+        LanguageProficiency = languageProficiency;
     }
 
-    public static Class Create(Name name)
-        => new(ClassId.New(), name);
+    public static Class Create(Name name, LanguageProficiency languageProficiency)
+        => new(ClassId.New(), name, languageProficiency);
 
     public void SetLanguageProficiency(LanguageProficiency languageProficiency)
     {
