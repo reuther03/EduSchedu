@@ -1,6 +1,5 @@
 ﻿using EduSchedu.Modules.Schools.Application.Abstractions;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
-using EduSchedu.Modules.Schools.Domain.Schools.Ids;
 using EduSchedu.Modules.Schools.Domain.Users;
 using EduSchedu.Shared.Abstractions.Events;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
@@ -48,19 +47,12 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
         SchoolUser user = null!;
         switch (notification.Role)
         {
-            // Functional.IfElse(notification.Role is Role.Teacher,
-            //     () => user = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName), Role.Teacher),
-            //     () => user = BackOfficeUser.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName)));
             case Role.Teacher:
             {
-                user = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
+                var teacher = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
                 var schedule = Schedule.Create(user.Id);
-
-                if (user is Teacher teacher)
-                {
-                    teacher.SetSchedule(schedule);
-                }
-
+                teacher.SetSchedule(schedule);
+                user = teacher;
                 break;
             }
 
@@ -68,7 +60,9 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
                 break;
 
             case Role.Student:
-                user = Student.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
+                var student = Student.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
+                // student.SetIndexNumber(school.Name);
+                user = student;
                 break;
 
             case Role.BackOffice:

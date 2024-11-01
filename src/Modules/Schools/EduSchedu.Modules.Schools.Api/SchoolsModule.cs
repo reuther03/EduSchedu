@@ -2,7 +2,6 @@
 using EduSchedu.Modules.Schools.Domain;
 using EduSchedu.Modules.Schools.Infrastructure;
 using EduSchedu.Shared.Abstractions.Modules;
-using EduSchedu.Shared.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 

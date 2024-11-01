@@ -4,7 +4,6 @@ using EduSchedu.Modules.Schools.Application.Features.Commands.User;
 using EduSchedu.Modules.Schools.Application.Features.Queries.School;
 using EduSchedu.Modules.Schools.Application.Features.Queries.School.Class;
 using EduSchedu.Modules.Schools.Application.Features.Queries.Users;
-using EduSchedu.Modules.Schools.Domain.Schools;
 using EduSchedu.Shared.Abstractions.Kernel.Attribute;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using MediatR;
@@ -104,13 +103,13 @@ internal class SchoolsController : BaseController
         return Ok(result);
     }
 
-    [HttpPost("{schoolId:guid}/teacher/{teacherId:guid}/schedule/lesson")]
-    [AuthorizeRoles(Role.HeadMaster, Role.BackOffice)]
-    public async Task<IActionResult> AddScheduleLesson([FromBody] AddScheduleLessonCommand command, [FromRoute] Guid schoolId, [FromRoute] Guid teacherId)
-    {
-        var result = await _sender.Send(command with { SchoolId = schoolId, UserId = teacherId });
-        return Ok(result);
-    }
+    // [HttpPost("{schoolId:guid}/teacher/{teacherId:guid}/schedule/lesson")]
+    // [AuthorizeRoles(Role.HeadMaster, Role.BackOffice)]
+    // public async Task<IActionResult> AddScheduleLesson([FromBody] AddScheduleLessonCommand command, [FromRoute] Guid schoolId, [FromRoute] Guid teacherId)
+    // {
+    //     var result = await _sender.Send(command with { SchoolId = schoolId, UserId = teacherId });
+    //     return Ok(result);
+    // }
 
     [HttpPost("{schoolId:guid}/assign-teachers")]
     [AuthorizeRoles(Role.HeadMaster)]

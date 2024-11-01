@@ -10,5 +10,5 @@ public class BackOfficeUser : SchoolUser
     }
 
     public static BackOfficeUser Create(UserId id, Email email, Name fullName)
-        => new BackOfficeUser(id, email, fullName, Role.BackOffice);
+        => new(id, email, fullName, Role.BackOffice);
 }
