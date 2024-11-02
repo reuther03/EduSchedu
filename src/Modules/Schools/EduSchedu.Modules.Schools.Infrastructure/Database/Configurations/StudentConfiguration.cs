@@ -21,6 +21,9 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
             grade.Property(x => x.Description)
                 .HasMaxLength(500)
                 .IsRequired(false);
+
+            grade.Property(x => x.CreatedAt)
+                .IsRequired();
         });
     }
 }
