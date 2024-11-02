@@ -1,5 +1,4 @@
-﻿using EduSchedu.Shared.Abstractions.Services;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -35,7 +34,6 @@ internal class AppInitializer : IHostedService
             // {
             //     await seeder.SeedAsync(configuration, cancellationToken);
             // }
-
 
             await dbContext.Database.MigrateAsync(cancellationToken);
         }

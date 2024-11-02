@@ -1,6 +1,7 @@
 ﻿using EduSchedu.Modules.Schools.Domain.Schools.Ids;
 using EduSchedu.Shared.Abstractions.Exception;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
+using Microsoft.EntityFrameworkCore;
 
 namespace EduSchedu.Modules.Schools.Domain.Users;
 

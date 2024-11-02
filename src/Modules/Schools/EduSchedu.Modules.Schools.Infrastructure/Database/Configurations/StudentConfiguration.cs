@@ -1,5 +1,4 @@
-﻿using EduSchedu.Modules.Schools.Domain.Users;
-using EduSchedu.Modules.Schools.Domain.Users.Students;
+﻿using EduSchedu.Modules.Schools.Domain.Users.Students;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,6 +8,8 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
 {
     public void Configure(EntityTypeBuilder<Student> builder)
     {
+        builder.ToTable("Students");
+
         builder.OwnsMany(x => x.Grades, grade =>
         {
             grade.Property(x => x.GradeValue)
@@ -25,5 +26,9 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
             grade.Property(x => x.CreatedAt)
                 .IsRequired();
         });
+
+        builder.Property(x => x.AverageGrade)
+            .HasPrecision(5, 3)
+            .UsePropertyAccessMode(PropertyAccessMode.Property);
     }
 }

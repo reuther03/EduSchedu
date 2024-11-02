@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(SchoolsDbContext))]
-    [Migration("20241102020822_Init2")]
-    partial class Init2
+    [Migration("20241102233037_Init3")]
+    partial class Init3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -194,37 +194,25 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 
                     b.ToTable("SchoolUsers", "schools");
 
-                    b.HasDiscriminator<string>("Role").IsComplete(false);
-
-                    b.UseTphMappingStrategy();
-                });
-
-            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.BackOfficeUser", b =>
-                {
-                    b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
-
-                    b.HasDiscriminator().HasValue("BackOffice");
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Students.Student", b =>
                 {
                     b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
 
-                    b.HasDiscriminator().HasValue("Student");
+                    b.Property<double>("AverageGrade")
+                        .HasPrecision(5, 3)
+                        .HasColumnType("double precision");
+
+                    b.ToTable("Students", "schools");
                 });
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Teacher", b =>
                 {
                     b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
 
-                    b.HasDiscriminator().HasValue("Teacher");
-                });
-
-            modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Headmaster", b =>
-                {
-                    b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.Teacher");
-
-                    b.HasDiscriminator().HasValue("HeadMaster");
+                    b.ToTable((string)null);
                 });
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Class", b =>
@@ -392,6 +380,12 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Students.Student", b =>
                 {
+                    b.HasOne("EduSchedu.Modules.Schools.Domain.Users.SchoolUser", null)
+                        .WithOne()
+                        .HasForeignKey("EduSchedu.Modules.Schools.Domain.Users.Students.Student", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.OwnsMany("EduSchedu.Modules.Schools.Domain.Users.Students.Grade", "Grades", b1 =>
                         {
                             b1.Property<Guid>("StudentId")
@@ -403,8 +397,8 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 
                             NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
 
-                            b1.Property<DateTime>("CreatedAt")
-                                .HasColumnType("timestamp with time zone");
+                            b1.Property<DateOnly>("CreatedAt")
+                                .HasColumnType("date");
 
                             b1.Property<string>("Description")
                                 .HasMaxLength(500)
@@ -449,7 +443,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 
                             b1.HasIndex("TeacherId");
 
-                            b1.ToTable("TeacherLanguageProficiencyIds", "schools");
+                            b1.ToTable("TeacherLanguageProficiencyIds", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("TeacherId");

@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices.JavaScript;
-using EduSchedu.Shared.Abstractions.Exception;
+﻿using EduSchedu.Shared.Abstractions.Exception;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives;
 
 namespace EduSchedu.Modules.Schools.Domain.Users.Students;

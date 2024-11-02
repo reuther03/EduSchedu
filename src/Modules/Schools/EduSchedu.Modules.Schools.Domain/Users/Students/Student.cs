@@ -6,7 +6,12 @@ public class Student : SchoolUser
 {
     private readonly List<Grade> _grades = [];
     public IReadOnlyList<Grade> Grades => _grades;
-    public float AverageGrade => _grades.Average(x => x.GradeValue);
+
+    public double AverageGrade
+    {
+        get => _grades.Count != 0 ? _grades.Average(x => x.GradeValue) : 0;
+        private set { }
+    }
 
     private Student()
     {

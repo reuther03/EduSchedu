@@ -23,6 +23,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
                 ?.SetPropertyAccessMode(PropertyAccessMode.Field);
         });
 
+
         builder.HasOne(x => x.Schedule)
             .WithOne(s => s.Teacher)
             .HasForeignKey<Schedule>(x => x.TeacherId)

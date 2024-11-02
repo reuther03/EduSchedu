@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class RefactoredStudent : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -138,19 +138,19 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Schedules",
+                name: "Students",
                 schema: "schools",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    TeacherId = table.Column<Guid>(type: "uuid", nullable: false)
+                    AverageGrade = table.Column<double>(type: "double precision", precision: 5, scale: 3, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Schedules", x => x.Id);
+                    table.PrimaryKey("PK_Students", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Schedules_SchoolUsers_TeacherId",
-                        column: x => x.TeacherId,
+                        name: "FK_Students_SchoolUsers_Id",
+                        column: x => x.Id,
                         principalSchema: "schools",
                         principalTable: "SchoolUsers",
                         principalColumn: "Id",
@@ -158,21 +158,18 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TeacherLanguageProficiencyIds",
+                name: "Teacher",
                 schema: "schools",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    TeacherId = table.Column<Guid>(type: "uuid", nullable: false),
-                    LanguageProficiencyId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeacherLanguageProficiencyIds", x => x.Id);
+                    table.PrimaryKey("PK_Teacher", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TeacherLanguageProficiencyIds_SchoolUsers_TeacherId",
-                        column: x => x.TeacherId,
+                        name: "FK_Teacher_SchoolUsers_Id",
+                        column: x => x.Id,
                         principalSchema: "schools",
                         principalTable: "SchoolUsers",
                         principalColumn: "Id",
@@ -221,6 +218,73 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                         column: x => x.ClassId,
                         principalSchema: "schools",
                         principalTable: "Classes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Grade",
+                schema: "schools",
+                columns: table => new
+                {
+                    StudentId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Grade = table.Column<float>(type: "real", nullable: false),
+                    Percentage = table.Column<int>(type: "integer", nullable: true),
+                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    CreatedAt = table.Column<DateOnly>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Grade", x => new { x.StudentId, x.Id });
+                    table.ForeignKey(
+                        name: "FK_Grade_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalSchema: "schools",
+                        principalTable: "Students",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Schedules",
+                schema: "schools",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    TeacherId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Schedules", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Schedules_Teacher_TeacherId",
+                        column: x => x.TeacherId,
+                        principalSchema: "schools",
+                        principalTable: "Teacher",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TeacherLanguageProficiencyIds",
+                schema: "schools",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    TeacherId = table.Column<Guid>(type: "uuid", nullable: false),
+                    LanguageProficiencyId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TeacherLanguageProficiencyIds", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TeacherLanguageProficiencyIds_Teacher_TeacherId",
+                        column: x => x.TeacherId,
+                        principalSchema: "schools",
+                        principalTable: "Teacher",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -314,6 +378,10 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 schema: "schools");
 
             migrationBuilder.DropTable(
+                name: "Grade",
+                schema: "schools");
+
+            migrationBuilder.DropTable(
                 name: "Lessons",
                 schema: "schools");
 
@@ -334,6 +402,10 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 schema: "schools");
 
             migrationBuilder.DropTable(
+                name: "Students",
+                schema: "schools");
+
+            migrationBuilder.DropTable(
                 name: "Classes",
                 schema: "schools");
 
@@ -347,6 +419,10 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "Schools",
+                schema: "schools");
+
+            migrationBuilder.DropTable(
+                name: "Teacher",
                 schema: "schools");
 
             migrationBuilder.DropTable(

@@ -12,13 +12,6 @@ public class SchoolUserConfiguration : IEntityTypeConfiguration<SchoolUser>
     {
         builder.ToTable("SchoolUsers");
 
-        builder.HasDiscriminator(x => x.Role)
-            .HasValue<BackOfficeUser>(Role.BackOffice)
-            .HasValue<Teacher>(Role.Teacher)
-            .HasValue<Headmaster>(Role.HeadMaster)
-            .HasValue<Student>(Role.Student)
-            .IsComplete(false);
-
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
             .HasConversion(x => x.Value, x => UserId.From(x))
@@ -34,5 +27,7 @@ public class SchoolUserConfiguration : IEntityTypeConfiguration<SchoolUser>
 
         builder.Property(x => x.Role)
             .HasConversion<string>();
+
+        builder.UseTptMappingStrategy();
     }
 }
