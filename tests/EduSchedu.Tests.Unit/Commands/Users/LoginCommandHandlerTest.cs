@@ -2,7 +2,6 @@
 using EduSchedu.Modules.Users.Application.Users.Commands;
 using EduSchedu.Modules.Users.Domain.Users;
 using EduSchedu.Shared.Abstractions.Auth;
-using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using FluentAssertions;
 using Moq;

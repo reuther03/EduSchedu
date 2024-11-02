@@ -1,6 +1,7 @@
 ﻿using EduSchedu.Modules.Schools.Application.Abstractions;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
 using EduSchedu.Modules.Schools.Domain.Users;
+using EduSchedu.Modules.Schools.Domain.Users.Students;
 using EduSchedu.Shared.Abstractions.Events;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Abstractions.Services;
@@ -53,6 +54,7 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
                 var schedule = Schedule.Create(user.Id);
                 teacher.SetSchedule(schedule);
                 user = teacher;
+                school.AddTeacher(teacher.Id);
                 break;
             }
 
@@ -63,17 +65,18 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
                 var student = Student.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
                 // student.SetIndexNumber(school.Name);
                 user = student;
+                school.AddStudent(student.Id);
                 break;
 
             case Role.BackOffice:
                 user = BackOfficeUser.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
+                school.AddTeacher(user.Id);
                 break;
 
             default:
                 throw new ArgumentException("Invalid role.");
         }
 
-        school.AddUser(user.Id);
         await _schoolUserRepository.AddAsync(user, cancellationToken);
         await _schoolUnitOfWork.CommitAsync(cancellationToken);
     }

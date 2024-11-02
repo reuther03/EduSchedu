@@ -2,6 +2,7 @@
 using EduSchedu.Modules.Schools.Application.Abstractions.Database;
 using EduSchedu.Modules.Schools.Domain.Schools;
 using EduSchedu.Modules.Schools.Domain.Users;
+using EduSchedu.Modules.Schools.Infrastructure.Database.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 [assembly: InternalsVisibleTo("EduSchedu.Tests.Unit")]

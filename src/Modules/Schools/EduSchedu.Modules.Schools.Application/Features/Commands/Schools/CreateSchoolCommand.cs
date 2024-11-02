@@ -51,7 +51,7 @@ public record CreateSchoolCommand(
                 admin.Id
             );
 
-            school.AddUser(admin.Id);
+            school.AddTeacher(admin.Id);
             await _schoolRepository.AddAsync(school, cancellationToken);
             await _schoolUnitOfWork.CommitAsync(cancellationToken);
 

@@ -30,11 +30,11 @@ internal class AppInitializer : IHostedService
             {
                 continue;
             }
-
-            foreach (var seeder in scope.ServiceProvider.GetServices<IModuleSeeder>())
-            {
-                await seeder.SeedAsync(configuration, cancellationToken);
-            }
+            //
+            // foreach (var seeder in scope.ServiceProvider.GetServices<IModuleSeeder>())
+            // {
+            //     await seeder.SeedAsync(configuration, cancellationToken);
+            // }
 
 
             await dbContext.Database.MigrateAsync(cancellationToken);

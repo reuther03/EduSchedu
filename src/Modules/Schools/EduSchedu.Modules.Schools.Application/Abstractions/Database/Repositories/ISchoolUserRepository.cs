@@ -1,4 +1,5 @@
 ﻿using EduSchedu.Modules.Schools.Domain.Users;
+using EduSchedu.Modules.Schools.Domain.Users.Students;
 using EduSchedu.Shared.Abstractions.Kernel.Database;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 
@@ -15,6 +16,12 @@ public interface ISchoolUserRepository : IRepository<SchoolUser>
     #region Teacher
 
     Task<Schedule?> GetTeacherScheduleAsync(UserId teacherId, CancellationToken cancellationToken = default);
+
+    #endregion
+
+    #region Student
+
+    Task<Student?> GetStudentByIdAsync(UserId id, CancellationToken cancellationToken = default);
 
     #endregion
 }

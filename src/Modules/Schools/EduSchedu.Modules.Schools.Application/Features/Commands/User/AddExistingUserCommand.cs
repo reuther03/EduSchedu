@@ -45,7 +45,8 @@ public record AddExistingUserCommand(
             var user = await _schoolUserRepository.GetByEmailAsync(new Email(request.UserEmail), cancellationToken);
             NullValidator.ValidateNotNull(user);
 
-            school.AddUser(user.Id);
+            //todo: posprawdzac te metody czy na pewno powinno dodacawac teachera
+            school.AddTeacher(user.Id);
             await _schoolUnitOfWork.CommitAsync(cancellationToken);
 
             return Result.Ok(user.Id.Value);

@@ -1,5 +1,6 @@
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
 using EduSchedu.Modules.Schools.Domain.Users;
+using EduSchedu.Modules.Schools.Domain.Users.Students;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Infrastructure.Postgres;
 using Microsoft.EntityFrameworkCore;
@@ -39,4 +40,7 @@ internal class SchoolUserRepository : Repository<SchoolUser, SchoolsDbContext>, 
 
     public Task<Schedule?> GetTeacherScheduleAsync(UserId teacherId, CancellationToken cancellationToken = default)
         => _dbContext.Schedules.FirstOrDefaultAsync(x => x.TeacherId == teacherId, cancellationToken);
+
+    public Task<Student?> GetStudentByIdAsync(UserId id, CancellationToken cancellationToken = default)
+        => _dbContext.SchoolUsers.OfType<Student>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 }

@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using EduSchedu.Modules.Users.Application.Abstractions.Database.Repositories;
+﻿using EduSchedu.Modules.Users.Application.Abstractions.Database.Repositories;
 using EduSchedu.Shared.Abstractions.Auth;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;

@@ -2,7 +2,6 @@
 using System.Runtime.CompilerServices;
 using EduSchedu.Shared.Abstractions.Email;
 using EduSchedu.Shared.Abstractions.Modules;
-using EduSchedu.Shared.Abstractions.Services;
 using EduSchedu.Shared.Infrastructure.Api;
 using EduSchedu.Shared.Infrastructure.Auth;
 using EduSchedu.Shared.Infrastructure.Postgres;

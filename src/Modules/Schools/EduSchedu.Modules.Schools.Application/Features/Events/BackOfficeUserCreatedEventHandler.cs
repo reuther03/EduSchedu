@@ -25,7 +25,7 @@ public class BackOfficeUserCreatedEventHandler : INotificationHandler<BackOffice
         var backOfficeUser = BackOfficeUser.Create(notification.UserId, notification.Email, notification.FullName);
         foreach (var school in schools)
         {
-            school.AddUser(backOfficeUser.Id);
+            school.AddTeacher(backOfficeUser.Id);
         }
 
         await _schoolUserRepository.AddAsync(backOfficeUser, cancellationToken);

@@ -36,7 +36,7 @@ public class School : AggregateRoot<SchoolId>
     public static School Create(Name name, Address address, string phoneNumber, Email email, UserId principalId)
         => new (SchoolId.New(), name, address, phoneNumber, email, principalId);
 
-    public void AddUser(UserId teacherId)
+    public void AddTeacher(UserId teacherId)
     {
         if (_teacherIds.Contains(teacherId))
             throw new DomainException("Teacher already exists");

@@ -7,14 +7,12 @@ namespace EduSchedu.Modules.Schools.Domain.Users;
 
 public class Schedule : AggregateRoot<ScheduleId>
 {
-    // private readonly List<Lesson> _lessons = [];
     private readonly List<ScheduleItem> _scheduleItems = [];
 
 
     public UserId TeacherId { get; private set; }
     public Teacher Teacher { get; private set; }
 
-    // public IReadOnlyList<Lesson> Lessons => _lessons;
     public IReadOnlyList<ScheduleItem> ScheduleItems => _scheduleItems;
 
     private Schedule()
