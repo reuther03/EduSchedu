@@ -8,8 +8,6 @@ namespace EduSchedu.Modules.Schools.Domain.Users.Students;
 public record Grade : ValueObject
 {
     public float GradeValue { get; }
-
-    [NotNull]
     public int? Percentage { get; }
     public string? Description { get; }
     public DateOnly CreatedAt { get; }
@@ -29,7 +27,7 @@ public record Grade : ValueObject
     protected override IEnumerable<object> GetAtomicValues()
     {
         yield return GradeValue;
-        yield return Percentage;
+        yield return Percentage ?? 0;
         yield return Description ?? string.Empty;
         yield return CreatedAt;
     }
