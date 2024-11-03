@@ -38,11 +38,16 @@ public record Grade : ValueObject
     }
 
     private static bool ValidatePercentage(int? percentage)
-        => percentage is >= 0 and <= 100;
+    {
+        if (percentage is null)
+            return true;
+
+        return percentage is >= 0 and <= 100;
+    }
 
     private static bool ValidateWeight(int? weight)
     {
-        if (weight is 0)
+        if (weight is null)
             return true;
 
         return weight is >= 1 and <= 10;

@@ -15,10 +15,10 @@ public record AddStudentGradeCommand(
     [property: JsonIgnore]
     Guid StudentId,
     float Grade,
-    int Percentage,
+    int? Percentage,
     GradeType GradeType,
-    int Weight,
-    string Description) : ICommand<Guid>
+    int? Weight,
+    string? Description) : ICommand<Guid>
 {
     internal sealed class Handler : ICommandHandler<AddStudentGradeCommand, Guid>
     {
