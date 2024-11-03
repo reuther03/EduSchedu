@@ -20,7 +20,7 @@ internal class SchoolUserRepository : Repository<SchoolUser, SchoolsDbContext>, 
         => _dbContext.SchoolUsers.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
     public Task<List<Teacher>> GetTeachersByIdsAsync(IEnumerable<UserId> ids, CancellationToken cancellationToken = default)
-        => _dbContext.SchoolUsers.OfType<Teacher>()
+        => _dbContext.Teachers
             .Include(x => x.Schedule)
             .ThenInclude(x => x.ScheduleItems)
             .Where(x => ids.Contains(x.Id))
@@ -30,8 +30,7 @@ internal class SchoolUserRepository : Repository<SchoolUser, SchoolsDbContext>, 
         => _dbContext.SchoolUsers.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
 
     public async Task<Teacher?> GetTeacherByIdAsync(UserId id, CancellationToken cancellationToken = default)
-        => await _dbContext.SchoolUsers
-            .OfType<Teacher>()
+        => await _dbContext.Teachers
             .Include(x => x.Schedule)
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
@@ -42,5 +41,5 @@ internal class SchoolUserRepository : Repository<SchoolUser, SchoolsDbContext>, 
         => _dbContext.Schedules.FirstOrDefaultAsync(x => x.TeacherId == teacherId, cancellationToken);
 
     public Task<Student?> GetStudentByIdAsync(UserId id, CancellationToken cancellationToken = default)
-        => _dbContext.SchoolUsers.OfType<Student>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        => _dbContext.Students.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 }
