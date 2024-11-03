@@ -7,6 +7,7 @@ namespace EduSchedu.Modules.Schools.Domain.Schools;
 
 public class School : AggregateRoot<SchoolId>
 {
+    //todo: cos w stylu wag ocen: bool prop czy szkola ma wagi ocen czy nie/ liczyc srednia z wagami: waga * ocena
     private readonly List<UserId> _teacherIds = [];
     private readonly List<UserId> _studentIds = [];
     private readonly List<Class> _classes = [];

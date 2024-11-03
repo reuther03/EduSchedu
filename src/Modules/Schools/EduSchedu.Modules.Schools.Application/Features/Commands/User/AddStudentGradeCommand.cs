@@ -16,6 +16,8 @@ public record AddStudentGradeCommand(
     Guid StudentId,
     float Grade,
     int Percentage,
+    GradeType GradeType,
+    int Weight,
     string Description) : ICommand<Guid>
 {
     internal sealed class Handler : ICommandHandler<AddStudentGradeCommand, Guid>
@@ -47,7 +49,7 @@ public record AddStudentGradeCommand(
             if (!school.StudentIds.Contains(student.Id))
                 return Result<Guid>.BadRequest("Student not found in school");
 
-            var grade = new Grade(request.Grade, request.Percentage, request.Description);
+            var grade = new Grade(request.Grade, request.Percentage, request.Description, request.GradeType, request.Weight);
             //todo: walidacja czy uczen i user ktory dodaje ocene sa w tej samej klasie
 
             student.AddGrade(grade);

@@ -33,7 +33,7 @@ public record GetTeacherLessonsQuery(
             var teacher = await _context.SchoolUsers.FirstOrDefaultAsync(x => x.Id == _userService.UserId, cancellationToken);
             NullValidator.ValidateNotNull(teacher);
 
-            if (teacher.Role != Role.Teacher)
+            if (teacher.Role is not Role.Teacher)
                 return Result<PaginatedList<LessonDto>>.BadRequest("You are not allowed to get lessons");
 
             var school = await _context.Schools.FirstOrDefaultAsync(x => x.Id == Domain.Schools.Ids.SchoolId.From(request.SchoolId), cancellationToken);

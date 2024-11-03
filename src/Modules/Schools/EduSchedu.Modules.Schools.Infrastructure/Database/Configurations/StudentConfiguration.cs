@@ -23,6 +23,13 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
                 .HasMaxLength(500)
                 .IsRequired(false);
 
+            grade.Property(x => x.GradeType)
+                .HasConversion<string>()
+                .IsRequired();
+
+            grade.Property(x => x.Weight)
+                .IsRequired(false);
+
             grade.Property(x => x.CreatedAt)
                 .IsRequired();
         });
