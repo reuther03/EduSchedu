@@ -158,7 +158,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Teacher",
+                name: "Teachers",
                 schema: "schools",
                 columns: table => new
                 {
@@ -166,9 +166,9 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Teacher", x => x.Id);
+                    table.PrimaryKey("PK_Teachers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Teacher_SchoolUsers_Id",
+                        name: "FK_Teachers_SchoolUsers_Id",
                         column: x => x.Id,
                         principalSchema: "schools",
                         principalTable: "SchoolUsers",
@@ -259,10 +259,10 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 {
                     table.PrimaryKey("PK_Schedules", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Schedules_Teacher_TeacherId",
+                        name: "FK_Schedules_Teachers_TeacherId",
                         column: x => x.TeacherId,
                         principalSchema: "schools",
-                        principalTable: "Teacher",
+                        principalTable: "Teachers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -281,10 +281,10 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 {
                     table.PrimaryKey("PK_TeacherLanguageProficiencyIds", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TeacherLanguageProficiencyIds_Teacher_TeacherId",
+                        name: "FK_TeacherLanguageProficiencyIds_Teachers_TeacherId",
                         column: x => x.TeacherId,
                         principalSchema: "schools",
-                        principalTable: "Teacher",
+                        principalTable: "Teachers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -422,7 +422,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 schema: "schools");
 
             migrationBuilder.DropTable(
-                name: "Teacher",
+                name: "Teachers",
                 schema: "schools");
 
             migrationBuilder.DropTable(

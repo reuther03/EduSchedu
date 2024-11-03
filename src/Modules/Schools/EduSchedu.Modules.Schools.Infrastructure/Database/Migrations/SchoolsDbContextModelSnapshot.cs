@@ -209,7 +209,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                 {
                     b.HasBaseType("EduSchedu.Modules.Schools.Domain.Users.SchoolUser");
 
-                    b.ToTable((string)null);
+                    b.ToTable("Teachers", "schools");
                 });
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Schools.Class", b =>
@@ -421,6 +421,12 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("EduSchedu.Modules.Schools.Domain.Users.Teacher", b =>
                 {
+                    b.HasOne("EduSchedu.Modules.Schools.Domain.Users.SchoolUser", null)
+                        .WithOne()
+                        .HasForeignKey("EduSchedu.Modules.Schools.Domain.Users.Teacher", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.OwnsMany("EduSchedu.Modules.Schools.Domain.Schools.Ids.LanguageProficiencyId", "LanguageProficiencyIds", b1 =>
                         {
                             b1.Property<int>("Id")
@@ -440,7 +446,7 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 
                             b1.HasIndex("TeacherId");
 
-                            b1.ToTable("TeacherLanguageProficiencyIds", (string)null);
+                            b1.ToTable("TeacherLanguageProficiencyIds", "schools");
 
                             b1.WithOwner()
                                 .HasForeignKey("TeacherId");
