@@ -47,9 +47,8 @@ public record CreateUserCommand(string Email, string FullName, Role Role, Guid S
             var password = UserPassword.Generate();
 
             var user = User.Create(new Email(request.Email), new Name(request.FullName), UserPassword.Create(password), request.Role);
-            var userEmail = user.Email;
 
-            var email = new EmailMessage(userEmail,
+            var email = new EmailMessage(user.Email,
                 "Your EduSchedu Account Details",
                 $"""
                  <div style="background-color: #f0f0f0; padding: 20px; font-family: Arial, sans-serif; line-height: 1.6;">
@@ -71,9 +70,10 @@ public record CreateUserCommand(string Email, string FullName, Role Role, Guid S
                  </div>
                  """);
 
-            await _emailSender.Send(email);
             await _userRepository.AddAsync(user, cancellationToken);
             await _userUnitOfWork.CommitAsync(cancellationToken);
+
+            await _emailSender.Send(email);
 
             await _publisher.Publish(new UserCreatedEvent(user.Id, user.FullName, user.Email, user.Role, request.SchoolId), cancellationToken);
 
