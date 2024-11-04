@@ -1,4 +1,5 @@
 ﻿using EduSchedu.Modules.Schools.Domain.Users.Students;
+using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -30,7 +31,12 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
             grade.Property(x => x.Weight)
                 .IsRequired(false);
 
-            grade.Property(x => x.CreatedAt)
+            grade.Property(x => x.AssignedBy)
+                .HasConversion(x => x.Value, x => new UserId(x))
+                .ValueGeneratedNever()
+                .IsRequired();
+
+            grade.Property(x => x.AssignedAt)
                 .IsRequired();
         });
 

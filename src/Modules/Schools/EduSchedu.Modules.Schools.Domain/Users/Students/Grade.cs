@@ -1,5 +1,6 @@
 ﻿using EduSchedu.Shared.Abstractions.Exception;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives;
+using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 
 namespace EduSchedu.Modules.Schools.Domain.Users.Students;
 
@@ -10,21 +11,22 @@ public record Grade : ValueObject
     public string? Description { get; }
     public GradeType GradeType { get; }
     public int? Weight { get; }
-    public DateOnly CreatedAt { get; }
+    public UserId AssignedBy { get; }
+    public DateOnly AssignedAt { get; }
 
     private Grade()
     {
     }
 
-    public Grade(float gradeValue, int? percentage, string? description, GradeType gradeType, int? weight)
+    public Grade(float gradeValue, int? percentage, string? description, GradeType gradeType, int? weight, UserId assignedBy)
     {
-        //todo: sprawdzci ta walidacje/ czy do bazy powinno zapisać się 0 czy null
         GradeValue = gradeValue;
         Percentage = ValidatePercentage(percentage) ? percentage : throw new DomainException("Percentage must be between 0 and 100");
         Description = description;
         GradeType = gradeType;
         Weight = ValidateWeight(weight) ? weight : throw new DomainException("Weight must be between 1 and 10");
-        CreatedAt = DateOnly.FromDateTime(DateTime.Now);
+        AssignedBy = assignedBy;
+        AssignedAt = DateOnly.FromDateTime(DateTime.Now);
     }
 
     protected override IEnumerable<object> GetAtomicValues()
@@ -34,7 +36,8 @@ public record Grade : ValueObject
         yield return Description ?? string.Empty;
         yield return GradeType;
         yield return Weight ?? 0;
-        yield return CreatedAt;
+        yield return AssignedBy;
+        yield return AssignedAt;
     }
 
     private static bool ValidatePercentage(int? percentage)

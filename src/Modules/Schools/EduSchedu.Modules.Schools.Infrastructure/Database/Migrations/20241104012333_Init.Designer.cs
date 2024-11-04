@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(SchoolsDbContext))]
-    [Migration("20241103021725_AddedGradeType")]
-    partial class AddedGradeType
+    [Migration("20241104012333_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -397,8 +397,11 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
 
                             NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
 
-                            b1.Property<DateOnly>("CreatedAt")
+                            b1.Property<DateOnly>("AssignedAt")
                                 .HasColumnType("date");
+
+                            b1.Property<Guid>("AssignedBy")
+                                .HasColumnType("uuid");
 
                             b1.Property<string>("Description")
                                 .HasMaxLength(500)

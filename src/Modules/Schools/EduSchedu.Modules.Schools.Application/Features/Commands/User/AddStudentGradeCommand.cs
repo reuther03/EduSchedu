@@ -60,7 +60,7 @@ public record AddStudentGradeCommand(
                 || @class.Lessons.All(x => x.AssignedTeacher != user.Id))
                 return Result<Guid>.BadRequest("Student is not in this class");
 
-            var grade = new Grade(request.Grade, request.Percentage, request.Description, request.GradeType, request.Weight);
+            var grade = new Grade(request.Grade, request.Percentage, request.Description, request.GradeType, request.Weight, user.Id);
 
             var email = new EmailMessage(student.Email,
                 "New Grade Notification",

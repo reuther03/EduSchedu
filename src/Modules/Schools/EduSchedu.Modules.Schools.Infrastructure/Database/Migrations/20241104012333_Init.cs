@@ -233,7 +233,10 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database.Migrations
                     Grade = table.Column<float>(type: "real", nullable: false),
                     Percentage = table.Column<int>(type: "integer", nullable: true),
                     Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    CreatedAt = table.Column<DateOnly>(type: "date", nullable: false)
+                    GradeType = table.Column<string>(type: "text", nullable: false),
+                    Weight = table.Column<int>(type: "integer", nullable: true),
+                    AssignedBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    AssignedAt = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {
