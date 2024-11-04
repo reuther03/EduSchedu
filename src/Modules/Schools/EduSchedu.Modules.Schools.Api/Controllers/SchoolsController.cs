@@ -126,11 +126,12 @@ internal class SchoolsController : BaseController
         return Ok(result);
     }
 
-    [HttpPost("{schoolId:guid}/student/{studentId:guid}/grades")]
+    [HttpPost("{schoolId:guid}/class/{classId:guid}/student/{studentId:guid}/grade")]
     [AuthorizeRoles(Role.HeadMaster, Role.BackOffice, Role.Teacher)]
-    public async Task<IActionResult> AddStudentGrade([FromBody] AddStudentGradeCommand command, [FromRoute] Guid schoolId, [FromRoute] Guid studentId)
+    public async Task<IActionResult> AddStudentGrade([FromBody] AddStudentGradeCommand command, [FromRoute] Guid schoolId, [FromRoute] Guid classId,
+        [FromRoute] Guid studentId)
     {
-        var result = await _sender.Send(command with { SchoolId = schoolId, StudentId = studentId });
+        var result = await _sender.Send(command with { SchoolId = schoolId, ClassId = classId, StudentId = studentId });
         return Ok(result);
     }
 }
