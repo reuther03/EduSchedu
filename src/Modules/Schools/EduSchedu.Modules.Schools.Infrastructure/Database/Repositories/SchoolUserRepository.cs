@@ -32,6 +32,7 @@ internal class SchoolUserRepository : Repository<SchoolUser, SchoolsDbContext>, 
     public async Task<Teacher?> GetTeacherByIdAsync(UserId id, CancellationToken cancellationToken = default)
         => await _dbContext.Teachers
             .Include(x => x.Schedule)
+            .ThenInclude(x => x.ScheduleItems)
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
     public async Task<bool> ExistsAsync(UserId id, CancellationToken cancellationToken = default)

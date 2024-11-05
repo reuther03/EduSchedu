@@ -35,7 +35,6 @@ public record AssignTeacherToClassLessonsCommand(
 
         public async Task<Result> Handle(AssignTeacherToClassLessonsCommand request, CancellationToken cancellationToken)
         {
-            //todo: dokonczyc testowanie/ dodac jakis schedule item ktory usunie lekcje z listy i nie bedzie mozna ich przypisac
             var teacher = await _schoolUserRepository.GetTeacherByIdAsync(_userService.UserId, cancellationToken);
             NullValidator.ValidateNotNull(teacher);
 
@@ -56,6 +55,7 @@ public record AssignTeacherToClassLessonsCommand(
 
             var lessons = await _schoolRepository.GetLessonsByIdsAsync(request.LessonIds, cancellationToken);
 
+            //todo: tylko lekcje ktore nie maja assign teacher
             var lessonTimes = @class.Lessons.Select(x => new
             {
                 x.Day,
@@ -63,24 +63,24 @@ public record AssignTeacherToClassLessonsCommand(
                 x.EndTime
             }).ToList();
 
-            var scheduleItems = teacher.Schedule.ScheduleItems;
-
-            var scheduleTimes = scheduleItems.Select(x => new
+            var scheduleTimes = teacher.Schedule.ScheduleItems.Select(x => new
             {
                 x.Day,
                 x.Start,
                 x.End
             }).ToList();
 
-            var badLessons = lessons.Where(_ =>
-                    lessonTimes.Exists(lessonTime =>
-                        scheduleTimes.Exists(scheduleTime =>
-                            scheduleTime.Day == lessonTime.Day &&
-                            scheduleTime.Start <= lessonTime.EndTime &&
-                            scheduleTime.End >= lessonTime.StartTime)))
-                .ToList();
+            lessons = lessons.Where(x => scheduleTimes
+                .TrueForAll(scheduleTime =>
+                    lessonTimes.TrueForAll(_ =>
+                        scheduleTime.Day != x.Day ||
+                        scheduleTime.Start >= x.EndTime ||
+                        scheduleTime.End <= x.StartTime
+                    )
+                )).ToList();
 
-            lessons.RemoveAll(x => badLessons.Contains(x));
+
+            // lessons.RemoveAll(x => unAssignable.Contains(x));
 
             foreach (var lesson in lessons)
             {
