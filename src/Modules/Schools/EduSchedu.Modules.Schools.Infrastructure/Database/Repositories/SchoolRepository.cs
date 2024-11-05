@@ -42,18 +42,12 @@ internal class SchoolRepository : Repository<School, SchoolsDbContext>, ISchoolR
     public async Task AddClassAsync(Class @class, CancellationToken cancellationToken = default)
         => await _dbContext.Classes.AddAsync(@class, cancellationToken);
 
+
     #endregion
 
     #region Lesson
-
-    public Task<List<Lesson>> GetLessonsByClassIdAsync(ClassId classId, CancellationToken cancellationToken = default)
-        => _dbContext.Classes
-            .Where(x => x.Id == classId)
-            .SelectMany(x => x.Lessons)
-            .ToListAsync(cancellationToken);
-
-    public async Task<Lesson?> GetLessonByIdAsync(Guid lessonId, CancellationToken cancellationToken = default)
-        => await _dbContext.Lessons.FirstOrDefaultAsync(x => x.Id == lessonId, cancellationToken);
+    public async Task<List<Lesson>> GetLessonsByIdsAsync(List<Guid> lessonIds, CancellationToken cancellationToken = default)
+        => await _dbContext.Lessons.Where(x => lessonIds.Contains(x.Id)).ToListAsync(cancellationToken);
 
     public async Task AddLessonAsync(Lesson lesson, CancellationToken cancellationToken = default)
         => await _dbContext.Lessons.AddAsync(lesson, cancellationToken);

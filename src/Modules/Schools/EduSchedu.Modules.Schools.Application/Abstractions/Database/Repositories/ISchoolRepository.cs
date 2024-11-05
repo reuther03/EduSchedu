@@ -17,8 +17,7 @@ public interface ISchoolRepository : IRepository<School>
 
     #region Lesson
 
-    Task<List<Lesson>> GetLessonsByClassIdAsync(ClassId classId, CancellationToken cancellationToken = default);
-    Task<Lesson?> GetLessonByIdAsync(Guid lessonId, CancellationToken cancellationToken = default);
+    Task<List<Lesson>> GetLessonsByIdsAsync(List<Guid> lessonIds, CancellationToken cancellationToken = default);
     Task AddLessonAsync(Lesson lesson, CancellationToken cancellationToken = default);
 
     #endregion
