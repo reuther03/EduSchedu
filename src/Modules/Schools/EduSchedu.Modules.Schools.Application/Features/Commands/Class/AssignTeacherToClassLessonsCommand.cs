@@ -35,6 +35,7 @@ public record AssignTeacherToClassLessonsCommand(
 
         public async Task<Result> Handle(AssignTeacherToClassLessonsCommand request, CancellationToken cancellationToken)
         {
+            //todo: pomyscli jak to dokonczyc/ podawac id teacher z request czy zmianic to na ogolnie przypisywanie dla calej klasy
             var teacher = await _schoolUserRepository.GetTeacherByIdAsync(_userService.UserId, cancellationToken);
             NullValidator.ValidateNotNull(teacher);
 
@@ -54,6 +55,7 @@ public record AssignTeacherToClassLessonsCommand(
                 return Result.BadRequest<Guid>("You are not proficient in the language of this class");
 
             var lessons = await _schoolRepository.GetLessonsByIdsAsync(request.LessonIds, cancellationToken);
+            lessons.RemoveAll(x => x.AssignedTeacher != null);
 
             //todo: tylko lekcje ktore nie maja assign teacher
             var lessonTimes = @class.Lessons.Select(x => new
