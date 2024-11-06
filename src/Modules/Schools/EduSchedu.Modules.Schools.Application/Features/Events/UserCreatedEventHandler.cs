@@ -51,7 +51,7 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
             case Role.Teacher:
             {
                 var teacher = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
-                var schedule = Schedule.Create(user.Id);
+                var schedule = Schedule.Create(teacher.Id);
                 teacher.SetSchedule(schedule);
                 user = teacher;
                 school.AddTeacher(teacher.Id);
