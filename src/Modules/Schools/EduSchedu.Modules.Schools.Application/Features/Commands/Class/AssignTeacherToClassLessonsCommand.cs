@@ -1,7 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using EduSchedu.Modules.Schools.Application.Abstractions;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
-using EduSchedu.Modules.Schools.Domain.Schools;
 using EduSchedu.Modules.Schools.Domain.Users;
 using EduSchedu.Shared.Abstractions.Kernel.CommandValidators;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
@@ -15,8 +14,7 @@ public record AssignTeacherToClassLessonsCommand(
     [property: JsonIgnore]
     Guid SchoolId,
     [property: JsonIgnore]
-    Guid ClassId,
-    List<Guid> LessonIds) : ICommand
+    Guid ClassId) : ICommand
 {
     internal sealed class Handler : ICommandHandler<AssignTeacherToClassLessonsCommand>
     {
@@ -35,29 +33,29 @@ public record AssignTeacherToClassLessonsCommand(
 
         public async Task<Result> Handle(AssignTeacherToClassLessonsCommand request, CancellationToken cancellationToken)
         {
-            //todo: pomyscli jak to dokonczyc/ podawac id teacher z request czy zmianic to na ogolnie przypisywanie dla calej klasy
-            var teacher = await _schoolUserRepository.GetTeacherByIdAsync(_userService.UserId, cancellationToken);
-            NullValidator.ValidateNotNull(teacher);
+            var headmaster = await _schoolUserRepository.GetTeacherByIdAsync(_userService.UserId, cancellationToken);
+            NullValidator.ValidateNotNull(headmaster);
 
-            if (teacher.Role != Role.HeadMaster)
+            if (headmaster.Role != Role.HeadMaster)
                 return Result.BadRequest<Guid>("You are not a headmaster");
 
             var school = await _schoolRepository.GetByIdAsync(request.SchoolId, cancellationToken);
             NullValidator.ValidateNotNull(school);
 
-            if (!school.TeacherIds.Contains(teacher.Id))
-                return Result.BadRequest<Guid>("You are not a teacher of this school");
+            if (!school.TeacherIds.Contains(headmaster.Id))
+                return Result.BadRequest<Guid>("You are not a headmaster of this school");
+
+            var teachers = await _schoolUserRepository.GetTeachersByIdsAsync(school.TeacherIds, cancellationToken);
+            NullValidator.ValidateNotNull(teachers);
 
             var @class = school.Classes.FirstOrDefault(x => x.Id == Domain.Schools.Ids.ClassId.From(request.ClassId));
             NullValidator.ValidateNotNull(@class);
 
-            if (teacher.LanguageProficiencyIds.All(x => x.Value != @class.LanguageProficiency.Id))
-                return Result.BadRequest<Guid>("You are not proficient in the language of this class");
+            var filteredTeachers = teachers.Where(x => x.LanguageProficiencyIds.Any(y => y.Value == @class.LanguageProficiency.Id)).ToList();
 
-            var lessons = await _schoolRepository.GetLessonsByIdsAsync(request.LessonIds, cancellationToken);
+            var lessons = @class.Lessons.ToList();
             lessons.RemoveAll(x => x.AssignedTeacher != null);
 
-            //todo: tylko lekcje ktore nie maja assign teacher
             var lessonTimes = @class.Lessons.Select(x => new
             {
                 x.Day,
@@ -65,37 +63,55 @@ public record AssignTeacherToClassLessonsCommand(
                 x.EndTime
             }).ToList();
 
-            var scheduleTimes = teacher.Schedule.ScheduleItems.Select(x => new
+            var availableTeachersByScheduleItemsForAll = filteredTeachers
+                .Where(teacher => lessonTimes
+                    .TrueForAll(lessonTime => !teacher.Schedule.ScheduleItems
+                        .Any(scheduleItem =>
+                            scheduleItem.Day == lessonTime.Day &&
+                            scheduleItem.Start <= lessonTime.EndTime &&
+                            scheduleItem.End >= lessonTime.StartTime))
+                ).ToList();
+
+            var teacher = availableTeachersByScheduleItemsForAll.FirstOrDefault();
+
+            if (teacher is not null)
             {
-                x.Day,
-                x.Start,
-                x.End
-            }).ToList();
+                foreach (var lesson in lessons.Where(lesson => lesson.AssignedTeacher == null))
+                {
+                    if (!@class.Lessons.Contains(lesson))
+                        return Result.BadRequest<Guid>("This lesson is not in this class");
 
-            lessons = lessons.Where(x => scheduleTimes
-                .TrueForAll(scheduleTime =>
-                    lessonTimes.TrueForAll(_ =>
-                        scheduleTime.Day != x.Day ||
-                        scheduleTime.Start >= x.EndTime ||
-                        scheduleTime.End <= x.StartTime
-                    )
-                )).ToList();
-
-
-            // lessons.RemoveAll(x => unAssignable.Contains(x));
-
-            foreach (var lesson in lessons)
+                    lesson.AssignTeacher(teacher.Id);
+                    var scheduleItem = ScheduleItem.CreateLessonItem(lesson.Day, lesson.StartTime, lesson.EndTime);
+                    teacher.Schedule.AddScheduleItem(scheduleItem);
+                }
+            }
+            else
             {
-                if (!@class.Lessons.Contains(lesson))
-                    return Result.BadRequest<Guid>("This lesson is not in this class");
+                foreach (var lesson in lessons)
+                {
+                    if (lesson.AssignedTeacher != null)
+                        continue;
 
-                lesson.AssignTeacher(teacher.Id);
-                var scheduleItem = ScheduleItem.CreateLessonItem(lesson.Day, lesson.StartTime, lesson.EndTime);
-                teacher.Schedule.AddScheduleItem(scheduleItem);
+                    // sprawdic czy na pewno tak powinno byc
+                    var availableTeachersByScheduleItems = filteredTeachers
+                        .Where(teacher2 => !teacher2.Schedule.ScheduleItems
+                            .Any(scheduleItem =>
+                                scheduleItem.Day == lesson.Day &&
+                                scheduleItem.Start <= lesson.EndTime &&
+                                scheduleItem.End >= lesson.StartTime)
+                        ).ToList();
+                    NullValidator.ValidateNotNull(availableTeachersByScheduleItems);
+
+                    var notAssignedTeacher = availableTeachersByScheduleItems.FirstOrDefault();
+                    lesson.AssignTeacher(notAssignedTeacher!.Id);
+                    notAssignedTeacher.Schedule.AddScheduleItem(
+                        ScheduleItem.CreateLessonItem(lesson.Day, lesson.StartTime, lesson.EndTime)
+                    );
+                }
             }
 
             await _unitOfWork.CommitAsync(cancellationToken);
-
             return Result.Ok();
         }
     }
