@@ -2,7 +2,7 @@
   getToken() {
     return localStorage.getItem('token')
 },
-  setToken(token : any) {
+  setToken(token : string) {
     localStorage.setItem('token', token)
   },
   removeToken(){
