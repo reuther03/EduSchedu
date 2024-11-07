@@ -1,0 +1,17 @@
+﻿nav {
+    display: flex;
+    padding: 10px 5px;
+    background-color: #e1e7e6;
+    border-bottom: 2px solid #d8dedd;
+    justify-content: space-between;
+}
+
+.navbar_link{
+    text-decoration: none;
+    color: black;
+    margin: 5px 10px 5px 10px;
+}
+
+.navbar_link:hover{
+    color: #4d4d4d;
+}
