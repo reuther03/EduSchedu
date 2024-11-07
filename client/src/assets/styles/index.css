@@ -34,3 +34,7 @@
     touch-action: manipulation;
     width: auto;
 }
+
+.mgr-10 {
+    margin-right: 10px;
+}
