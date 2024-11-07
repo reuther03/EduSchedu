@@ -35,7 +35,8 @@ public record LoginCommand(string Email, string Password) : ICommand<AccessToken
                 _jwtProvider.GenerateToken(user.Id.ToString(), user.FullName, user.Email, user.Role),
                 user.Id,
                 user.FullName,
-                user.Email
+                user.Email,
+                user.Role
             );
 
             return Result.Ok(token);
