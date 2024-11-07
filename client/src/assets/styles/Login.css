@@ -1,0 +1,15 @@
+﻿.login_card {
+    margin-top: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+input {
+    display: flex;
+}
+
+label {
+    margin: 10px;
+}
