@@ -22,11 +22,11 @@ internal class UsersController : BaseController
         return Ok(result);
     }
 
-    [HttpPost("create-user")]
+    [HttpPost("school/{schoolId:guid}/create-user")]
     [AuthorizeRoles(Role.HeadMaster)]
-    public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand request, CancellationToken cancellationToken, [FromRoute] Guid schoolId)
     {
-        var result = await _sender.Send(request, cancellationToken);
+        var result = await _sender.Send(request with { SchoolId = schoolId }, cancellationToken);
         return Ok(result);
     }
 
