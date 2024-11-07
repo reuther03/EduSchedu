@@ -43,10 +43,14 @@ internal static class Extensions
         {
             cors.AddPolicy(CorsPolicy, x =>
             {
-                x.WithOrigins("http://localhost:5000", "https://localhost:5000")
-                    .WithMethods("GET", "POST", "PUT", "DELETE")
-                    .AllowAnyHeader()
-                    .AllowCredentials();
+                // x.WithOrigins("http://localhost:5000", "https://localhost:5000","http://localhost:50001", "https://localhost:5001")
+                //     .WithMethods("GET", "POST", "PUT", "DELETE")
+                //     .AllowAnyOrigin()
+                //     .AllowAnyHeader()
+                //     .AllowCredentials();
+                x.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
             });
         });
 
