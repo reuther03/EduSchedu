@@ -22,4 +22,8 @@
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Middlewares\" />
+    </ItemGroup>
+
 </Project>

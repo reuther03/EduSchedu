@@ -93,7 +93,6 @@ public record AssignTeacherToClassLessonsCommand(
                     if (lesson.AssignedTeacher != null)
                         continue;
 
-                    // sprawdic czy na pewno tak powinno byc
                     var availableTeachersByScheduleItems = filteredTeachers
                         .Where(teacher2 => !teacher2.Schedule.ScheduleItems
                             .Any(scheduleItem =>

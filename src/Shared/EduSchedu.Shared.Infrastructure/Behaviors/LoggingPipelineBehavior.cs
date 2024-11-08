@@ -29,7 +29,6 @@ public class LoggingPipelineBehavior<TRequest, TResponse>
 
             var delta = Stopwatch.GetElapsedTime(startTime, Stopwatch.GetTimestamp());
 
-            //todo: bo throw exception daje ze sucessfuly handled
             _logger.LogInformation(
                 "[{RequestType}] Handled successfully {RequestName} | {Time}",
                 baseTypeName,
