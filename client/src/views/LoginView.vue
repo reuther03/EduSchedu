@@ -1,13 +1,12 @@
 ﻿<script setup lang="ts">
 
 import { reactive } from 'vue'
-import axios from 'axios'
 import router from '@/router'
-import tokenService from '@/services/tokenService'
 import axiosService from '@/services/axiosService'
 import type { ILoginResult } from '@/Results/ILoginResult'
 import { useAuthStore } from '@/stores/authStore'
 import type { UserIndentityModel } from '@/types/auth'
+
 const authStore = useAuthStore()
 
 const form = reactive({
@@ -21,7 +20,6 @@ const handleSubmit = async () => {
     password: form.password
   }
   try {
-    console.log('Logging in')
     const result = await axiosService.post<ILoginResult>('/users-module/Users/login', user)
 
     if (result.data.isSuccess) {

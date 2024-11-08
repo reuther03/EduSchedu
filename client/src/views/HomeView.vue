@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/authStore'
+
+const authStore = useAuthStore()
 </script>
 
 <template>
-  <div class="bg-red-950 m-auto py-10 min-h-full">
-    <h1>Home</h1>
+  <div v-if="authStore.isLoggedIn">
+    <RouterLink to="/school_create">School</RouterLink>
   </div>
 </template>
 
