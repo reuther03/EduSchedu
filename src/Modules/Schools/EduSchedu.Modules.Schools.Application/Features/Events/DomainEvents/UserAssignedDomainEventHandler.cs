@@ -15,6 +15,7 @@ public class UserAssignedDomainEventHandler : IDomainEventHandler<UserAssignedDo
 
     public Task Handle(UserAssignedDomainEvent notification, CancellationToken cancellationToken)
     {
+        //todo: tu chyba mialo byc wysylanie maila ze user zostal dodany do klasy czy cos w tym stylu
         throw new NotImplementedException();
     }
 }

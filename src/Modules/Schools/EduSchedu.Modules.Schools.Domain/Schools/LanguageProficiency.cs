@@ -1,4 +1,5 @@
-﻿using EduSchedu.Shared.Abstractions.Kernel.Primitives;
+﻿using EduSchedu.Modules.Schools.Domain.Schools.Enums;
+using EduSchedu.Shared.Abstractions.Kernel.Primitives;
 
 namespace EduSchedu.Modules.Schools.Domain.Schools;
 

@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using EduSchedu.Modules.Schools.Domain.Schools;
+using EduSchedu.Modules.Schools.Domain.Schools.Enums;
 
 namespace EduSchedu.Modules.Schools.Application.Features.Dtos;
 

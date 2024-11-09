@@ -1,4 +1,4 @@
-﻿namespace EduSchedu.Modules.Schools.Domain.Schools;
+﻿namespace EduSchedu.Modules.Schools.Domain.Schools.Enums;
 
 public enum Lvl
 {

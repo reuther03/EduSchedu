@@ -1,5 +1,6 @@
 ﻿using EduSchedu.Modules.Schools.Application.Abstractions;
 using EduSchedu.Modules.Schools.Domain.Schools;
+using EduSchedu.Modules.Schools.Domain.Schools.Enums;
 using EduSchedu.Modules.Schools.Domain.Schools.Ids;
 using EduSchedu.Shared.Abstractions.Services;
 using Microsoft.EntityFrameworkCore;

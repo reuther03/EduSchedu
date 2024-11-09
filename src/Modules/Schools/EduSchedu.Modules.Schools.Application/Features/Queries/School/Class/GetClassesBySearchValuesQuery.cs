@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database;
 using EduSchedu.Modules.Schools.Application.Features.Dtos;
-using EduSchedu.Modules.Schools.Domain.Schools;
+using EduSchedu.Modules.Schools.Domain.Schools.Enums;
 using EduSchedu.Shared.Abstractions.Kernel.CommandValidators;
 using EduSchedu.Shared.Abstractions.Kernel.Pagination;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;

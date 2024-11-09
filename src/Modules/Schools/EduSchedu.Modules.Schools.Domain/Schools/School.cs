@@ -7,10 +7,12 @@ namespace EduSchedu.Modules.Schools.Domain.Schools;
 
 public class School : AggregateRoot<SchoolId>
 {
-    //todo: cos w stylu wag ocen: bool prop czy szkola ma wagi ocen czy nie/ liczyc srednia z wagami: waga * ocena
+    //todo: cos w stylu wag ocen: bool prop czy szkola ma wagi ocen czy nie/ liczyc srednia z wagami: waga * ocena/ czy szkola lub kalsa ma lekcje online
     private readonly List<UserId> _teacherIds = [];
     private readonly List<UserId> _studentIds = [];
     private readonly List<Class> _classes = [];
+    private readonly List<SchoolApplication> _schoolApplications = [];
+    // private readonly List<ApplicationConsideration> _applicationConsiderations = [];
     public Name Name { get; private set; }
     public Address Address { get; private set; }
     public string PhoneNumber { get; private set; }
@@ -20,6 +22,8 @@ public class School : AggregateRoot<SchoolId>
     public IReadOnlyList<UserId> TeacherIds => _teacherIds.AsReadOnly();
     public IReadOnlyList<UserId> StudentIds => _studentIds.AsReadOnly();
     public IReadOnlyList<Class> Classes => _classes.AsReadOnly();
+    public IReadOnlyList<SchoolApplication> SchoolApplications => _schoolApplications.AsReadOnly();
+    // public IReadOnlyList<ApplicationConsideration> ApplicationConsiderations => _applicationConsiderations.AsReadOnly();
 
     private School()
     {
@@ -35,7 +39,7 @@ public class School : AggregateRoot<SchoolId>
     }
 
     public static School Create(Name name, Address address, string phoneNumber, Email email, UserId principalId)
-        => new (SchoolId.New(), name, address, phoneNumber, email, principalId);
+        => new(SchoolId.New(), name, address, phoneNumber, email, principalId);
 
     public void AddTeacher(UserId teacherId)
     {
@@ -59,5 +63,15 @@ public class School : AggregateRoot<SchoolId>
             throw new DomainException("Student already exists");
 
         _studentIds.Add(studentId);
+    }
+
+    public void AddApplication(SchoolApplication application)
+    {
+        //todo: to powinno jeszcze sprawdzac consideration status i jesli jest canceled albo rejected to powinno pozwolic dodac
+        //plan: domain event ktory bedzie dodawal consideration application do listy consideration applications z consideration status pending
+        if (_schoolApplications.Exists(x => x.UserId == application.UserId))
+            throw new DomainException("Application already exists");
+
+        _schoolApplications.Add(application);
     }
 }
