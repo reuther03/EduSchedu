@@ -88,9 +88,5 @@ public class SchoolConfiguration : IEntityTypeConfiguration<School>
             .HasForeignKey("SchoolId")
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasMany(x => x.SchoolApplications)
-            .WithOne()
-            .HasForeignKey("SchoolId")
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }
