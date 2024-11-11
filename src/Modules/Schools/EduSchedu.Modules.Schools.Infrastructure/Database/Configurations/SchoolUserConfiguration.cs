@@ -27,6 +27,11 @@ public class SchoolUserConfiguration : IEntityTypeConfiguration<SchoolUser>
         builder.Property(x => x.Role)
             .HasConversion<string>();
 
+        builder.HasOne(x => x.Schedule)
+            .WithOne(s => s.SchoolUser)
+            .HasForeignKey<Schedule>(x => x.SchoolUserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.UseTptMappingStrategy();
     }
 }

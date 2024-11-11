@@ -25,12 +25,12 @@ public class GetTeachersScheduleQuery : IQuery<List<ScheduleItemDateDto>>
 
         public async Task<Result<List<ScheduleItemDateDto>>> Handle(GetTeachersScheduleQuery request, CancellationToken cancellationToken)
         {
-            var teacher = await _context.SchoolUsers.OfType<Teacher>().FirstOrDefaultAsync(x => x.Id == _userService.UserId, cancellationToken);
-            NullValidator.ValidateNotNull(teacher);
+            var user = await _context.SchoolUsers.OfType<Teacher>().FirstOrDefaultAsync(x => x.Id == _userService.UserId, cancellationToken);
+            NullValidator.ValidateNotNull(user);
 
             var scheduleItems = await _context.Schedules
                 .Include(x => x.ScheduleItems)
-                .Where(x => x.TeacherId == teacher.Id)
+                .Where(x => x.SchoolUserId == user.Id)
                 .SelectMany(x => x.ScheduleItems)
                 .OrderBy(x => x.Day)
                 .ThenBy(x => x.Start)

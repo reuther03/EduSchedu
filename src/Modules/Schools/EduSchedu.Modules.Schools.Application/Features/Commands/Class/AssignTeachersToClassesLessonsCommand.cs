@@ -30,7 +30,7 @@
 //
 //         public async Task<Result<Guid>> Handle(AssignTeacherToLessonCommand request, CancellationToken cancellationToken)
 //         {
-//             var headmaster = await _schoolUserRepository.GetByIdAsync(_userService.UserId, cancellationToken);
+//             var headmaster = await _schoolUserRepository.GetByIdAsync(_userService.SchoolUserId, cancellationToken);
 //             NullValidator.ValidateNotNull(headmaster);
 //
 //             var school = await _schoolRepository.GetByIdAsync(request.SchoolId, cancellationToken);

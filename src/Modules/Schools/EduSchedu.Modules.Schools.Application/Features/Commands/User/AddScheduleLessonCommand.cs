@@ -15,7 +15,7 @@
 //     Guid SchoolId,
 //     Guid LessonId,
 //     [property: JsonIgnore]
-//     Guid UserId,
+//     Guid SchoolUserId,
 //     Guid ClassId
 // ) : ICommand<Guid>
 // {
@@ -37,7 +37,7 @@
 //
 //         public async Task<Result<Guid>> Handle(AddScheduleLessonCommand request, CancellationToken cancellationToken)
 //         {
-//             var admin = await _schoolUserRepository.GetByIdAsync(_userService.UserId, cancellationToken);
+//             var admin = await _schoolUserRepository.GetByIdAsync(_userService.SchoolUserId, cancellationToken);
 //             NullValidator.ValidateNotNull(admin);
 //
 //             var school = await _schoolRepository.GetByIdAsync(request.SchoolId, cancellationToken);
@@ -49,7 +49,7 @@
 //             var @class = await _schoolRepository.GetClassByIdAsync(school.Id, request.ClassId, cancellationToken);
 //             NullValidator.ValidateNotNull(@class);
 //
-//             var teacher = await _schoolUserRepository.GetTeacherByIdAsync(request.UserId, cancellationToken);
+//             var teacher = await _schoolUserRepository.GetTeacherByIdAsync(request.SchoolUserId, cancellationToken);
 //             NullValidator.ValidateNotNull(teacher);
 //
 //             if (!school.TeacherIds.Contains(teacher.Id))

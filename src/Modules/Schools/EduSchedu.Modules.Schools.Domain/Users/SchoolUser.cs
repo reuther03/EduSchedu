@@ -9,6 +9,8 @@ public abstract class SchoolUser : AggregateRoot<UserId>
     public Name FullName { get; private set; }
     public Role Role { get; private set; }
 
+    public Schedule Schedule { get; private set; }
+
     protected SchoolUser()
     {
     }
@@ -20,4 +22,7 @@ public abstract class SchoolUser : AggregateRoot<UserId>
         FullName = fullName;
         Role = role;
     }
+
+    public void SetSchedule(Schedule schedule)
+        => Schedule = schedule;
 }

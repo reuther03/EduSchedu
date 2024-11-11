@@ -17,13 +17,13 @@ public class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
             .HasConversion(x => x.Value, x => ScheduleId.From(x))
             .ValueGeneratedNever();
 
-        builder.Property(x => x.TeacherId)
+        builder.Property(x => x.SchoolUserId)
             .HasConversion(x => x.Value, x => UserId.From(x))
             .ValueGeneratedNever();
 
-        builder.HasOne(x => x.Teacher)
+        builder.HasOne(x => x.SchoolUser)
             .WithOne(x => x.Schedule)
-            .HasForeignKey<Schedule>(x => x.TeacherId)
+            .HasForeignKey<Schedule>(x => x.SchoolUserId)
             .IsRequired();
 
         builder.HasMany(x => x.ScheduleItems)

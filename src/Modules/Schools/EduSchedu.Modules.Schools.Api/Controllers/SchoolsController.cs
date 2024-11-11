@@ -98,7 +98,7 @@ internal class SchoolsController : BaseController
     // [AuthorizeRoles(Role.HeadMaster, Role.BackOffice)]
     // public async Task<IActionResult> AddScheduleLesson([FromBody] AddScheduleLessonCommand command, [FromRoute] Guid schoolId, [FromRoute] Guid teacherId)
     // {
-    //     var result = await _sender.Send(command with { SchoolId = schoolId, UserId = teacherId });
+    //     var result = await _sender.Send(command with { SchoolId = schoolId, SchoolUserId = teacherId });
     //     return Ok(result);
     // }
     [HttpPost("{schoolId:guid}/class/{classId:guid}/lesson/{lessonId:guid}/assign-teacher")]

@@ -39,7 +39,7 @@ internal class SchoolUserRepository : Repository<SchoolUser, SchoolsDbContext>, 
         => await _dbContext.SchoolUsers.AnyAsync(x => x.Id == id, cancellationToken);
 
     public Task<Schedule?> GetTeacherScheduleAsync(UserId teacherId, CancellationToken cancellationToken = default)
-        => _dbContext.Schedules.FirstOrDefaultAsync(x => x.TeacherId == teacherId, cancellationToken);
+        => _dbContext.Schedules.FirstOrDefaultAsync(x => x.SchoolUserId == teacherId, cancellationToken);
 
     public Task<Student?> GetStudentByIdAsync(UserId id, CancellationToken cancellationToken = default)
         => _dbContext.Students.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);

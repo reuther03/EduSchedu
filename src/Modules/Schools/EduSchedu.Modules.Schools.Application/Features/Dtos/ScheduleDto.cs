@@ -14,7 +14,7 @@ public class ScheduleDto
         {
             Id = schedule.Id,
             ScheduleItems = schedule.ScheduleItems.Select(ScheduleItemDateDto.AsDto).ToList(),
-            TeacherId = schedule.TeacherId
+            TeacherId = schedule.SchoolUserId
         };
     }
 }

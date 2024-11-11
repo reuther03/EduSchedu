@@ -9,9 +9,8 @@ public class Schedule : AggregateRoot<ScheduleId>
 {
     private readonly List<ScheduleItem> _scheduleItems = [];
 
-
-    public UserId TeacherId { get; private set; }
-    public Teacher Teacher { get; private set; }
+    public UserId SchoolUserId { get; private set; }
+    public SchoolUser SchoolUser { get; private set; }
 
     public IReadOnlyList<ScheduleItem> ScheduleItems => _scheduleItems;
 
@@ -19,13 +18,13 @@ public class Schedule : AggregateRoot<ScheduleId>
     {
     }
 
-    private Schedule(ScheduleId id, UserId teacherId) : base(id)
+    private Schedule(ScheduleId id, UserId schoolUserId) : base(id)
     {
-        TeacherId = teacherId;
+        SchoolUserId = schoolUserId;
     }
 
     public static Schedule Create(UserId teacherId)
-        => new (ScheduleId.New(), teacherId);
+        => new(ScheduleId.New(), teacherId);
 
     public void AddScheduleItem(ScheduleItem item)
         => _scheduleItems.Add(item);

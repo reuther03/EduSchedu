@@ -6,8 +6,6 @@ namespace EduSchedu.Modules.Schools.Domain.Users;
 
 public class Teacher : SchoolUser
 {
-    public Schedule Schedule { get; private set; }
-
     private readonly List<LanguageProficiencyId> _languageProficiencyIds = [];
     public IReadOnlyList<LanguageProficiencyId> LanguageProficiencyIds => _languageProficiencyIds.AsReadOnly();
 
@@ -45,7 +43,4 @@ public class Teacher : SchoolUser
 
         _languageProficiencyIds.Remove(languageProficiencyId);
     }
-
-    public void SetSchedule(Schedule schedule)
-        => Schedule = schedule;
 }

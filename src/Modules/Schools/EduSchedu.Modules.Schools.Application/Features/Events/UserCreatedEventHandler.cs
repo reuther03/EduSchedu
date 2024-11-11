@@ -46,15 +46,16 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
             return;
 
         SchoolUser user = null!;
+        Schedule? schedule;
         switch (notification.Role)
         {
             case Role.Teacher:
             {
                 var teacher = Teacher.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
-                var schedule = Schedule.Create(teacher.Id);
+                schedule = Schedule.Create(teacher.Id);
                 teacher.SetSchedule(schedule);
-                user = teacher;
                 school.AddTeacher(teacher.Id);
+                user = teacher;
                 break;
             }
 
@@ -63,9 +64,10 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
 
             case Role.Student:
                 var student = Student.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
-                // student.SetIndexNumber(school.Name);
-                user = student;
+                schedule = Schedule.Create(student.Id);
+                student.SetSchedule(schedule);
                 school.AddStudent(student.Id);
+                user = student;
                 break;
 
             case Role.BackOffice:
