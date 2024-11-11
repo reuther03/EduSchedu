@@ -54,14 +54,6 @@ internal class SchoolsController : BaseController
         return Ok(result);
     }
 
-    [HttpGet("/teacher/schedule")]
-    [AuthorizeRoles(Role.HeadMaster, Role.BackOffice, Role.Teacher)]
-    public async Task<IActionResult> GetTeachersSchedule()
-    {
-        var result = await _sender.Send(new GetTeachersScheduleQuery());
-        return Ok(result);
-    }
-
     [HttpPost("create")]
     [AuthorizeRoles(Role.HeadMaster)]
     public async Task<IActionResult> CreateSchool([FromBody] CreateSchoolCommand command)
