@@ -19,7 +19,7 @@ internal class TeacherController : BaseController
     [AuthorizeRoles(Role.HeadMaster, Role.BackOffice, Role.Teacher)]
     public async Task<IActionResult> GetTeachersSchedule()
     {
-        var result = await _sender.Send(new GetTeachersScheduleQuery());
+        var result = await _sender.Send(new GetUserScheduleQuery());
         return Ok(result);
     }
 }

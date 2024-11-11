@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EduSchedu.Modules.Schools.Application.Features.Queries.Users;
 
-public class GetTeachersScheduleQuery : IQuery<List<ScheduleItemDateDto>>
+public class GetUserScheduleQuery : IQuery<List<ScheduleItemDateDto>>
 {
-    internal sealed class Handler : IQueryHandler<GetTeachersScheduleQuery, List<ScheduleItemDateDto>>
+    internal sealed class Handler : IQueryHandler<GetUserScheduleQuery, List<ScheduleItemDateDto>>
     {
         private readonly ISchoolsDbContext _context;
         private readonly IUserService _userService;
@@ -23,9 +23,9 @@ public class GetTeachersScheduleQuery : IQuery<List<ScheduleItemDateDto>>
             _userService = userService;
         }
 
-        public async Task<Result<List<ScheduleItemDateDto>>> Handle(GetTeachersScheduleQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<ScheduleItemDateDto>>> Handle(GetUserScheduleQuery request, CancellationToken cancellationToken)
         {
-            var user = await _context.SchoolUsers.OfType<Teacher>().FirstOrDefaultAsync(x => x.Id == _userService.UserId, cancellationToken);
+            var user = await _context.SchoolUsers.FirstOrDefaultAsync(x => x.Id == _userService.UserId, cancellationToken);
             NullValidator.ValidateNotNull(user);
 
             var scheduleItems = await _context.Schedules
