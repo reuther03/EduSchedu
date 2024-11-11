@@ -5,8 +5,7 @@ namespace EduSchedu.Modules.Schools.Application.Features.Dtos;
 
 public class ScheduleItemDateDto
 {
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public ScheduleItemType Type { get; init; }
+    public Guid Id { get; init; }
     public DayOfWeek Day { get; init; }
     public TimeOnly Start { get; init; }
     public TimeOnly End { get; init; }
@@ -15,7 +14,7 @@ public class ScheduleItemDateDto
     {
         return new ScheduleItemDateDto
         {
-            Type = scheduleItem.Type,
+            Id = scheduleItem.Id,
             Day = scheduleItem.Day,
             Start = scheduleItem.Start,
             End = scheduleItem.End
