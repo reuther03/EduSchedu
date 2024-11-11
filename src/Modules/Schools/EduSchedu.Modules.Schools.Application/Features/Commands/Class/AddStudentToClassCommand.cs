@@ -48,6 +48,9 @@ public record AddStudentToClassCommand(
             var @class = school.Classes.FirstOrDefault(x => x.Id == Domain.Schools.Ids.ClassId.From(request.ClassId));
             NullValidator.ValidateNotNull(@class);
 
+            if (@class.StudentIds.Contains(student.Id))
+                return Result<Guid>.BadRequest("Student is already in this class");
+
             if (@class.Lessons.All(x => x.AssignedTeacher != teacher.Id))
                 return Result<Guid>.BadRequest("You are not allowed to add student to this class");
 
