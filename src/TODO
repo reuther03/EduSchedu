@@ -1,8 +1,6 @@
-﻿.zmienic zeby schedule byly w schoolUserze zeby student tez je mial
-.ztestowac czy teacherowi doda sie schedule item z innej szkoly
+﻿.ztestowac czy teacherowi doda sie schedule item z innej szkoly
 .czy szkola ma naucznie online / jakas flaga na szkole lub klasach
 .optymalizacja repozytoriow / zeby usunac includy tam gdzie niepotrzebne i stworzyc osobne
-.moze cos w stylu lekcji lub korepetycji 1:1 / student teacher
 
 ???
 commandy:

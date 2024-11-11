@@ -1,10 +1,13 @@
-﻿using EduSchedu.Modules.Schools.Domain.Users;
+﻿using System.Text.Json.Serialization;
+using EduSchedu.Modules.Schools.Domain.Users;
 
 namespace EduSchedu.Modules.Schools.Application.Features.Dtos;
 
 public class ScheduleItemDto
 {
     public Guid Id { get; init; }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public ScheduleItemType Type { get; init; }
     public DayOfWeek Day { get; init; }
     public TimeOnly Start { get; init; }
