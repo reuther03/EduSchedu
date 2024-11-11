@@ -1,6 +1,15 @@
 ﻿.ztestowac czy teacherowi doda sie schedule item z innej szkoly
 .czy szkola ma naucznie online / jakas flaga na szkole lub klasach
 .optymalizacja repozytoriow / zeby usunac includy tam gdzie niepotrzebne i stworzyc osobne
+.zeby szkola miala liste sal lekcyjnych
+
+
+.cos w stylu zeby zliczac przepracowane godziny nauczyciela, to mogloby byc powiazanie z modulem ktory by liczyl wyplaty dla nauczyciela i koszty dla studentow
+.tutoring i mentorship - czyli lekcje indywidualne
+.pomyslec nad tym liczeniem kosztow i zarobkow nauczyciela/
+jakis kalkulator poprzez przepracowane godziny stawki godzinowe dodatkowe aktywnosci/lekcje indywidualne ale w tej szkole
+przeniesc schedule do osobnego modulu
+
 
 ???
 commandy:

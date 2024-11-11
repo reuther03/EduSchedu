@@ -1,0 +1,8 @@
+{
+  "schedules": {
+    "module": {
+      "name": "Schedules",
+      "enabled": true
+    }
+  }
+}

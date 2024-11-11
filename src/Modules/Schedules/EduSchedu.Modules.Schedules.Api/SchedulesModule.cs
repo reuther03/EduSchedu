@@ -1,18 +1,19 @@
-﻿using EduSchedu.Modules.Users.Application;
-using EduSchedu.Modules.Users.Domain;
-using EduSchedu.Modules.Users.Infrastructure;
+﻿using EduSchedu.Modules.Schedules.Application;
+using EduSchedu.Modules.Schedules.Domain;
+using EduSchedu.Modules.Schedules.Infrastructure;
 using EduSchedu.Shared.Abstractions.Modules;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-// ReSharper disable ClassNeverInstantiated.Global
 
-namespace EduSchedu.Modules.Users.Api;
+// ReSharper disable once ClassNeverInstantiated.Global
 
-public class UsersModule : IModule
+namespace EduSchedu.Modules.Schedules.Api;
+
+public class SchedulesModule : IModule
 {
-    public const string BasePath = "users-module";
+    public const string BasePath = "schedules-module";
 
-    public string Name => "Users";
+    public string Name => "Schedules";
     public string Path => BasePath;
 
     public void Register(IServiceCollection services)

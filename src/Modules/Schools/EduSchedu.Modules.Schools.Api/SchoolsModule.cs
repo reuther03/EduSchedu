@@ -4,6 +4,7 @@ using EduSchedu.Modules.Schools.Infrastructure;
 using EduSchedu.Shared.Abstractions.Modules;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+// ReSharper disable ClassNeverInstantiated.Global
 
 namespace EduSchedu.Modules.Schools.Api;
 
@@ -11,7 +12,7 @@ public class SchoolsModule : IModule
 {
     public const string BasePath = "schools-module";
 
-    public string Name { get; } = "School";
+    public string Name => "School";
     public string Path => BasePath;
 
     public void Register(IServiceCollection services)

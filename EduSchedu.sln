@@ -44,6 +44,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduSchedu.Modules.Schools.I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduSchedu.Tests.Unit", "tests\EduSchedu.Tests.Unit\EduSchedu.Tests.Unit.csproj", "{06400BE8-1D20-46AB-895C-9E8B893CDAA8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Schedules", "Schedules", "{68ADC9D1-7F92-475D-9038-CA224DBEDA5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduSchedu.Modules.Schedules.Api", "src\Modules\Schedules\EduSchedu.Modules.Schedules.Api\EduSchedu.Modules.Schedules.Api.csproj", "{412ECCA2-BB3E-4F5D-959F-B0BE60B5A16F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduSchedu.Modules.Schedules.Application", "src\Modules\Schedules\EduSchedu.Modules.Schedules.Application\EduSchedu.Modules.Schedules.Application.csproj", "{548172C8-B88B-4DC1-8022-ECE2063AE8C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduSchedu.Modules.Schedules.Infrastructure", "src\Modules\Schedules\EduSchedu.Modules.Schedules.Infrastructure\EduSchedu.Modules.Schedules.Infrastructure.csproj", "{D692DEB7-FEA9-45C7-BD6F-BE29A998B315}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduSchedu.Modules.Schedules.Domain", "src\Modules\Schedules\EduSchedu.Modules.Schedules.Domain\EduSchedu.Modules.Schedules.Domain.csproj", "{03C8B713-6BA7-470A-B509-91731BE7FA50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +111,22 @@ Global
 		{06400BE8-1D20-46AB-895C-9E8B893CDAA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06400BE8-1D20-46AB-895C-9E8B893CDAA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06400BE8-1D20-46AB-895C-9E8B893CDAA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{412ECCA2-BB3E-4F5D-959F-B0BE60B5A16F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{412ECCA2-BB3E-4F5D-959F-B0BE60B5A16F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{412ECCA2-BB3E-4F5D-959F-B0BE60B5A16F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{412ECCA2-BB3E-4F5D-959F-B0BE60B5A16F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{548172C8-B88B-4DC1-8022-ECE2063AE8C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{548172C8-B88B-4DC1-8022-ECE2063AE8C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{548172C8-B88B-4DC1-8022-ECE2063AE8C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{548172C8-B88B-4DC1-8022-ECE2063AE8C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D692DEB7-FEA9-45C7-BD6F-BE29A998B315}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D692DEB7-FEA9-45C7-BD6F-BE29A998B315}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D692DEB7-FEA9-45C7-BD6F-BE29A998B315}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D692DEB7-FEA9-45C7-BD6F-BE29A998B315}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03C8B713-6BA7-470A-B509-91731BE7FA50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03C8B713-6BA7-470A-B509-91731BE7FA50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03C8B713-6BA7-470A-B509-91731BE7FA50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03C8B713-6BA7-470A-B509-91731BE7FA50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DC51AE1B-BC98-41FE-A4D2-D8BC0CB0A209} = {525A8442-CE08-4EFD-8EDA-999A2AB57755}
@@ -120,5 +146,10 @@ Global
 		{76795CAD-EB6D-4C99-9E86-87D5CF871D94} = {4C95FCBF-E9EF-4D75-A3E7-84B89FBAC506}
 		{B6758E80-7569-4824-A1BF-8B143F161F5E} = {4C95FCBF-E9EF-4D75-A3E7-84B89FBAC506}
 		{06400BE8-1D20-46AB-895C-9E8B893CDAA8} = {6C7A7C2B-6D42-4CA2-9C9A-C54BD7E4815A}
+		{68ADC9D1-7F92-475D-9038-CA224DBEDA5E} = {8A23895A-4906-4B88-B627-6875875D95A0}
+		{412ECCA2-BB3E-4F5D-959F-B0BE60B5A16F} = {68ADC9D1-7F92-475D-9038-CA224DBEDA5E}
+		{548172C8-B88B-4DC1-8022-ECE2063AE8C1} = {68ADC9D1-7F92-475D-9038-CA224DBEDA5E}
+		{D692DEB7-FEA9-45C7-BD6F-BE29A998B315} = {68ADC9D1-7F92-475D-9038-CA224DBEDA5E}
+		{03C8B713-6BA7-470A-B509-91731BE7FA50} = {68ADC9D1-7F92-475D-9038-CA224DBEDA5E}
 	EndGlobalSection
 EndGlobal
