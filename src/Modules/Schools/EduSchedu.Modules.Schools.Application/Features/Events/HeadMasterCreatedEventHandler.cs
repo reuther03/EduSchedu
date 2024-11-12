@@ -24,8 +24,8 @@ public class HeadMasterCreatedEventHandler : INotificationHandler<HeadmasterCrea
             return;
 
         var user = Headmaster.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
-        var schedule = Schedule.Create(user.Id);
-        user.SetSchedule(schedule);
+        // var schedule = Schedule.Create(user.Id);
+        // user.SetSchedule(schedule);
 
         await _schoolUserRepository.AddAsync(user, cancellationToken);
         await _schoolUnitOfWork.CommitAsync(cancellationToken);

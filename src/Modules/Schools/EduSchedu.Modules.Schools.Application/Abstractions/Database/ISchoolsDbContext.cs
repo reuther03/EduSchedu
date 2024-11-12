@@ -12,7 +12,6 @@ public interface ISchoolsDbContext
     DbSet<SchoolUser> SchoolUsers { get; }
     DbSet<Student> Students { get; }
     DbSet<Teacher> Teachers { get; }
-    DbSet<Schedule> Schedules { get; }
     DbSet<Lesson> Lessons { get; }
     DbSet<LanguageProficiency> LanguageProficiencies { get; }
 }

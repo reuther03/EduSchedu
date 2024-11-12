@@ -54,13 +54,7 @@ public record AddStudentToClassCommand(
             if (@class.Lessons.All(x => x.AssignedTeacher != teacher.Id))
                 return Result<Guid>.BadRequest("You are not allowed to add student to this class");
 
-            //plan: czy powinna byc walidacja po calym schedulu i czy student w tym czasie nie ma lekcji w tej samej lub innej klasie
-            var classLessons = @class.Lessons;
-
-            foreach (var lesson in classLessons)
-            {
-                student.Schedule.AddScheduleItem(ScheduleItem.CreateLessonItem(lesson.Day, lesson.StartTime, lesson.EndTime));
-            }
+            //plan: pewnie jakis event ktory wysle wszystkie lekcje do modulu shcedules
 
             @class.AddStudent(student.Id);
             await _unitOfWork.CommitAsync(cancellationToken);

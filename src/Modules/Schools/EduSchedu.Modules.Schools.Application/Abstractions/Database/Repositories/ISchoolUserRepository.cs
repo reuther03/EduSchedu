@@ -13,12 +13,6 @@ public interface ISchoolUserRepository : IRepository<SchoolUser>
     Task<Teacher?> GetTeacherByIdAsync(UserId id, CancellationToken cancellationToken = default);
     Task<bool> ExistsAsync(UserId id, CancellationToken cancellationToken = default);
 
-    #region Teacher
-
-    Task<Schedule?> GetTeacherScheduleAsync(UserId teacherId, CancellationToken cancellationToken = default);
-
-    #endregion
-
     #region Student
 
     Task<Student?> GetStudentByIdAsync(UserId id, CancellationToken cancellationToken = default);

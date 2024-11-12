@@ -3,7 +3,6 @@ using EduSchedu.Modules.Schools.Application.Abstractions.Database;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
 using EduSchedu.Modules.Schools.Infrastructure.Database;
 using EduSchedu.Modules.Schools.Infrastructure.Database.Repositories;
-using EduSchedu.Modules.Schools.Infrastructure.Jobs;
 using EduSchedu.Shared.Abstractions.Services;
 using EduSchedu.Shared.Infrastructure.Postgres;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +22,7 @@ public static class Extensions
             .AddUnitOfWork<ISchoolUnitOfWork, SchoolUnitOfWork>()
             .AddTransient<IModuleSeeder, SchoolModuleSeeder>();
 
-        services.AddHostedService<ScheduleItemJob>();
+        // services.AddHostedService<ScheduleItemJob>();
 
         return services;
     }

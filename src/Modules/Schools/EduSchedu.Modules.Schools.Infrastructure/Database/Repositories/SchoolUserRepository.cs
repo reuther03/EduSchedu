@@ -21,8 +21,6 @@ internal class SchoolUserRepository : Repository<SchoolUser, SchoolsDbContext>, 
 
     public Task<List<Teacher>> GetTeachersByIdsAsync(IEnumerable<UserId> ids, CancellationToken cancellationToken = default)
         => _dbContext.Teachers
-            .Include(x => x.Schedule)
-            .ThenInclude(x => x.ScheduleItems)
             .Where(x => ids.Contains(x.Id))
             .ToListAsync(cancellationToken);
 
@@ -30,19 +28,12 @@ internal class SchoolUserRepository : Repository<SchoolUser, SchoolsDbContext>, 
         => _dbContext.SchoolUsers.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
 
     public async Task<Teacher?> GetTeacherByIdAsync(UserId id, CancellationToken cancellationToken = default)
-        => await _dbContext.Teachers
-            .Include(x => x.Schedule)
-            .ThenInclude(x => x.ScheduleItems)
-            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        => await _dbContext.Teachers.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
     public async Task<bool> ExistsAsync(UserId id, CancellationToken cancellationToken = default)
         => await _dbContext.SchoolUsers.AnyAsync(x => x.Id == id, cancellationToken);
 
-    public Task<Schedule?> GetTeacherScheduleAsync(UserId teacherId, CancellationToken cancellationToken = default)
-        => _dbContext.Schedules.FirstOrDefaultAsync(x => x.SchoolUserId == teacherId, cancellationToken);
-
     public Task<Student?> GetStudentByIdAsync(UserId id, CancellationToken cancellationToken = default)
         => _dbContext.Students
-            .Include(x => x.Schedule)
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 }

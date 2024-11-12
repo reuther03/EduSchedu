@@ -101,34 +101,35 @@ internal class SchoolsController : BaseController
     //     var result = await _sender.Send(command with { SchoolId = schoolId, SchoolUserId = teacherId });
     //     return Ok(result);
     // }
-    [HttpPost("{schoolId:guid}/class/{classId:guid}/lesson/{lessonId:guid}/assign-teacher")]
-    [AuthorizeRoles(Role.HeadMaster)]
-    public async Task<IActionResult> AssignTeacherToClassLesson([FromBody] AssignTeacherToClassLessonCommand command,
-        [FromRoute] Guid schoolId,
-        [FromRoute] Guid classId,
-        [FromRoute] Guid lessonId)
-    {
-        var result = await _sender.Send(command with { SchoolId = schoolId, ClassId = classId, LessonId = lessonId });
-        return Ok(result);
-    }
-
-
-    [HttpPost("{schoolId:guid}/class/{classId:guid}/assign-teacher")]
-    [AuthorizeRoles(Role.HeadMaster)]
-    public async Task<IActionResult> AssignTeacherToClassLessons([FromRoute] Guid schoolId,
-        [FromRoute] Guid classId)
-    {
-        var result = await _sender.Send(new AssignTeacherToClassLessonsCommand(schoolId, classId));
-        return Ok(result);
-    }
-
-    [HttpPost("{schoolId:guid}/teacher/{teacherId:guid}/schedule/add-item")]
-    [AuthorizeRoles(Role.HeadMaster, Role.BackOffice, Role.Teacher)]
-    public async Task<IActionResult> AddScheduleItem([FromBody] AddScheduleItemCommand command, [FromRoute] Guid schoolId, [FromRoute] Guid teacherId)
-    {
-        var result = await _sender.Send(command with { SchoolId = schoolId, UserId = teacherId });
-        return Ok(result);
-    }
+    //
+    // [HttpPost("{schoolId:guid}/class/{classId:guid}/lesson/{lessonId:guid}/assign-teacher")]
+    // [AuthorizeRoles(Role.HeadMaster)]
+    // public async Task<IActionResult> AssignTeacherToClassLesson([FromBody] AssignTeacherToClassLessonCommand command,
+    //     [FromRoute] Guid schoolId,
+    //     [FromRoute] Guid classId,
+    //     [FromRoute] Guid lessonId)
+    // {
+    //     var result = await _sender.Send(command with { SchoolId = schoolId, ClassId = classId, LessonId = lessonId });
+    //     return Ok(result);
+    // }
+    //
+    //
+    // [HttpPost("{schoolId:guid}/class/{classId:guid}/assign-teacher")]
+    // [AuthorizeRoles(Role.HeadMaster)]
+    // public async Task<IActionResult> AssignTeacherToClassLessons([FromRoute] Guid schoolId,
+    //     [FromRoute] Guid classId)
+    // {
+    //     var result = await _sender.Send(new AssignTeacherToClassLessonsCommand(schoolId, classId));
+    //     return Ok(result);
+    // }
+    //
+    // [HttpPost("{schoolId:guid}/teacher/{teacherId:guid}/schedule/add-item")]
+    // [AuthorizeRoles(Role.HeadMaster, Role.BackOffice, Role.Teacher)]
+    // public async Task<IActionResult> AddScheduleItem([FromBody] AddScheduleItemCommand command, [FromRoute] Guid schoolId, [FromRoute] Guid teacherId)
+    // {
+    //     var result = await _sender.Send(command with { SchoolId = schoolId, UserId = teacherId });
+    //     return Ok(result);
+    // }
 
     [HttpPost("{schoolId:guid}/class/{classId:guid}/student")]
     [AuthorizeRoles(Role.HeadMaster, Role.Teacher)]
