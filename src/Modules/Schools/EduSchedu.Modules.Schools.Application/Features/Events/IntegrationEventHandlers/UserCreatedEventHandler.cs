@@ -71,8 +71,9 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
                 break;
 
             case Role.BackOffice:
-                user = BackOfficeUser.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
-                school.AddTeacher(user.Id);
+                // plan: chyba nie powinien sie tworzyc backoffice user
+                // user = BackOfficeUser.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
+                // school.AddTeacher(user.Id);
                 break;
 
             default:
@@ -81,6 +82,6 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
 
         await _schoolUserRepository.AddAsync(user, cancellationToken);
         await _unitOfWork.CommitAsync(cancellationToken);
-        await _publisher.Publish(new SchoolUserCreatedEvent(user.Id), cancellationToken);
+        await _publisher.Publish(new SchoolUserCreatedEvent(user.Id, user.Role), cancellationToken);
     }
 }

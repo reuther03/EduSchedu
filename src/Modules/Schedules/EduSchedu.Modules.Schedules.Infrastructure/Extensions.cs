@@ -1,6 +1,8 @@
 ﻿using EduSchedu.Modules.Schedules.Application.Abstractions;
 using EduSchedu.Modules.Schedules.Application.Abstractions.Database;
+using EduSchedu.Modules.Schedules.Application.Abstractions.Repositories;
 using EduSchedu.Modules.Schedules.Infrastructure.Database;
+using EduSchedu.Modules.Schedules.Infrastructure.Database.Repositories;
 using EduSchedu.Shared.Infrastructure.Postgres;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +15,7 @@ public static class Extensions
         services
             .AddPostgres<SchedulesDbContext>()
             .AddScoped<ISchedulesDbContext, SchedulesDbContext>()
+            .AddScoped<IScheduleRepository, ScheduleRepository>()
             .AddUnitOfWork<IUnitOfWork, SchedulesUnitOfWork>();
 
         return services;

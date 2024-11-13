@@ -32,9 +32,8 @@ public record LoginCommand(string Email, string Password) : ICommand<AccessToken
                 return Result.Unauthorized<AccessToken>("Authentication failed");
 
             var token = AccessToken.Create(
-                _jwtProvider.GenerateToken(user.Id.ToString(), user.FullName, user.Email, user.Role),
+                _jwtProvider.GenerateToken(user.Id.ToString(), user.Email, user.Role),
                 user.Id,
-                user.FullName,
                 user.Email,
                 user.Role
             );

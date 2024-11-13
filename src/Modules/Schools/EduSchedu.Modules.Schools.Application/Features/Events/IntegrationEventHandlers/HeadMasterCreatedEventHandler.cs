@@ -11,11 +11,13 @@ public class HeadMasterCreatedEventHandler : INotificationHandler<HeadmasterCrea
 {
     private readonly ISchoolUserRepository _schoolUserRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IPublisher _publisher;
 
-    public HeadMasterCreatedEventHandler(ISchoolUserRepository schoolUserRepository, IUnitOfWork unitOfWork)
+    public HeadMasterCreatedEventHandler(ISchoolUserRepository schoolUserRepository, IUnitOfWork unitOfWork, IPublisher publisher)
     {
         _schoolUserRepository = schoolUserRepository;
         _unitOfWork = unitOfWork;
+        _publisher = publisher;
     }
 
     public async Task Handle(HeadmasterCreatedEvent notification, CancellationToken cancellationToken)
@@ -24,10 +26,9 @@ public class HeadMasterCreatedEventHandler : INotificationHandler<HeadmasterCrea
             return;
 
         var user = Headmaster.Create(new UserId(notification.UserId), new Email(notification.Email), new Name(notification.FullName));
-        // var schedule = Schedule.Create(user.Id);
-        // user.SetSchedule(schedule);
 
         await _schoolUserRepository.AddAsync(user, cancellationToken);
         await _unitOfWork.CommitAsync(cancellationToken);
+        await _publisher.Publish(new SchoolUserCreatedEvent(user.Id, user.Role), cancellationToken);
     }
 }
