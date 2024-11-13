@@ -17,8 +17,8 @@ public class UserService : IUserService
 
     public bool IsAuthenticated => _httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated ?? false;
     public UserId? UserId => IsAuthenticated ? GetUserIdFromClaims(_httpContextAccessor.HttpContext?.User) : null;
-    public Name FullName => IsAuthenticated ? GetFullNameFromClaims(_httpContextAccessor.HttpContext?.User) : null;
     public Abstractions.Kernel.ValueObjects.Email? Email => IsAuthenticated ? GetEmailFromClaims(_httpContextAccessor.HttpContext?.User) : null;
+    public Role? Role => IsAuthenticated ? GetRoleFromClaims(_httpContextAccessor.HttpContext?.User) : null;
 
     private static UserId? GetUserIdFromClaims(ClaimsPrincipal? claims)
     {
@@ -29,21 +29,21 @@ public class UserService : IUserService
         return userId is null ? null : UserId.From(userId);
     }
 
-    private static Name GetFullNameFromClaims(ClaimsPrincipal? claims)
-    {
-        if (claims is null)
-            return null;
-
-        var fullName = claims.FindFirst(ClaimTypes.GivenName)?.Value;
-        return fullName is null ? null : new Name(fullName);
-    }
-
     private static Abstractions.Kernel.ValueObjects.Email? GetEmailFromClaims(ClaimsPrincipal? claims)
     {
         if (claims is null)
             return null;
 
-        var email = claims.FindFirst(ClaimConsts.Email)?.Value;
+        var email = claims.FindFirst(ClaimTypes.Email)?.Value;
         return email is null ? null : new Abstractions.Kernel.ValueObjects.Email(email);
+    }
+
+    private static Role? GetRoleFromClaims(ClaimsPrincipal? claims)
+    {
+        if (claims is null)
+            return null;
+
+        var role = claims.FindFirst(ClaimTypes.Role)?.Value;
+        return role is null ? null : Enum.Parse<Role>(role);
     }
 }
