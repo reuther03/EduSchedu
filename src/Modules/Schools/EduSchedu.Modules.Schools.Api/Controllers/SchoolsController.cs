@@ -46,7 +46,7 @@ internal class SchoolsController : BaseController
         return Ok(result);
     }
 
-    [HttpPost("{schoolId:guid}/classes")]
+    [HttpGet("{schoolId:guid}/classes")]
     [AuthorizeRoles(Role.HeadMaster, Role.BackOffice, Role.Teacher)]
     public async Task<IActionResult> GetClassesBySearchValues([FromRoute] Guid schoolId, [FromBody] GetClassesBySearchValuesQuery query)
     {

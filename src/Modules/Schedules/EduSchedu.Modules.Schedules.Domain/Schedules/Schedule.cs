@@ -1,4 +1,5 @@
-﻿using EduSchedu.Shared.Abstractions.Kernel.Primitives;
+﻿using EduSchedu.Shared.Abstractions.Exception;
+using EduSchedu.Shared.Abstractions.Kernel.Primitives;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 
 namespace EduSchedu.Modules.Schedules.Domain.Schedules;
@@ -27,6 +28,9 @@ public class Schedule : AggregateRoot<ScheduleId>
 
     public void AddItem(ScheduleItem item)
     {
+        if (_scheduleItems.Exists(x => x.Day == item.Day && x.StartTime == item.StartTime && x.EndTime == item.EndTime))
+            throw new DomainException("There is already a activity at this time");
+
         _scheduleItems.Add(item);
     }
 }
