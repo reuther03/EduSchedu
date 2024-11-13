@@ -5,10 +5,10 @@ namespace EduSchedu.Modules.Schedules.Domain.Schedules;
 
 public class Schedule : AggregateRoot<ScheduleId>
 {
-    private readonly List<ScheduleItem> _items = [];
+    private readonly List<ScheduleItem> _scheduleItems = [];
 
     public UserId UserId { get; private set; }
-    public IReadOnlyList<ScheduleItem> Items => _items.AsReadOnly();
+    public IReadOnlyList<ScheduleItem> ScheduleItems => _scheduleItems.AsReadOnly();
 
     private Schedule()
     {
@@ -21,6 +21,6 @@ public class Schedule : AggregateRoot<ScheduleId>
 
     public void AddItem(ScheduleItem item)
     {
-        _items.Add(item);
+        _scheduleItems.Add(item);
     }
 }
