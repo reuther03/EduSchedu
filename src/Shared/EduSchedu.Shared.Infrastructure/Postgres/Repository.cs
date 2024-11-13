@@ -10,7 +10,7 @@ public class Repository<TEntity, TDbContext> : IRepository<TEntity>
 {
     private readonly TDbContext _dbContext;
 
-    public Repository(TDbContext dbContext)
+    protected Repository(TDbContext dbContext)
     {
         _dbContext = dbContext;
     }
