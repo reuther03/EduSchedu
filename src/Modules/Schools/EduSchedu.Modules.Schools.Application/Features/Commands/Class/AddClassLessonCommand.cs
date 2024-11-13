@@ -25,13 +25,13 @@ public record AddClassLessonCommand(
         private readonly ISchoolUserRepository _schoolUserRepository;
         private readonly IUserService _userService;
         private readonly ISchoolRepository _schoolRepository;
-        private readonly ISchoolUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         public Handler(
             ISchoolUserRepository schoolUserRepository,
             IUserService userService,
             ISchoolRepository schoolRepository,
-            ISchoolUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork)
         {
             _schoolUserRepository = schoolUserRepository;
             _userService = userService;

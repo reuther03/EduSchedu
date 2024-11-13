@@ -25,9 +25,7 @@ public class Lesson : Entity<Guid>
     public static Lesson Create(DayOfWeek day, TimeOnly startTime, TimeOnly endTime)
     {
         if (startTime >= endTime)
-        {
             throw new DomainException("Start time must be before end time");
-        }
 
         var lesson = new Lesson(Guid.NewGuid(), day, startTime, endTime);
         return lesson;

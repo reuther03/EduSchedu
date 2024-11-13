@@ -10,9 +10,9 @@
 //     internal sealed class Handler : ICommandHandler<DeleteTeacherCommand>
 //     {
 //         private readonly IUserRepository _userRepository;
-//         private readonly IUserUnitOfWork _unitOfWork;
+//         private readonly IUnitOfWork _unitOfWork;
 //
-//         public Handler(IUserRepository userRepository, IUserUnitOfWork unitOfWork)
+//         public Handler(IUserRepository userRepository, IUnitOfWork unitOfWork)
 //         {
 //             _userRepository = userRepository;
 //             _unitOfWork = unitOfWork;

@@ -29,10 +29,10 @@ public record AddStudentGradeCommand(
         private readonly ISchoolUserRepository _schoolUserRepository;
         private readonly ISchoolRepository _schoolRepository;
         private readonly IUserService _userService;
-        private readonly ISchoolUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IEmailSender _emailSender;
 
-        public Handler(ISchoolUserRepository schoolUserRepository, ISchoolRepository schoolRepository, IUserService userService, ISchoolUnitOfWork unitOfWork,
+        public Handler(ISchoolUserRepository schoolUserRepository, ISchoolRepository schoolRepository, IUserService userService, IUnitOfWork unitOfWork,
             IEmailSender emailSender)
         {
             _schoolUserRepository = schoolUserRepository;

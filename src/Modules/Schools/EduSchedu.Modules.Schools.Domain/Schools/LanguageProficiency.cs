@@ -20,5 +20,5 @@ public class LanguageProficiency : Entity<Guid>
     }
 
     public static LanguageProficiency Create(Guid id, Language language, Lvl lvl)
-        => new LanguageProficiency(id, language, lvl);
+        => new(id, language, lvl);
 }

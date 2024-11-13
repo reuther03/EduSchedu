@@ -17,7 +17,7 @@ public class SignUpCommandHandlerTest
 
     private readonly Mock<IUserRepository> _userRepositoryMock = new();
     private readonly Mock<IPublisher> _publisher = new();
-    private readonly Mock<IUserUnitOfWork> _unitOfWork = new();
+    private readonly Mock<IUnitOfWork> _unitOfWork = new();
 
 
     [Fact]

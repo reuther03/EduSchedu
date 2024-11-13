@@ -21,14 +21,14 @@ public record AddTeacherLanguageProficiencyCommand(
         private readonly ILanguageProficiencyRepository _languageProficiencyRepository;
         private readonly ISchoolUserRepository _schoolUserRepository;
         private readonly IUserService _userService;
-        private readonly ISchoolUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         public Handler(
             ISchoolRepository schoolRepository,
             ILanguageProficiencyRepository languageProficiencyRepository,
             ISchoolUserRepository schoolUserRepository,
             IUserService userService,
-            ISchoolUnitOfWork unitOfWork
+            IUnitOfWork unitOfWork
         )
         {
             _schoolRepository = schoolRepository;

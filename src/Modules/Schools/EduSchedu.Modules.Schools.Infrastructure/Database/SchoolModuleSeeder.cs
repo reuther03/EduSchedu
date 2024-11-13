@@ -11,12 +11,12 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database;
 internal class SchoolModuleSeeder : IModuleSeeder
 {
     private readonly SchoolsDbContext _dbContext;
-    private readonly ISchoolUnitOfWork _schoolUnitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public SchoolModuleSeeder(SchoolsDbContext dbContext, ISchoolUnitOfWork schoolUnitOfWork)
+    public SchoolModuleSeeder(SchoolsDbContext dbContext, IUnitOfWork unitOfWork)
     {
         _dbContext = dbContext;
-        _schoolUnitOfWork = schoolUnitOfWork;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task SeedAsync(IConfiguration configuration, CancellationToken cancellationToken)
@@ -69,6 +69,6 @@ internal class SchoolModuleSeeder : IModuleSeeder
             );
         }
 
-        await _schoolUnitOfWork.CommitAsync(cancellationToken);
+        await _unitOfWork.CommitAsync(cancellationToken);
     }
 }

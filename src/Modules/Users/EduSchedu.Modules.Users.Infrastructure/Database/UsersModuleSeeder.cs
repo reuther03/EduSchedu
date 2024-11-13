@@ -1,5 +1,5 @@
 ﻿using EduSchedu.Modules.Users.Domain.Users;
-using EduSchedu.Shared.Abstractions.Events;
+using EduSchedu.Shared.Abstractions.Integration.Events.Users;
 using EduSchedu.Shared.Abstractions.Kernel.CommandValidators;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Abstractions.Services;

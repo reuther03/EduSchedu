@@ -19,16 +19,16 @@ public record AddExistingUserCommand(
         private readonly ISchoolUserRepository _schoolUserRepository;
         private readonly ISchoolRepository _schoolRepository;
         private readonly IUserService _userService;
-        private readonly ISchoolUnitOfWork _schoolUnitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
 
         public Handler(ISchoolUserRepository schoolUserRepository, ISchoolRepository schoolRepository, IUserService userService,
-            ISchoolUnitOfWork schoolUnitOfWork)
+            IUnitOfWork unitOfWork)
         {
             _schoolUserRepository = schoolUserRepository;
             _schoolRepository = schoolRepository;
             _userService = userService;
-            _schoolUnitOfWork = schoolUnitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Result<Guid>> Handle(AddExistingUserCommand request, CancellationToken cancellationToken)
@@ -47,7 +47,7 @@ public record AddExistingUserCommand(
 
             //todo: posprawdzac te metody czy na pewno powinno dodacawac teachera
             school.AddTeacher(user.Id);
-            await _schoolUnitOfWork.CommitAsync(cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
 
             return Result.Ok(user.Id.Value);
         }

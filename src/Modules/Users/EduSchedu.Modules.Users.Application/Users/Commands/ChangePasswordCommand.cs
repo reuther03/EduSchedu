@@ -10,9 +10,9 @@ public record ChangePasswordCommand(string Email, string OldPassword, string New
     internal sealed class Handler : ICommandHandler<ChangePasswordCommand>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IUserUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public Handler(IUserRepository userRepository, IUserUnitOfWork unitOfWork)
+        public Handler(IUserRepository userRepository, IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;

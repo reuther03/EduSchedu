@@ -21,14 +21,14 @@ public record CreateClassCommand(
         private readonly ISchoolUserRepository _schoolUserRepository;
         private readonly ILanguageProficiencyRepository _languageProficiencyRepository;
         private readonly IUserService _userService;
-        private readonly ISchoolUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         public Handler(
             ISchoolRepository schoolRepository,
             ISchoolUserRepository schoolUserRepository,
             ILanguageProficiencyRepository languageProficiencyRepository,
             IUserService userService,
-            ISchoolUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork)
         {
             _schoolRepository = schoolRepository;
             _schoolUserRepository = schoolUserRepository;

@@ -1,7 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using EduSchedu.Modules.Schools.Application.Abstractions;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
-using EduSchedu.Modules.Schools.Domain.Users;
 using EduSchedu.Shared.Abstractions.Kernel.CommandValidators;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
 using EduSchedu.Shared.Abstractions.QueriesAndCommands.Commands;
@@ -21,9 +20,9 @@ public record AddStudentToClassCommand(
         private readonly IUserService _userService;
         private readonly ISchoolRepository _schoolRepository;
         private readonly ISchoolUserRepository _schoolUserRepository;
-        private readonly ISchoolUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public Handler(IUserService userService, ISchoolRepository schoolRepository, ISchoolUserRepository schoolUserRepository, ISchoolUnitOfWork unitOfWork)
+        public Handler(IUserService userService, ISchoolRepository schoolRepository, ISchoolUserRepository schoolUserRepository, IUnitOfWork unitOfWork)
         {
             _userService = userService;
             _schoolRepository = schoolRepository;

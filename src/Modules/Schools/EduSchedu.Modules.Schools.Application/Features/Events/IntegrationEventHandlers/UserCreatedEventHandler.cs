@@ -2,31 +2,32 @@
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
 using EduSchedu.Modules.Schools.Domain.Users;
 using EduSchedu.Modules.Schools.Domain.Users.Students;
-using EduSchedu.Shared.Abstractions.Events;
+using EduSchedu.Shared.Abstractions.Integration.Events.Users;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Abstractions.Services;
 using MediatR;
 
-namespace EduSchedu.Modules.Schools.Application.Features.Events;
+namespace EduSchedu.Modules.Schools.Application.Features.Events.IntegrationEventHandlers;
 
 public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
 {
     private readonly ISchoolUserRepository _schoolUserRepository;
     private readonly ISchoolRepository _schoolRepository;
     private readonly IUserService _userService;
-    private readonly ISchoolUnitOfWork _schoolUnitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IPublisher _publisher;
 
     public UserCreatedEventHandler(
         ISchoolUserRepository schoolUserRepository,
         ISchoolRepository schoolRepository,
         IUserService userService,
-        ISchoolUnitOfWork schoolUnitOfWork
-    )
+        IUnitOfWork unitOfWork, IPublisher publisher)
     {
         _schoolUserRepository = schoolUserRepository;
         _schoolRepository = schoolRepository;
         _userService = userService;
-        _schoolUnitOfWork = schoolUnitOfWork;
+        _unitOfWork = unitOfWork;
+        _publisher = publisher;
     }
 
     public async Task Handle(UserCreatedEvent notification, CancellationToken cancellationToken)
@@ -46,7 +47,6 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
             return;
 
         SchoolUser user = null!;
-        // Schedule? schedule;
         switch (notification.Role)
         {
             case Role.Teacher:
@@ -80,6 +80,7 @@ public class UserCreatedEventHandler : INotificationHandler<UserCreatedEvent>
         }
 
         await _schoolUserRepository.AddAsync(user, cancellationToken);
-        await _schoolUnitOfWork.CommitAsync(cancellationToken);
+        await _unitOfWork.CommitAsync(cancellationToken);
+        await _publisher.Publish(new SchoolUserCreatedEvent(user.Id), cancellationToken);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using EduSchedu.Modules.Users.Application.Abstractions;
 using EduSchedu.Modules.Users.Application.Abstractions.Database.Repositories;
 using EduSchedu.Modules.Users.Domain.Users;
-using EduSchedu.Shared.Abstractions.Events;
+using EduSchedu.Shared.Abstractions.Integration.Events.Users;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Abstractions.QueriesAndCommands.Commands;
@@ -16,13 +16,13 @@ public record SignUpHeadmasterCommand(string Email, string FullName, string Pass
     {
         private readonly IUserRepository _userRepository;
         private readonly IPublisher _publisher;
-        private readonly IUserUnitOfWork _userUnitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public Handler(IUserRepository userRepository, IPublisher publisher, IUserUnitOfWork userUnitOfWork)
+        public Handler(IUserRepository userRepository, IPublisher publisher, IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
             _publisher = publisher;
-            _userUnitOfWork = userUnitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Result<Guid>> Handle(SignUpHeadmasterCommand request, CancellationToken cancellationToken)
@@ -33,7 +33,7 @@ public record SignUpHeadmasterCommand(string Email, string FullName, string Pass
             var user = User.Create(new Email(request.Email), new Name(request.FullName), UserPassword.Create(request.Password), Role.HeadMaster);
 
             await _userRepository.AddAsync(user, cancellationToken);
-            await _userUnitOfWork.CommitAsync(cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
 
             await _publisher.Publish(new HeadmasterCreatedEvent(user.Id, user.FullName, user.Email), cancellationToken);
 

@@ -1,21 +1,21 @@
 ﻿using EduSchedu.Modules.Schools.Application.Abstractions;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
 using EduSchedu.Modules.Schools.Domain.Users;
-using EduSchedu.Shared.Abstractions.Events;
+using EduSchedu.Shared.Abstractions.Integration.Events.Users;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using MediatR;
 
-namespace EduSchedu.Modules.Schools.Application.Features.Events;
+namespace EduSchedu.Modules.Schools.Application.Features.Events.IntegrationEventHandlers;
 
 public class HeadMasterCreatedEventHandler : INotificationHandler<HeadmasterCreatedEvent>
 {
     private readonly ISchoolUserRepository _schoolUserRepository;
-    private readonly ISchoolUnitOfWork _schoolUnitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public HeadMasterCreatedEventHandler(ISchoolUserRepository schoolUserRepository, ISchoolUnitOfWork schoolUnitOfWork)
+    public HeadMasterCreatedEventHandler(ISchoolUserRepository schoolUserRepository, IUnitOfWork unitOfWork)
     {
         _schoolUserRepository = schoolUserRepository;
-        _schoolUnitOfWork = schoolUnitOfWork;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task Handle(HeadmasterCreatedEvent notification, CancellationToken cancellationToken)
@@ -28,6 +28,6 @@ public class HeadMasterCreatedEventHandler : INotificationHandler<HeadmasterCrea
         // user.SetSchedule(schedule);
 
         await _schoolUserRepository.AddAsync(user, cancellationToken);
-        await _schoolUnitOfWork.CommitAsync(cancellationToken);
+        await _unitOfWork.CommitAsync(cancellationToken);
     }
 }

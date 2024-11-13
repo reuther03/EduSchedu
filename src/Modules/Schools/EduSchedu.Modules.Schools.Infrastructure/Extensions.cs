@@ -19,7 +19,7 @@ public static class Extensions
             .AddScoped<ISchoolUserRepository, SchoolUserRepository>()
             .AddScoped<ISchoolRepository, SchoolRepository>()
             .AddScoped<ILanguageProficiencyRepository, LanguageProficiencyRepository>()
-            .AddUnitOfWork<ISchoolUnitOfWork, SchoolUnitOfWork>()
+            .AddUnitOfWork<IUnitOfWork, UnitOfWork>()
             .AddTransient<IModuleSeeder, SchoolModuleSeeder>();
 
         // services.AddHostedService<ScheduleItemJob>();

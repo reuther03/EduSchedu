@@ -3,7 +3,7 @@ using EduSchedu.Modules.Users.Application.Abstractions;
 using EduSchedu.Modules.Users.Application.Abstractions.Database.Repositories;
 using EduSchedu.Modules.Users.Domain.Users;
 using EduSchedu.Shared.Abstractions.Email;
-using EduSchedu.Shared.Abstractions.Events;
+using EduSchedu.Shared.Abstractions.Integration.Events.Users;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
@@ -27,15 +27,15 @@ internal sealed class Handler : ICommandHandler<CreateUserCommand, Guid>
     private readonly IPublisher _publisher;
     private readonly IUserService _userService;
     private readonly IEmailSender _emailSender;
-    private readonly IUserUnitOfWork _userUnitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public Handler(IUserRepository userRepository, IPublisher publisher, IUserService userService, IEmailSender emailSender, IUserUnitOfWork userUnitOfWork)
+    public Handler(IUserRepository userRepository, IPublisher publisher, IUserService userService, IEmailSender emailSender, IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
         _publisher = publisher;
         _userService = userService;
         _emailSender = emailSender;
-        _userUnitOfWork = userUnitOfWork;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<Guid>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -77,7 +77,7 @@ internal sealed class Handler : ICommandHandler<CreateUserCommand, Guid>
              """);
 
         await _userRepository.AddAsync(user, cancellationToken);
-        await _userUnitOfWork.CommitAsync(cancellationToken);
+        await _unitOfWork.CommitAsync(cancellationToken);
 
         await _emailSender.Send(email);
 

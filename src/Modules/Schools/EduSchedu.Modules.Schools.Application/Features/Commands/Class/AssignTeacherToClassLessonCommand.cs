@@ -24,9 +24,9 @@
 //         private readonly IUserService _userService;
 //         private readonly ISchoolRepository _schoolRepository;
 //         private readonly ISchoolUserRepository _schoolUserRepository;
-//         private readonly ISchoolUnitOfWork _unitOfWork;
+//         private readonly IUnitOfWork _unitOfWork;
 //
-//         public Handler(IUserService userService, ISchoolRepository schoolRepository, ISchoolUserRepository schoolUserRepository, ISchoolUnitOfWork unitOfWork)
+//         public Handler(IUserService userService, ISchoolRepository schoolRepository, ISchoolUserRepository schoolUserRepository, IUnitOfWork unitOfWork)
 //         {
 //             _userService = userService;
 //             _schoolRepository = schoolRepository;

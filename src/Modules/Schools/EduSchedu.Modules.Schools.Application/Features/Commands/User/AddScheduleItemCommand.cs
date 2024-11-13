@@ -26,10 +26,10 @@
 //         private readonly ISchoolRepository _schoolRepository;
 //         private readonly ISchoolUserRepository _schoolUserRepository;
 //         private readonly IUserService _userService;
-//         private readonly ISchoolUnitOfWork _schoolUnitOfWork;
+//         private readonly IUnitOfWork _schoolUnitOfWork;
 //
 //         public Handler(ISchoolRepository schoolRepository, ISchoolUserRepository schoolUserRepository, IUserService userService,
-//             ISchoolUnitOfWork schoolUnitOfWork)
+//             IUnitOfWork schoolUnitOfWork)
 //         {
 //             _schoolRepository = schoolRepository;
 //             _schoolUserRepository = schoolUserRepository;
