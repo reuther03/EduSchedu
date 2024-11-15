@@ -17,4 +17,9 @@ internal class ScheduleRepository : Repository<Schedule, SchedulesDbContext>, IS
 
     public async Task<Schedule?> GetScheduleByUserIdAsync(UserId userId, CancellationToken cancellationToken)
         => await _dbContext.Schedules.FirstOrDefaultAsync(x => x.UserId == userId, cancellationToken);
+
+    public Task<List<Schedule>> GetSchedulesByUserIdsAsync(List<UserId> userIds, CancellationToken cancellationToken)
+        => _dbContext.Schedules
+            .Where(x => userIds.Contains(x.UserId))
+            .ToListAsync(cancellationToken);
 }
