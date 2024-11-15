@@ -123,13 +123,13 @@ internal class SchoolsController : BaseController
     //     return Ok(result);
     // }
     //
-    // [HttpPost("{schoolId:guid}/teacher/{teacherId:guid}/schedule/add-item")]
-    // [AuthorizeRoles(Role.HeadMaster, Role.BackOffice, Role.Teacher)]
-    // public async Task<IActionResult> AddScheduleItem([FromBody] AddScheduleItemCommand command, [FromRoute] Guid schoolId, [FromRoute] Guid teacherId)
-    // {
-    //     var result = await _sender.Send(command with { SchoolId = schoolId, UserId = teacherId });
-    //     return Ok(result);
-    // }
+    [HttpPost("{schoolId:guid}/teacher/{teacherId:guid}/schedule/add-item")]
+    [AuthorizeRoles(Role.HeadMaster, Role.BackOffice)]
+    public async Task<IActionResult> AddScheduleItem([FromBody] AddScheduleItemCommand command, [FromRoute] Guid schoolId, [FromRoute] Guid teacherId)
+    {
+        var result = await _sender.Send(command with { SchoolId = schoolId, UserId = teacherId });
+        return Ok(result);
+    }
 
     [HttpPost("{schoolId:guid}/class/{classId:guid}/student")]
     [AuthorizeRoles(Role.HeadMaster, Role.Teacher)]

@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using EduSchedu.Modules.Schedules.Application.Abstractions;
+﻿using EduSchedu.Modules.Schedules.Application.Abstractions;
 using EduSchedu.Modules.Schedules.Application.Abstractions.Repositories;
 using EduSchedu.Modules.Schedules.Domain.Schedules;
 using EduSchedu.Shared.Abstractions.Integration.Events.Users;
+using EduSchedu.Shared.Abstractions.Kernel.CommandValidators;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Abstractions.Services;
 using MediatR;
@@ -24,12 +24,8 @@ public class StudentAddedToClassIntegrationEventHandler : INotificationHandler<S
 
     public async Task Handle(StudentAddedToClassEvent notification, CancellationToken cancellationToken)
     {
-        if (_userService.Role != Role.HeadMaster && _userService.Role != Role.Teacher)
-            throw new UnauthorizedAccessException("Only headmaster and teacher can add student to class");
-
         var schedule = await _scheduleRepository.GetScheduleByUserIdAsync(notification.UserId, cancellationToken);
-        if (schedule is null)
-            throw new ValidationException("User does not have a schedule");
+        NullValidator.ValidateNotNull(schedule);
 
         // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
         foreach (var lesson in notification.Lessons)

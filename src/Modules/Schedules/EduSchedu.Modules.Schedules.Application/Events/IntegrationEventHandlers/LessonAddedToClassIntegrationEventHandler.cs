@@ -24,6 +24,7 @@ public class LessonAddedToClassIntegrationEventHandler : INotificationHandler<Le
 
     public async Task Handle(LessonAddedToClassIntegrationEvent notification, CancellationToken cancellationToken)
     {
+        //plan: teraz nie jest sprawdzane czy juz istnieje jakis scheduleitem o tych samych parametrach tylko pytanie czy trzeba to sprawdzic
         if (_userService.Role != Role.HeadMaster && _userService.Role != Role.Teacher)
             throw new UnauthorizedAccessException("Only headmaster and teacher can add lesson to class");
 

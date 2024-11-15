@@ -1,5 +1,6 @@
 ﻿using EduSchedu.Shared.Abstractions.Exception;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives;
+using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 
 namespace EduSchedu.Modules.Schedules.Domain.Schedules;
 
@@ -9,6 +10,7 @@ public class ScheduleItem : Entity<Guid>
     public DayOfWeek Day { get; private set; }
     public TimeOnly StartTime { get; private set; }
     public TimeOnly EndTime { get; private set; }
+    //plan: add description maybe
 
     private ScheduleItem()
     {

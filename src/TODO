@@ -12,6 +12,11 @@ jakis kalkulator poprzez przepracowane godziny stawki godzinowe dodatkowe aktywn
 !!!
 usunac niepotrzebne dbsety
 
+!!! schedule module !!!
+- refactore tych assign teacherow do lekcji
+- event dla addscheduleitem
+
+
 
 
 ???

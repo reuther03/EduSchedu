@@ -8,9 +8,5 @@ public interface IScheduleRepository : IRepository<Schedule>
 {
     Task<Schedule?> GetScheduleByUserIdAsync(UserId userId, CancellationToken cancellationToken);
 
-    #region User
-
     Task<List<Schedule>> GetSchedulesByUserIdsAsync(List<UserId> userIds, CancellationToken cancellationToken);
-
-    #endregion
 }

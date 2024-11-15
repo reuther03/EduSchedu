@@ -10,4 +10,8 @@
       <ProjectReference Include="..\EduSchedu.Modules.Schedules.Domain\EduSchedu.Modules.Schedules.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\" />
+    </ItemGroup>
+
 </Project>

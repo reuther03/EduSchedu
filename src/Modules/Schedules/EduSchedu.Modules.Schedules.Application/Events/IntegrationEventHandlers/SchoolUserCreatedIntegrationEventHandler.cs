@@ -1,9 +1,7 @@
 ﻿using EduSchedu.Modules.Schedules.Application.Abstractions;
-using EduSchedu.Modules.Schedules.Application.Abstractions.Database;
 using EduSchedu.Modules.Schedules.Application.Abstractions.Repositories;
 using EduSchedu.Modules.Schedules.Domain.Schedules;
 using EduSchedu.Shared.Abstractions.Integration.Events.Users;
-using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Abstractions.Services;
 using MediatR;

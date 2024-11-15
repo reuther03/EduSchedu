@@ -1,4 +1,4 @@
-﻿namespace EduSchedu.Modules.Schedules.Domain.Schedules;
+﻿namespace EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 
 public enum ScheduleItemType
 {

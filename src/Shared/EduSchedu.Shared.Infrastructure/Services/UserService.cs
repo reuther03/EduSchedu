@@ -1,7 +1,6 @@
 ﻿using System.Security.Claims;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Abstractions.Services;
-using EduSchedu.Shared.Infrastructure.Auth;
 using Microsoft.AspNetCore.Http;
 
 namespace EduSchedu.Shared.Infrastructure.Services;
