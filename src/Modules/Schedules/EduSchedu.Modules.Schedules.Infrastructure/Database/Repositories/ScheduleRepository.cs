@@ -22,4 +22,10 @@ internal class ScheduleRepository : Repository<Schedule, SchedulesDbContext>, IS
         => _dbContext.Schedules
             .Where(x => userIds.Contains(x.UserId))
             .ToListAsync(cancellationToken);
+
+    public async Task<bool> IsUserAvailableAsync(UserId userId, DayOfWeek day, TimeOnly start, TimeOnly end, CancellationToken cancellationToken)
+        => await _dbContext.Schedules
+            .Where(x => x.UserId == userId)
+            .AllAsync(x => !x.ScheduleItems.Any(y => y.Day == day && y.StartTime <= start && y.EndTime >= end), cancellationToken);
+            // .AllAsync(x => x.ScheduleItems.Any(y => y.Day == day && y.StartTime <= start && y.EndTime >= end), cancellationToken);
 }

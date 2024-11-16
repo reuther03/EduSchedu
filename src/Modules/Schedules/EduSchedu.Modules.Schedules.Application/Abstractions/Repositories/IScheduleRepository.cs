@@ -7,6 +7,6 @@ namespace EduSchedu.Modules.Schedules.Application.Abstractions.Repositories;
 public interface IScheduleRepository : IRepository<Schedule>
 {
     Task<Schedule?> GetScheduleByUserIdAsync(UserId userId, CancellationToken cancellationToken);
-
     Task<List<Schedule>> GetSchedulesByUserIdsAsync(List<UserId> userIds, CancellationToken cancellationToken);
+    Task<bool> IsUserAvailableAsync(UserId userId, DayOfWeek day, TimeOnly start, TimeOnly end, CancellationToken cancellationToken);
 }
