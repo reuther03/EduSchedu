@@ -67,24 +67,10 @@ public record AssignTeacherToClassLessonCommand(
             var lesson = @class.Lessons.FirstOrDefault(x => x.Id == request.LessonId);
             NullValidator.ValidateNotNull(lesson);
 
-            var test = await _scheduleService.IsUserAvailableAsync(teacher.Id, lesson.Day, lesson.StartTime, lesson.EndTime, cancellationToken);
             if (!await _scheduleService.IsUserAvailableAsync(teacher.Id, lesson.Day, lesson.StartTime, lesson.EndTime, cancellationToken))
                 return Result.BadRequest<Guid>("Teacher is not available at this time");
 
-            // var isTeacherAvailable = !teacher.Schedule.ScheduleItems
-            //     .Any(scheduleItem =>
-            //         scheduleItem.Day == lesson.Day &&
-            //         scheduleItem.Start <= lesson.StartTime &&
-            //         scheduleItem.End >= lesson.EndTime
-            //     );
-
             lesson.AssignTeacher(teacher.Id);
-
-            // if (!isTeacherAvailable)
-            //     return Result.BadRequest<Guid>("Teacher is not available at this time");
-            //
-            // lesson.AssignTeacher(teacher.Id);
-            // teacher.Schedule.AddScheduleItem(ScheduleItem.CreateLessonItem(lesson.Day, lesson.StartTime, lesson.EndTime));
 
             await _unitOfWork.CommitAsync(cancellationToken);
             await _publisher.Publish(

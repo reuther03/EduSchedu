@@ -15,11 +15,11 @@ usunac niepotrzebne dbsety
 !!! schedule module !!!
 - refactore tych assign teacherow do lekcji
 - event dla addscheduleitem
-- get na schedule item po id usera
 - czy teacherowi powinny sie dodawac lekcje od schedula nawet jesli nie jest przypisany to nich czy tylko kiedy zrobi sie assign
 - czy napewno tworzyc tworzy schedule itemy z lekcji czy tylko przeslylac id (pomyslec nad tym)
 
-
+!!! on-going !!!
+- get na schedule item po id usera ++++
 
 
 ???
