@@ -43,7 +43,6 @@ public record AddScheduleItemCommand(
         public async Task<Result> Handle(AddScheduleItemCommand request, CancellationToken cancellationToken)
         {
             //plan: czy na pewno tutaj powinien byc tylko teacher czy tez student?
-
             var admin = await _schoolUserRepository.GetByIdAsync(_userService.UserId, cancellationToken);
             NullValidator.ValidateNotNull(admin);
 

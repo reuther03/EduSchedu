@@ -1,5 +1,6 @@
 ﻿using EduSchedu.Modules.Schedules.Application.Abstractions.Repositories;
 using EduSchedu.Modules.Schedules.Domain.Schedules;
+using EduSchedu.Shared.Abstractions.Integration.Events.EventPayloads;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Infrastructure.Postgres;
 using Microsoft.EntityFrameworkCore;
@@ -27,5 +28,24 @@ internal class ScheduleRepository : Repository<Schedule, SchedulesDbContext>, IS
         => await _dbContext.Schedules
             .Where(x => x.UserId == userId)
             .AllAsync(x => !x.ScheduleItems.Any(y => y.Day == day && y.StartTime <= start && y.EndTime >= end), cancellationToken);
-            // .AllAsync(x => x.ScheduleItems.Any(y => y.Day == day && y.StartTime <= start && y.EndTime >= end), cancellationToken);
+    // .AllAsync(x => x.ScheduleItems.Any(y => y.Day == day && y.StartTime <= start && y.EndTime >= end), cancellationToken);
+
+    public async Task<List<UserId>> GetAvailableTeachersByScheduleItemsAsync(List<ScheduleItemPayload> scheduleItems, List<UserId> teachersIds,
+        CancellationToken cancellationToken)
+    {
+        //og
+        var schedules = await _dbContext.Schedules
+            .Where(x => teachersIds.Contains(x.UserId))
+            .Include(x => x.ScheduleItems)
+            .ToListAsync(cancellationToken);
+
+        var availableTeachers = schedules
+            .Where(x => scheduleItems
+                .TrueForAll(y => !x.ScheduleItems
+                    .Any(z => z.Day == y.Day && z.StartTime <= y.EndTime && z.EndTime >= y.StartTime)))
+            .Select(x => x.UserId)
+            .ToList();
+
+        return availableTeachers;
+    }
 }

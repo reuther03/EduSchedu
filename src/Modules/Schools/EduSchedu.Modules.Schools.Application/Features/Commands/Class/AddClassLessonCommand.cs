@@ -3,7 +3,7 @@ using EduSchedu.Modules.Schools.Application.Abstractions;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
 using EduSchedu.Modules.Schools.Domain.Schools;
 using EduSchedu.Shared.Abstractions.Integration.Events.EventPayloads;
-using EduSchedu.Shared.Abstractions.Integration.Schools;
+using EduSchedu.Shared.Abstractions.Integration.Events.Schools;
 using EduSchedu.Shared.Abstractions.Kernel.CommandValidators;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
@@ -65,7 +65,7 @@ public record AddClassLessonCommand(
             await _unitOfWork.CommitAsync(cancellationToken);
 
             await _publisher.Publish(new LessonAddedToClassIntegrationEvent(@class.StudentIds.ToList(),
-                new LessonPayload
+                new ScheduleItemPayload
                 {
                     Day = request.DayOfWeek,
                     StartTime = request.StartTime,

@@ -1,7 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using EduSchedu.Modules.Schools.Application.Abstractions;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
-using EduSchedu.Modules.Schools.Domain.Users;
 using EduSchedu.Shared.Abstractions.Integration.Events.Users;
 using EduSchedu.Shared.Abstractions.Kernel.CommandValidators;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;

@@ -1,6 +1,6 @@
 ﻿namespace EduSchedu.Shared.Abstractions.Integration.Events.EventPayloads;
 
-public record LessonPayload
+public record ScheduleItemPayload
 {
     public DayOfWeek Day { get; init; }
     public TimeOnly StartTime { get; init; }

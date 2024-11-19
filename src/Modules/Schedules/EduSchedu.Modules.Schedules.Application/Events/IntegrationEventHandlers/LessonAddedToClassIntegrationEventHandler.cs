@@ -1,7 +1,7 @@
 ﻿using EduSchedu.Modules.Schedules.Application.Abstractions;
 using EduSchedu.Modules.Schedules.Application.Abstractions.Repositories;
 using EduSchedu.Modules.Schedules.Domain.Schedules;
-using EduSchedu.Shared.Abstractions.Integration.Schools;
+using EduSchedu.Shared.Abstractions.Integration.Events.Schools;
 using EduSchedu.Shared.Abstractions.Kernel.CommandValidators;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Abstractions.Services;
@@ -36,9 +36,9 @@ public class LessonAddedToClassIntegrationEventHandler : INotificationHandler<Le
             var scheduleItem = ScheduleItem.Create
             (
                 ScheduleItemType.Lesson,
-                notification.LessonPayload.Day,
-                notification.LessonPayload.StartTime,
-                notification.LessonPayload.EndTime
+                notification.ScheduleItemPayload.Day,
+                notification.ScheduleItemPayload.StartTime,
+                notification.ScheduleItemPayload.EndTime
             );
             schedule.AddItem(scheduleItem);
         }

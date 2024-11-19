@@ -62,7 +62,7 @@ public record AddStudentToClassCommand(
             @class.AddStudent(student.Id);
             await _unitOfWork.CommitAsync(cancellationToken);
             await _publisher.Publish(new StudentAddedToClassEvent(student.Id, @class.Lessons
-                .Select(x => new LessonPayload
+                .Select(x => new ScheduleItemPayload
                     {
                         Day = x.Day,
                         StartTime = x.StartTime,
