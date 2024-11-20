@@ -4,5 +4,4 @@ using MediatR;
 
 namespace EduSchedu.Shared.Abstractions.Integration.Events.Schools;
 
-//og usunac to czy cos
-public record AssignTeacherToClassLessonsIntegrationEvent(List<UserId> UserIds, List<ScheduleItemPayload> Lessons) : INotification;
+public record TeacherAssignedToClassLessonsIntegrationEvent(Dictionary<UserId, List<ScheduleItemPayload>> TeacherLessons) : INotification;

@@ -2,11 +2,13 @@
 using EduSchedu.Modules.Schools.Application.Abstractions;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
 using EduSchedu.Shared.Abstractions.Integration.Events.EventPayloads;
+using EduSchedu.Shared.Abstractions.Integration.Events.Schools;
 using EduSchedu.Shared.Abstractions.Kernel.CommandValidators;
 using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Abstractions.QueriesAndCommands.Commands;
 using EduSchedu.Shared.Abstractions.Services;
+using MediatR;
 
 namespace EduSchedu.Modules.Schools.Application.Features.Commands.Class;
 
@@ -22,15 +24,17 @@ public record AssignTeacherToClassLessonsCommand(
         private readonly ISchoolUserRepository _schoolUserRepository;
         private readonly IUserService _userService;
         private readonly IScheduleService _scheduleService;
+        private readonly IPublisher _publisher;
         private readonly IUnitOfWork _unitOfWork;
 
         public Handler(ISchoolRepository schoolRepository, ISchoolUserRepository schoolUserRepository, IUserService userService,
-            IScheduleService scheduleService, IUnitOfWork unitOfWork)
+            IScheduleService scheduleService, IPublisher publisher, IUnitOfWork unitOfWork)
         {
             _schoolRepository = schoolRepository;
             _schoolUserRepository = schoolUserRepository;
             _userService = userService;
             _scheduleService = scheduleService;
+            _publisher = publisher;
             _unitOfWork = unitOfWork;
         }
 
@@ -60,14 +64,6 @@ public record AssignTeacherToClassLessonsCommand(
             var lessons = @class.Lessons.ToList();
             lessons.RemoveAll(x => x.AssignedTeacher != null);
 
-            //
-            // var lessonTimes = @class.Lessons.Select(x => new
-            // {
-            //     x.Day,
-            //     x.StartTime,
-            //     x.EndTime
-            // }).ToList();
-
             var lessonTimes = lessons.Select(x => new ScheduleItemPayload
             {
                 Day = x.Day,
@@ -76,57 +72,74 @@ public record AssignTeacherToClassLessonsCommand(
             }).ToList();
 
             var availableTeachersByScheduleItemsForAll =
-                await _scheduleService.GetAvailableTeachersByScheduleItemsAsync(lessonTimes, school.TeacherIds.ToList(), cancellationToken);
+                await _scheduleService.GetAvailableTeachersByScheduleItemsAsync(lessonTimes, filteredTeachers.Select(x => x.Id).ToList(), cancellationToken);
 
-            // var availableTeachersByScheduleItemsForAll = filteredTeachers
-            //     .Where(teacher => lessonTimes
-            //         .TrueForAll(lessonTime => !teacher.Schedule.ScheduleItems
-            //             .Any(scheduleItem =>
-            //                 scheduleItem.Day == lessonTime.Day &&
-            //                 scheduleItem.Start <= lessonTime.EndTime &&
-            //                 scheduleItem.End >= lessonTime.StartTime))
-            //     ).ToList();
+            NullValidator.ValidateNotNull(availableTeachersByScheduleItemsForAll);
+            var teacherId = availableTeachersByScheduleItemsForAll.FirstOrDefault();
 
-        //     var teacher = availableTeachersByScheduleItemsForAll.FirstOrDefault();
-        //
-        //     if (teacher is not null)
-        //     {
-        //         foreach (var lesson in lessons.Where(lesson => lesson.AssignedTeacher == null))
-        //         {
-        //             if (!@class.Lessons.Contains(lesson))
-        //                 return Result.BadRequest<Guid>("This lesson is not in this class");
-        //
-        //             lesson.AssignTeacher(teacher.Id);
-        //             var scheduleItem = ScheduleItem.CreateLessonItem(lesson.Day, lesson.StartTime, lesson.EndTime);
-        //             teacher.Schedule.AddScheduleItem(scheduleItem);
-        //         }
-        //     }
-        //     else
-        //     {
-        //         foreach (var lesson in lessons)
-        //         {
-        //             if (lesson.AssignedTeacher != null)
-        //                 continue;
-        //
-        //             var availableTeachersByScheduleItems = filteredTeachers
-        //                 .Where(teacher2 => !teacher2.Schedule.ScheduleItems
-        //                     .Any(scheduleItem =>
-        //                         scheduleItem.Day == lesson.Day &&
-        //                         scheduleItem.Start <= lesson.EndTime &&
-        //                         scheduleItem.End >= lesson.StartTime)
-        //                 ).ToList();
-        //             NullValidator.ValidateNotNull(availableTeachersByScheduleItems);
-        //
-        //             var notAssignedTeacher = availableTeachersByScheduleItems.FirstOrDefault();
-        //             lesson.AssignTeacher(notAssignedTeacher!.Id);
-        //             notAssignedTeacher.Schedule.AddScheduleItem(
-        //                 ScheduleItem.CreateLessonItem(lesson.Day, lesson.StartTime, lesson.EndTime)
-        //             );
-        //         }
-        //     }
-        //
-        //     await _unitOfWork.CommitAsync(cancellationToken);
-        //     return Result.Ok();
-        // }
+            var teacherLessons = new Dictionary<UserId, List<ScheduleItemPayload>>();
+            if (teacherId != null)
+            {
+                foreach (var lesson in lessons)
+                {
+                    lesson.AssignTeacher(teacherId);
+
+                    if (teacherLessons.TryGetValue(teacherId, out var value))
+                        value.Add(new ScheduleItemPayload
+                        {
+                            Day = lesson.Day,
+                            StartTime = lesson.StartTime,
+                            EndTime = lesson.EndTime
+                        });
+                    else
+                        teacherLessons.Add(teacherId, [
+                            new ScheduleItemPayload
+                            {
+                                Day = lesson.Day,
+                                StartTime = lesson.StartTime,
+                                EndTime = lesson.EndTime
+                            }
+                        ]);
+                }
+            }
+            else
+            {
+                foreach (var lesson in lessons)
+                {
+                    var availableTeacherForLesson = filteredTeachers
+                        .Find(x => _scheduleService.IsUserAvailableAsync(x.Id, lesson.Day, lesson.StartTime, lesson.EndTime, cancellationToken).Result);
+
+                    if (availableTeacherForLesson == null)
+                        continue;
+
+                    NullValidator.ValidateNotNull(availableTeacherForLesson);
+
+                    lesson.AssignTeacher(availableTeacherForLesson.Id);
+
+                    if (teacherLessons.TryGetValue(availableTeacherForLesson.Id, out var value))
+                        value.Add(new ScheduleItemPayload
+                        {
+                            Day = lesson.Day,
+                            StartTime = lesson.StartTime,
+                            EndTime = lesson.EndTime
+                        });
+                    else
+                        teacherLessons.Add(availableTeacherForLesson.Id, [
+                            new ScheduleItemPayload
+                            {
+                                Day = lesson.Day,
+                                StartTime = lesson.StartTime,
+                                EndTime = lesson.EndTime
+                            }
+                        ]);
+                }
+            }
+
+            await _unitOfWork.CommitAsync(cancellationToken);
+
+            await _publisher.Publish(new TeacherAssignedToClassLessonsIntegrationEvent(teacherLessons), cancellationToken);
+
+            return Result.Ok();
+        }
     }
 }

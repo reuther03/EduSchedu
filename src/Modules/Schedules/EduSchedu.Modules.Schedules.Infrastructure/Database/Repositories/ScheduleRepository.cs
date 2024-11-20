@@ -33,7 +33,6 @@ internal class ScheduleRepository : Repository<Schedule, SchedulesDbContext>, IS
     public async Task<List<UserId>> GetAvailableTeachersByScheduleItemsAsync(List<ScheduleItemPayload> scheduleItems, List<UserId> teachersIds,
         CancellationToken cancellationToken)
     {
-        //og
         var schedules = await _dbContext.Schedules
             .Where(x => teachersIds.Contains(x.UserId))
             .Include(x => x.ScheduleItems)
