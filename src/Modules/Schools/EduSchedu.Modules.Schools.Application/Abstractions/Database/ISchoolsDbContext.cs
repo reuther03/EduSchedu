@@ -7,7 +7,6 @@ namespace EduSchedu.Modules.Schools.Application.Abstractions.Database;
 
 public interface ISchoolsDbContext
 {
-    DbSet<Class> Classes { get; }
     DbSet<School> Schools { get; }
     DbSet<SchoolUser> SchoolUsers { get; }
     DbSet<Student> Students { get; }

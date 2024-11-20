@@ -11,7 +11,6 @@ namespace EduSchedu.Modules.Schools.Infrastructure.Database;
 
 internal class SchoolsDbContext : DbContext, ISchoolsDbContext
 {
-    public DbSet<Class> Classes => Set<Class>();
     public DbSet<School> Schools => Set<School>();
     public DbSet<SchoolUser> SchoolUsers => Set<SchoolUser>();
     public DbSet<Student> Students => Set<Student>();

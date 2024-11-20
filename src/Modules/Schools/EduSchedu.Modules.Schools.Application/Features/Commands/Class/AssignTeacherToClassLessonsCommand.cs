@@ -109,6 +109,7 @@ public record AssignTeacherToClassLessonsCommand(
                     var availableTeacherForLesson = filteredTeachers
                         .Find(x => _scheduleService.IsUserAvailableAsync(x.Id, lesson.Day, lesson.StartTime, lesson.EndTime, cancellationToken).Result);
 
+                    //plan: czy na pewno to tak powinno byc? chociaz wydaje mi sie ze tak
                     if (availableTeacherForLesson == null)
                         continue;
 

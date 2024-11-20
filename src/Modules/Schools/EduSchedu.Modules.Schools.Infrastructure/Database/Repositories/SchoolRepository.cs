@@ -41,7 +41,7 @@ internal class SchoolRepository : Repository<School, SchoolsDbContext>, ISchoolR
 
     //plan: usunac niepotrzebne dbsety
     public async Task AddClassAsync(Class @class, CancellationToken cancellationToken = default)
-        => await _dbContext.Classes.AddAsync(@class, cancellationToken);
+        => await _dbContext.Set<Class>().AddAsync(@class, cancellationToken);
 
     #endregion
 

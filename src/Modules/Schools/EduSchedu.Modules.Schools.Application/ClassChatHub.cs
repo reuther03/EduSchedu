@@ -41,7 +41,8 @@ public class ClassChatHub : Hub
         if (!school.TeacherIds.Contains(user.Id))
             throw new InvalidOperationException("User is not a teacher in this school.");
 
-        var @class = await _context.Classes.Include(x => x.Lessons).FirstOrDefaultAsync(x => x.Id == ClassId.From(classId));
+        var @class = await _context.Schools.SelectMany(x => x.Classes).FirstOrDefaultAsync(x => x.Id == ClassId.From(classId));
+        // var @class = await _context.Classes.Include(x => x.Lessons).FirstOrDefaultAsync(x => x.Id == ClassId.From(classId));
         if (@class == null)
             throw new InvalidOperationException("Class not found.");
 
@@ -61,7 +62,8 @@ public class ClassChatHub : Hub
 
         var fullName = Context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName)?.Value;
 
-        var @class = await _context.Classes.FindAsync(ClassId.From(classId));
+        var @class = await _context.Schools.SelectMany(x => x.Classes).FirstOrDefaultAsync(x => x.Id == ClassId.From(classId));
+        // var @class = await _context.Classes.FindAsync(ClassId.From(classId));
         if (@class == null)
             throw new InvalidOperationException("Class not found.");
 
