@@ -21,6 +21,7 @@ public class BackOfficeUserCreatedEventHandler : INotificationHandler<BackOffice
 
     public async Task Handle(BackOfficeUserCreatedEvent notification, CancellationToken cancellationToken)
     {
+        //plan: to chyba nie ma sensu// pewnie do usuniecia// predzje jakis job ktory bedzie sledzil no albo domain event
         var schools = await _schoolRepository.GetAllAsync(cancellationToken);
         var backOfficeUser = BackOfficeUser.Create(notification.UserId, notification.Email, notification.FullName);
         foreach (var school in schools)

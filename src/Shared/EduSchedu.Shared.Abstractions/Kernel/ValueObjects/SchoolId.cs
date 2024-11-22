@@ -1,6 +1,6 @@
 ﻿using EduSchedu.Shared.Abstractions.Kernel.Primitives;
 
-namespace EduSchedu.Modules.Schools.Domain.Schools.Ids;
+namespace EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 
 public record SchoolId : EntityId
 {

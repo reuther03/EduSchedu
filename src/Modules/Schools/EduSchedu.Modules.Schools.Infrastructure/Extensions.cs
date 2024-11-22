@@ -1,6 +1,7 @@
 ﻿using EduSchedu.Modules.Schools.Application.Abstractions;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database.Repositories;
+using EduSchedu.Modules.Schools.Application.Abstractions.Services;
 using EduSchedu.Modules.Schools.Infrastructure.Database;
 using EduSchedu.Modules.Schools.Infrastructure.Database.Repositories;
 using EduSchedu.Shared.Abstractions.Services;
@@ -18,6 +19,7 @@ public static class Extensions
             .AddScoped<ISchoolsDbContext, SchoolsDbContext>()
             .AddScoped<ISchoolUserRepository, SchoolUserRepository>()
             .AddScoped<ISchoolRepository, SchoolRepository>()
+            .AddScoped<ISchoolService, SchoolService>()
             .AddScoped<ILanguageProficiencyRepository, LanguageProficiencyRepository>()
             .AddUnitOfWork<IUnitOfWork, UnitOfWork>()
             .AddTransient<IModuleSeeder, SchoolModuleSeeder>();

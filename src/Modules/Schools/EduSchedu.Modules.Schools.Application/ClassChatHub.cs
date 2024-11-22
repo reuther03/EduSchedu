@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using EduSchedu.Modules.Schools.Application.Abstractions.Database;
 using EduSchedu.Modules.Schools.Domain.Schools.Ids;
+using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Abstractions.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
