@@ -6,7 +6,7 @@ using EduSchedu.Shared.Abstractions.Kernel.Primitives.Result;
 using EduSchedu.Shared.Abstractions.QueriesAndCommands.Queries;
 using EduSchedu.Shared.Abstractions.Services;
 using Microsoft.EntityFrameworkCore;
-using SchoolIdEntityId = EduSchedu.Modules.Schools.Domain.Schools.Ids.SchoolId;
+using SchoolIdEntityId = EduSchedu.Shared.Abstractions.Kernel.ValueObjects.SchoolId;
 
 
 namespace EduSchedu.Modules.Schools.Application.Features.Queries.School;

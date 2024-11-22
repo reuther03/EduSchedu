@@ -30,7 +30,7 @@ public class LoggingPipelineBehavior<TRequest, TResponse>
             var delta = Stopwatch.GetElapsedTime(startTime, Stopwatch.GetTimestamp());
 
             _logger.LogInformation(
-                "[{RequestType}] Handled successfully {RequestName} | {Time} {}",
+                "[{RequestType}] Handled successfully {RequestName} | {Time}",
                 baseTypeName,
                 typeof(TRequest).Name,
                 delta

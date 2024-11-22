@@ -15,4 +15,7 @@ public class SchoolService : ISchoolService
 
     public async Task<List<UserId>> GetSchoolTeachersAsync(SchoolId schoolId, CancellationToken cancellationToken)
         => await _schoolRepository.GetSchoolTeachersAsync(schoolId, cancellationToken);
+
+    public Task<bool> IsHeadmasterAsync(UserId userId, SchoolId schoolId, CancellationToken cancellationToken)
+        => _schoolRepository.IsHeadmasterAsync(userId, schoolId, cancellationToken);
 }

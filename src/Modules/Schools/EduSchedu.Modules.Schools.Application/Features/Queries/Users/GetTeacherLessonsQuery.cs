@@ -36,7 +36,7 @@ public record GetTeacherLessonsQuery(
             if (teacher.Role is not Role.Teacher)
                 return Result<PaginatedList<LessonDto>>.BadRequest("You are not allowed to get lessons");
 
-            var school = await _context.Schools.FirstOrDefaultAsync(x => x.Id == Domain.Schools.Ids.SchoolId.From(request.SchoolId), cancellationToken);
+            var school = await _context.Schools.FirstOrDefaultAsync(x => x.Id == Shared.Abstractions.Kernel.ValueObjects.SchoolId.From(request.SchoolId), cancellationToken);
             NullValidator.ValidateNotNull(school);
 
             if (!school.TeacherIds.Contains(teacher.Id))

@@ -1,5 +1,4 @@
 ﻿using EduSchedu.Modules.Schedules.Application.Abstractions.Repositories;
-using EduSchedu.Modules.Schedules.Domain.Schedules;
 using EduSchedu.Shared.Abstractions.Integration.Events.EventPayloads;
 using EduSchedu.Shared.Abstractions.Kernel.ValueObjects;
 using EduSchedu.Shared.Abstractions.Services;

@@ -5,17 +5,13 @@
 
 
 .cos w stylu zeby zliczac przepracowane godziny nauczyciela, to mogloby byc powiazanie z modulem ktory by liczyl wyplaty dla nauczyciela i koszty dla studentow
-.tutoring i mentorship - czyli lekcje indywidualne
 .pomyslec nad tym liczeniem kosztow i zarobkow nauczyciela/
 jakis kalkulator poprzez przepracowane godziny stawki godzinowe dodatkowe aktywnosci/lekcje indywidualne ale w tej szkole
 .
 
-!!!
-usunac niepotrzebne dbsety
 
 !!! schedule module !!!
-- refactore tych assign teacherow do lekcji
-- czy teacherowi powinny sie dodawac lekcje od schedula nawet jesli nie jest przypisany to nich czy tylko kiedy zrobi sie assign
+- czy teacherowi powinny sie dodawac lekcje od schedula nawet jesli nie jest przypisany to nich czy tylko kiedy zrobi sie assign// nie powinny sie dodawac jesli nie jest przypisany
 - czy napewno tworzyc tworzy schedule itemy z lekcji czy tylko przeslylac id (pomyslec nad tym)
 
 !!! on-going !!!
@@ -28,7 +24,16 @@ commandy:
 
 ???
 queries:
--
+- get na schedul szkoly // najlepiej z filtrami nullable
+- get na schedule teacher po id // najlepiej z filtrami nullable
+- get na schedule teacherow // najlepiej z filtrami nullable
+- get na wszystkich nauczycieli dla headmastera // najlepiej z filtrami
 
 !!!
 sprawdzic scheudle dla studentow czy nie brakuje czego po migracji/ dodawani lekcji to ich schedule
+
+
+!!! nowy pomysl !!!
+! pomyslec nad implementacja tego tak jak w poprzednum projekcie // tylko wtedy znowu trzeba by dac mozliwosc tworzenia freelancer userow
+ktorzy byliby nauczycielami i mieli swoje lekcje indywidualne i nie byc w zadnej szkole
+.tutoring i mentorship - czyli lekcje indywidualne

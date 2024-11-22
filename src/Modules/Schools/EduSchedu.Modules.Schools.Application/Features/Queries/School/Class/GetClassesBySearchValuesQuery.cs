@@ -46,7 +46,7 @@ public record GetClassesBySearchValuesQuery : IQuery<PaginatedList<ClassDto>>
             NullValidator.ValidateNotNull(user);
 
             var classes = await _context.Schools
-                .Where(x => x.Id == Domain.Schools.Ids.SchoolId.From(request.SchoolId))
+                .Where(x => x.Id == Shared.Abstractions.Kernel.ValueObjects.SchoolId.From(request.SchoolId))
                 .SelectMany(x => x.Classes)
                 .Include(x => x.LanguageProficiency)
                 .AsSplitQuery()

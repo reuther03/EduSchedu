@@ -53,14 +53,19 @@ internal class SchoolRepository : Repository<School, SchoolsDbContext>, ISchoolR
 
     #endregion
 
-    #region User
+    #region School service methods
 
-    //school service method
     public async Task<List<UserId>> GetSchoolTeachersAsync(SchoolId schoolId, CancellationToken cancellationToken = default)
         => await _dbContext.Schools
+            .Include(x => x.TeacherIds)
             .Where(x => x.Id == schoolId)
             .SelectMany(x => x.TeacherIds)
+            //bez asnotracking byl blad
+            .AsNoTracking()
             .ToListAsync(cancellationToken);
+
+    public Task<bool> IsHeadmasterAsync(UserId userId, SchoolId schoolId, CancellationToken cancellationToken = default)
+        => _dbContext.Schools.AnyAsync(x => x.Id == schoolId && x.HeadmasterId == userId, cancellationToken);
 
     #endregion
 }

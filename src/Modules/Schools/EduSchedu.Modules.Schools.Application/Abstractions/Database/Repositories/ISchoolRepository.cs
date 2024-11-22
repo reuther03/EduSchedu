@@ -23,9 +23,10 @@ public interface ISchoolRepository : IRepository<School>
 
     #endregion
 
-    #region User
+    #region School service methods
 
     Task<List<UserId>> GetSchoolTeachersAsync(SchoolId schoolId, CancellationToken cancellationToken = default);
+    Task<bool> IsHeadmasterAsync(UserId userId, SchoolId schoolId, CancellationToken cancellationToken = default);
 
     #endregion
 }
