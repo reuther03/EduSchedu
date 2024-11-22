@@ -16,6 +16,7 @@ jakis kalkulator poprzez przepracowane godziny stawki godzinowe dodatkowe aktywn
 
 !!! on-going !!!
 - sprawdzic gdzie byl ten problem ze wypierdalalo exception a result byl 200 ok // nie pamietam gdzie to bylo
+- queyr w tylue get today schedule dla nauczyciela headmaster czy tam inncych// lub poprostu dodac filtry doi jaksiego i nie robic drobincy
 
 ???
 commandy:
@@ -24,9 +25,9 @@ commandy:
 
 ???
 queries:
-- get na schedul szkoly // najlepiej z filtrami nullable
-- get na schedule teacher po id // najlepiej z filtrami nullable
 - get na schedule teacherow // najlepiej z filtrami nullable
+- get na schedule teacher po id // najlepiej z filtrami nullable
+- get na schedul szkoly // najlepiej z filtrami nullable
 - get na wszystkich nauczycieli dla headmastera // najlepiej z filtrami
 
 !!!

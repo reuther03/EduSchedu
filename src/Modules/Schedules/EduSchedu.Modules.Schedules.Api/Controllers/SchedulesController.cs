@@ -22,11 +22,14 @@ internal class SchedulesController : BaseController
         return Ok(result);
     }
 
-    [HttpGet("{schoolId:guid}/teachers/schedules")]
+    //get with post because of complex query
+    //plan: change to get
+    [HttpPost("{schoolId:guid}/teachers/schedules")]
     [AuthorizeRoles(Role.HeadMaster)]
-    public async Task<IActionResult> GetTeachersSchedules([FromRoute] Guid schoolId, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+    public async Task<IActionResult> GetTeachersSchedules([FromBody] GetTeachersSchedulesQuery query, [FromRoute] Guid schoolId, [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 10)
     {
-        var result = await _sender.Send(new GetTeachersSchedulesQuery(schoolId, page, pageSize) { SchoolIdQuery = schoolId });
+        var result = await _sender.Send(query with { SchoolIdQuery = schoolId, Page = page, PageSize = pageSize });
         return Ok(result);
     }
 }
